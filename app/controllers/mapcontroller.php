@@ -9,8 +9,7 @@ class MapController extends Controller
             error_reporting(0);
             require __DIR__ . '/../views/map/index.php';
         } catch (\Throwable $th) {
-            $this->redirect('/404');
-            die();
+            $this->notFound();
         }
     }
 }

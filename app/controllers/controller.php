@@ -14,4 +14,17 @@ abstract class Controller
         header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
         exit;
     }
+    public function notFound()
+    {
+        require "../views/error/index.php";
+        die();
+    }
+    # sanitize form data
+    function clean($data)
+    {
+        $data = htmlspecialchars($data);
+        $data = stripslashes($data);
+        $data = trim($data);
+        return $data;
+    }
 }

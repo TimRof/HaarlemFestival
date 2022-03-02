@@ -10,7 +10,6 @@ class MerchController extends Controller
             require __DIR__ . '/../views/merch/index.php';
         } catch (\Throwable $th) {
             $this->redirect('/404');
-            die();
         }
     }
 }

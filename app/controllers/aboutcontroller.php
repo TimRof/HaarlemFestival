@@ -9,8 +9,7 @@ class AboutController extends Controller
             error_reporting(0);
             require __DIR__ . '/../views/about/index.php';
         } catch (\Throwable $th) {
-            $this->redirect('/404');
-            die();
+            $this->notFound();
         }
     }
 }

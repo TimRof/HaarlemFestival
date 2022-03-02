@@ -60,9 +60,15 @@ class PatternRouter
         try {
             $controllerObj = new $controllerName;
             if (method_exists($controllerObj, $methodName)) {
+                if ($explodedUri[0] == 'cms') {
+                    if (!isset($_SESSION['loggedin'])) {
+                        $methodName = 'login';
+                    }
+                }
                 $controllerObj->{$methodName}();
             } else {
-                throw new Exception();
+                require __DIR__ . '/views/error/index.php';
+                die();
             }
         } catch (Exception $e) {
             require __DIR__ . '/views/error/index.php';

@@ -9,8 +9,7 @@ class EventsController extends Controller
             error_reporting(0);
             require __DIR__ . '/../views/events/index.php';
         } catch (\Throwable $th) {
-            $this->redirect('/404');
-            die();
+            $this->notFound();
         }
     }
     public function food()
@@ -30,5 +29,12 @@ class EventsController extends Controller
     public function purchase()
     {
         require __DIR__ . '/../views/events/purchase.php';
+    }
+    public function getEventTypes()
+    {
+        $eventService = new EventService();
+        $eventTypes = $eventService->getEventTypes();
+        header("Content-type:application/json");
+        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 }

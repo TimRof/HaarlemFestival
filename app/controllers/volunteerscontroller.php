@@ -10,7 +10,6 @@ class VolunteersController extends Controller
             require __DIR__ . '/../views/volunteers/index.php';
         } catch (\Throwable $th) {
             $this->redirect('/404');
-            die();
         }
     }
 }

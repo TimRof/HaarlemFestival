@@ -10,7 +10,6 @@ class PurchaseController extends Controller
             require __DIR__ . '/../views/purchase/index.php';
         } catch (\Throwable $th) {
             $this->redirect('/404');
-            die();
         }
     }
 }

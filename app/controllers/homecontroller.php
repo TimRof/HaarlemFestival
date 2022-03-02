@@ -9,8 +9,7 @@ class HomeController extends Controller
             error_reporting(0);
             require __DIR__ . '/../views/home/index.php';
         } catch (\Throwable $th) {
-            $this->redirect('/404');
-            die();
+            $this->notFound();
         }
     }
     public function about()
