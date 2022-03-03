@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . '/controller.php';
+require_once __DIR__ . '/controller.php';
+require_once __DIR__ . '/../services/eventservice.php';
 
 class EventsController extends Controller
 {
@@ -30,11 +31,16 @@ class EventsController extends Controller
     {
         require __DIR__ . '/../views/events/purchase.php';
     }
-    public function getEventTypes()
+    public function getEventOverview()
     {
-        $eventService = new EventService();
-        $eventTypes = $eventService->getEventTypes();
-        header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+        if (is_numeric($_GET['id'])) {
+            $id = $_GET['id'];
+
+            $eventService = new EventService();
+            $eventOverview = $eventService->getEventOverview($id);
+            header("Content-type:application/json");
+            echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
+        }
     }
+    
 }

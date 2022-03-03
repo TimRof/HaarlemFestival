@@ -11,7 +11,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '/cms/getEventOverview',
+            url: '/events/getEventOverview',
             data: {
                 id: 1
             }

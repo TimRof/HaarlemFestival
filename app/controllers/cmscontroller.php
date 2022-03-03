@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/controller.php';
-require __DIR__ . '/../services/userservice.php';
-require __DIR__ . '/../services/eventservice.php';
+require_once __DIR__ . '/controller.php';
+require_once __DIR__ . '/../services/userservice.php';
+require_once __DIR__ . '/../services/eventservice.php';
 
 class CmsController extends Controller
 {
@@ -113,15 +113,11 @@ class CmsController extends Controller
         require __DIR__ . '/../views/cms/failed.php';
     }
 
-    public function getEventOverview()
+    public function getEventTypes()
     {
-        if (is_numeric($_GET['id'])) {
-            $id = $_GET['id'];
-
-            $eventService = new EventService();
-            $eventOverview = $eventService->getEventOverview($id);
-            header("Content-type:application/json");
-            echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
-        }
+        $eventService = new EventService();
+        $eventTypes = $eventService->getEventTypes();
+        header("Content-type:application/json");
+        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 }

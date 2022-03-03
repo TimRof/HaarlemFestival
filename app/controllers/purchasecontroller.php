@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/controller.php';
+require_once __DIR__ . '/controller.php';
 
 class PurchaseController extends Controller
 {

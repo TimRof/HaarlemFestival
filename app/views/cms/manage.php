@@ -14,6 +14,7 @@
             type: 'GET',
             url: '/cms/getEventTypes',
         }).done(function(res) {
+            console.log(res);
             makeEventTypes(res);
         })
     }
