@@ -27,6 +27,15 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function users()
+    {
+        try {
+            error_reporting(0);
+            require __DIR__ . '/../views/cms/users.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function adduser()
     {
         try {
@@ -58,7 +67,6 @@ class CmsController extends Controller
     public function logout()
     {
         try {
-            error_reporting(0);
             session_start();
             $_SESSION = array();
             if (ini_get("session.use_cookies")) {
@@ -119,5 +127,13 @@ class CmsController extends Controller
         $eventTypes = $eventService->getEventTypes();
         header("Content-type:application/json");
         echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+    }
+
+    public function getUsers()
+    {
+        $userService = new UserService();
+        $users = $userService->getUsers();
+        header("Content-type:application/json");
+        echo json_encode(($users), JSON_PRETTY_PRINT);
     }
 }

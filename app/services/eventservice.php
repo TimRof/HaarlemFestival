@@ -24,4 +24,8 @@ class EventService
     {
         return $this->repository->insert($event);
     }
+    public function updateEventOverview($eventOverview)
+    {
+        return $this->repository->updateEventOverview($eventOverview);
+    }
 }

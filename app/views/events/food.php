@@ -1,7 +1,7 @@
 <h1><a href="/">The Haarlem Festival</a></h1>
 
 <h3 id="title"></h3>
-<p id="description"></p>
+<div id="description"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
@@ -26,8 +26,7 @@
         var title = document.getElementById('title');
         title.appendChild(t);
 
-        var d = document.createTextNode(res.description);
         var description = document.getElementById('description');
-        description.appendChild(d);
+        description.innerHTML = res.description;
     }
 </script>

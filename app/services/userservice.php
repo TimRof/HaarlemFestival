@@ -28,4 +28,8 @@ class UserService
     {
         return $this->repository->findByEmail($email);
     }
+    public function getUsers()
+    {
+        return $this->repository->getUsers();
+    }
 }

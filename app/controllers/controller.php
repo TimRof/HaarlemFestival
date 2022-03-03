@@ -19,7 +19,7 @@ abstract class Controller
         require "../views/error/index.php";
         die();
     }
-    # sanitize form data
+    // sanitize form data
     function clean($data)
     {
         $data = htmlspecialchars($data);

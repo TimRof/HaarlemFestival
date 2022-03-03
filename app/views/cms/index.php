@@ -9,7 +9,6 @@
     <li><a href="/cms/archive">archived pages</a></li>
 </ul>
 <ul>
-    <li><a href="/cms/adduser">add user</a></li>
     <li><a href="/cms/logout">logout</a></li>
 </ul>
 

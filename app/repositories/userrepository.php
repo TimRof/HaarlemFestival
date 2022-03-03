@@ -6,12 +6,12 @@ require_once __DIR__ . '/../models/user.php';
 class UserRepository extends Repository
 {
     public $errors = [];
-    public function getAll()
+    public function getUsers()
     {
-        $sql = 'SELECT id, name FROM user';
+        $sql = 'SELECT id, first_name, last_name, email, role_id, created_at, updated_at FROM user';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'user');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
 
         $stmt->execute();
 

@@ -11,7 +11,7 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM event_type';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'event_type');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         $stmt->execute();
 
@@ -39,5 +39,18 @@ class EventRepository extends Repository
         $stmt->bindValue(':event_type', $event->getEventType->getId(), PDO::PARAM_STR);
 
         return $stmt->execute();
+    }
+    public function updateEventOverview($eventOverview)
+    {
+        $sql = 'UPDATE event_overview
+        SET title = :title, description = :description
+        WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':id', $eventOverview->id, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $eventOverview->description, PDO::PARAM_STR);
+        $stmt->bindValue(':title', $eventOverview->title, PDO::PARAM_STR);
+        return $stmt->execute();
+        // return var_dump($eventOverview);
     }
 }

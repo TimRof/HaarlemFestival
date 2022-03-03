@@ -2,10 +2,10 @@
 
 class Event
 {
-    private int $id;
-    private string $name;
-    private string $content;
-    private Event_Type $eventType;
+    // private int $id;
+    // private string $name;
+    // private string $content;
+    // private Event_Type $eventType;
 
     public function __construct($data = [])
     {

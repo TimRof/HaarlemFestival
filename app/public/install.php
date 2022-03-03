@@ -121,8 +121,9 @@ if ($type == "mysql") {
     try {
         echo "Inserting into Table: User_Role...<br><br>";
         $sql = "INSERT INTO `user_role` (`id`, `name`) VALUES
-        (1, 'admin'),
-        (2, 'user');";
+        (1, 'user'),
+        (2, 'administrator'),
+        (3, 'superadministrator');";
         // set the PDO error mode to exception
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $connection->exec($sql);
@@ -214,7 +215,7 @@ if ($type == "mysql") {
     try {
         echo "Adding A-I for: User_Role...<br><br>";
         $sql = "ALTER TABLE `user_role`
-        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;";
+        MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;";
         // set the PDO error mode to exception
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $connection->exec($sql);
@@ -246,7 +247,7 @@ if ($type == "mysql") {
         echo "Failed: " . $e->getMessage() . "<br><br><br>";
     }
 } else {
-    
+
 
     echo "Done!";
 }

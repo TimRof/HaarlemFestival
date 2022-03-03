@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/controller.php';
 require_once __DIR__ . '/../services/eventservice.php';
+require_once '../models/event_overview.php';
 
 class EventsController extends Controller
 {
@@ -42,5 +43,19 @@ class EventsController extends Controller
             echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
         }
     }
-    
+    public function updateContent()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description']);
+                $eventOverview = new EventOverview($content);
+
+                $eventService = new EventService();
+                // var_dump($content);
+                $eventService->updateEventOverview($eventOverview);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
 }
