@@ -12,7 +12,6 @@ class CmsController extends Controller
                 $email = $_SESSION['email'];
                 unset($_SESSION['email']);
             }
-            error_reporting(0);
             require __DIR__ . '/../views/cms/index.php';
         } catch (\Throwable $th) {
             $this->notFound();
@@ -21,7 +20,6 @@ class CmsController extends Controller
     public function manage()
     {
         try {
-            error_reporting(0);
             require __DIR__ . '/../views/cms/manage.php';
         } catch (\Throwable $th) {
             $this->notFound();
@@ -30,7 +28,6 @@ class CmsController extends Controller
     public function users()
     {
         try {
-            error_reporting(0);
             require __DIR__ . '/../views/cms/users.php';
         } catch (\Throwable $th) {
             $this->notFound();
@@ -39,7 +36,6 @@ class CmsController extends Controller
     public function adduser()
     {
         try {
-            error_reporting(0);
             require __DIR__ . '/../views/cms/adduser.php';
         } catch (\Throwable $th) {
             $this->notFound();
@@ -67,7 +63,6 @@ class CmsController extends Controller
     public function logout()
     {
         try {
-            session_start();
             $_SESSION = array();
             if (ini_get("session.use_cookies")) {
                 $params = session_get_cookie_params();
@@ -119,14 +114,6 @@ class CmsController extends Controller
     public function failed()
     {
         require __DIR__ . '/../views/cms/failed.php';
-    }
-
-    public function getEventTypes()
-    {
-        $eventService = new EventService();
-        $eventTypes = $eventService->getEventTypes();
-        header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 
     public function getUsers()

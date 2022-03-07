@@ -1,7 +1,15 @@
 <h1><a href="/">The Haarlem Festival</a></h1>
 
 <h3 id="title"></h3>
+<img id="image" src="" alt="Food Overview Image" style="border-radius: 100%;
+              height: 250px;
+              width: 250px;
+              background: #ccc;
+              margin: 20px;
+              box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;">
 <div id="description"></div>
+
+<!-- foreach with tickets -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
@@ -16,7 +24,6 @@
                 id: 2
             }
         }).done(function(res) {
-            console.log(res);
             fillPage(res);
         })
     }
@@ -28,5 +35,8 @@
 
         var description = document.getElementById('description');
         description.innerHTML = res.description;
+
+        var image = document.getElementById('image');
+        image.src = res.image;
     }
 </script>

@@ -4,10 +4,22 @@
 <div>
     <p>Overview Pages</p>
     <label for="event_types">Event type: </label>
-    <div><select name="event_types" id="event_types" onchange="getContent(this)">
+    <div><select name="event_types" id="event_types">
         </select></div>
-    <label for="title">Title: </label>
-    <div><input type="text" name="title" id="title"></div>
+    <div>
+        <label for="title">Title: </label>
+        <input type="text" name="titleInput" id="titleInput">
+        <div>
+            <label for="image">Image: </label>
+            <input type="text" name="imageInput" id="imageInput" value="">
+            <label for="imagePreview">Preview: </label>
+            <img name="imagePreview" id="imagePreview" alt="Event Preview Image" style="border-radius: 100%;
+              height: 150px;
+              width: 150px;
+              background: #ccc;
+              margin: 20px;">
+        </div>
+    </div>
     <label for="description">Description: </label>
     <!-- <div><textarea name="description" id="description" cols="50" rows="10"></textarea></div> -->
     <!-- Include stylesheet -->
@@ -39,13 +51,33 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     document.onload = getEventTypes();
+    var editorDirty = 0;
+    var titleDirty = false;
+    var imageDirty = false;
+    quill.on('text-change', function(delta, oldDelta, source) {
+        if (editorDirty < 3) {
+            editorDirty++;
+        }
+    });
+    $('#titleInput').on('input', function(e) {
+        titleDirty = true;;
+    });
+    $('#imageInput').on('input', function(e) {
+        imageDirty = true;
+    });
+    $('#imageInput').on('input', function(e) {
+        setImage(this.value);
+    });
+
+    function setImage(val) {
+        $('#imagePreview').prop('src', val);
+    }
 
     function getEventTypes() {
         $.ajax({
             type: 'GET',
-            url: '/cms/getEventTypes',
+            url: '/events/getEventTypes',
         }).done(function(res) {
-            // console.log(res);
             makeEventTypes(res);
         })
     }
@@ -65,6 +97,16 @@
         }
         getContent(select);
     }
+    $("#event_types").change(function() {
+        var newVal = $(this).val();
+        if (!checkEdit()) {
+            $(this).val($.data(this, 'val'));
+            return;
+        } else {
+            getContent(this);
+        }
+        $.data(this, 'val', newVal);
+    })
 
     function getContent(select) {
         $.ajax({
@@ -74,22 +116,41 @@
                 id: select.value
             }
         }).done(function(res) {
-            // console.log(res);
+            titleDirty = 0;
+            imageDirty = 0;
+            editorDirty = 0;
             fillPage(res);
         })
     }
 
+    function checkEdit() {
+        if (editorDirty == 2 || titleDirty || imageDirty) {
+            var text = "Changes not saved!\nAre you sure you want to switch?";
+            if (confirm(text) == true) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
     function fillPage(res) {
-        var title = document.getElementById('title');
+        var title = document.getElementById('titleInput');
         title.value = res.title;
         quill.root.innerHTML = res.description;
+        editorDirty = 0;
+        var image = document.getElementById('imageInput');
+        image.value = res.image;
+        setImage(res.image);
     }
 
     function updateContent() {
         description = quill.root.innerHTML;
-        console.log(description);
         id = document.getElementById('event_types').value;
-        title = document.getElementById('title').value;
+        title = document.getElementById('titleInput').value;
+        image = document.getElementById('imageInput').value;
 
         $.ajax({
             type: 'POST',
@@ -97,14 +158,18 @@
             data: {
                 id: id,
                 title: title,
-                description: description
+                description: description,
+                image: image
             }
         }).done(function(res) {
-            console.log(res);
             if (!res) {
                 alert("Content changed!");
+                editorDirty = 0;
+                titleDirty = false;
+                imageDirty = false;
             } else {
-                alert("Something went wrong!");
+                // console.log(res);
+                alert(res);
             }
         })
     }

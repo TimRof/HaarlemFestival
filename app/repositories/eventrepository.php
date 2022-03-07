@@ -43,13 +43,14 @@ class EventRepository extends Repository
     public function updateEventOverview($eventOverview)
     {
         $sql = 'UPDATE event_overview
-        SET title = :title, description = :description
+        SET title = :title, description = :description, image = :image
         WHERE id = :id';
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindValue(':id', $eventOverview->id, PDO::PARAM_STR);
         $stmt->bindValue(':description', $eventOverview->description, PDO::PARAM_STR);
         $stmt->bindValue(':title', $eventOverview->title, PDO::PARAM_STR);
+        $stmt->bindValue(':image', $eventOverview->image, PDO::PARAM_STR);
         return $stmt->execute();
         // return var_dump($eventOverview);
     }

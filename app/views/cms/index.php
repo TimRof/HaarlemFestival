@@ -13,8 +13,8 @@
 </ul>
 
 <?php if (isset($_SESSION['user_id'])) {
-    echo htmlspecialchars($_SESSION['loggedin']);
-    echo htmlspecialchars($_SESSION['user_id']);
-    echo htmlspecialchars($_SESSION['permission']);
+    echo "Logged in: " . htmlspecialchars($_SESSION['loggedin']);
+    echo "<br>UserID: " . htmlspecialchars($_SESSION['user_id']);
+    echo "<br>PermissionsID: " . htmlspecialchars($_SESSION['permission']);
 }
 ?>
