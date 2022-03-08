@@ -1,10 +1,10 @@
 <?php
 
-class Event
+class EventOverview
 {
     // private int $id;
-    // private string $name;
-    // private string $content;
+    // private string $title;
+    // private string $description;
     // private Event_Type $eventType;
 
     public function __construct($data = [])
@@ -17,13 +17,13 @@ class Event
     {
         return $this->id;
     }
-    public function getName(): string
+    public function getTitle(): string
     {
-        return $this->name;
+        return $this->title;
     }
-    public function getContent(): string
+    public function getDescription(): string
     {
-        return $this->content;
+        return $this->description;
     }
     public function getEventType(): Event_Type
     {
