@@ -143,25 +143,52 @@ class CmsController extends Controller
         echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 
-    public function updateContent()
+    public function updateUser()
     {
         try {
-            if ($_SERVER['REQUEST_METHOD'] === 'PUT' && is_numeric($_POST['id']) && is_numeric($_POST['role_id']) && isset($_SESSION['loggedin'])) {
-                if ($_SESSION['permission'] > 1) {
-                    $content = array("id" => $_POST['id'], "first_name" => $this->clean($_POST['first_name']), "last_name" => $this->clean($_POST['last_name']), "email" => $this->clean($_POST['email']),);
-                    $user = new User($content);
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id']) && is_numeric($_POST['role_id'])) {
+                if ($this->checkSuperAdmin()) {
 
+                    $content = array("id" => $_POST['id'], "first_name" => $this->clean($_POST['first_name']), "last_name" => $this->clean($_POST['last_name']), "email" => $this->clean($_POST['email']), "role_id" => $this->clean($_POST['role_id']));
+
+                    $user = new User($content);
                     $userService = new UserService();
-                    if (!$userService->updateUser($user)) {
-                        echo "Something went wrong, content not updated!";
+
+                    if ($userService->updateUser($user)) {
+                        echo "User updated!";
+                    } else {
+                        echo "Something went wrong!";
                     }
                 } else {
                     echo "You don't have the permissions to do this!
-Content not updated.";
+User not updated.";
                 }
+            } else {
+                echo "Data in incorrect format!";
             }
         } catch (\Throwable $th) {
-            echo "Something went wrong, content not updated!";
+        }
+    }
+    function deleteUser()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $userService = new UserService();
+                    if ($userService->deleteUser($_POST['id'])) {
+                        echo "User deleted!";
+                    } else {
+                        echo "Something went wrong, content not deleted!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!
+User not updated.";
+                }
+            } else {
+                echo "Data in incorrect format!";
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!";
         }
     }
 }

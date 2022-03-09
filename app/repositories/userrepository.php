@@ -116,8 +116,6 @@ class UserRepository extends Repository
     }
     public function updateUser($user)
     {
-        // to update
-        var_dump($user);
         $sql = 'UPDATE user
         SET first_name = :first_name, last_name = :last_name, email = :email, role_id = :role_id
         WHERE id = :id';
@@ -127,6 +125,16 @@ class UserRepository extends Repository
         $stmt->bindValue(':last_name', $user->last_name, PDO::PARAM_STR);
         $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
         $stmt->bindValue(':role_id', $user->role_id, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $user->id, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+    public function deleteUser($id)
+    {
+        $sql = 'DELETE FROM user WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
         return $stmt->execute();
     }
 }

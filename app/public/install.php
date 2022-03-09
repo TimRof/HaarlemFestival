@@ -83,7 +83,7 @@ if ($type == "mysql") {
             `last_name` varchar(50) NOT NULL,
             `email` varchar(50) NOT NULL,
             `password_hash` varchar(255) NOT NULL,
-            `role_id` int(11) NOT NULL DEFAULT 2,
+            `role_id` int(11) NOT NULL DEFAULT 1,
             `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
             `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";

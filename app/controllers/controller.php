@@ -27,4 +27,20 @@ abstract class Controller
         $data = trim($data);
         return $data;
     }
+    function checkAdmin()
+    {
+        if (isset($_SESSION['loggedin']) && $_SESSION['permission'] > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function checkSuperAdmin()
+    {
+        if (isset($_SESSION['loggedin']) && $_SESSION['permission'] > 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

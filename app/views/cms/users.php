@@ -32,7 +32,7 @@
     <input type="email" name="email" id="email" placeholder="Email">
 </div>
 <button onclick="updateUser()">Edit</button>
-<button>Delete</button>
+<button onclick="deleteUser()">Delete</button>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
@@ -75,6 +75,7 @@
 
     function makeTable(res) {
         var table = document.getElementById("usersTableBody");
+        table.innerHTML = "";
         for (const user of res) {
 
             var row = table.insertRow();
@@ -112,7 +113,6 @@
             let tr = e.target.closest('tr');
             selected = tr.id;
             getUser(selected);
-            console.log('Clicked row with id: ', selected)
         }
     })
 
@@ -124,24 +124,47 @@
                 id: id
             }
         }).done(function(res) {
-            console.log(res);
             fillInfo(res);
         })
     }
+
     function updateUser() {
         first_name = document.getElementById("first_name").value;
         last_name = document.getElementById("last_name").value;
         email = document.getElementById("email").value;
         role_id = document.getElementById("role_types").value;
+
         $.ajax({
-            type: 'PUT',
+            type: 'POST',
             url: '/cms/updateUser',
+            data: {
+                id: selected,
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                role_id: role_id
+            }
+        }).done(function(res) {
+            getUsers();
+            alert(res);
+        })
+    }
+
+    function deleteUser() {
+        var text = "Are you sure you want to delete this user?\nThis can not be undone!";
+        if (confirm(text) == false) {
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/cms/deleteUser',
             data: {
                 id: selected
             }
         }).done(function(res) {
-            console.log(res);
-            fillInfo(res);
+
+            getUsers();
+            alert(res);
         })
     }
 

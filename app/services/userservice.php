@@ -40,8 +40,12 @@ class UserService
     {
         return $this->repository->getUsers();
     }
-    public function UpdateUser($user)
+    public function updateUser($user)
     {
-        return $this->repository->UpdateUser($user);
+        return $this->repository->updateUser($user);
+    }
+    public function deleteUser($id)
+    {
+        return $this->repository->deleteUser($id);
     }
 }
