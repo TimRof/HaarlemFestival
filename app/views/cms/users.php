@@ -21,10 +21,24 @@
     <tbody id="usersTableBody">
     </tbody>
 </table>
+<div><select name="role_types" id="role_types">
+    </select>
+    <label for=""></label>
+    <label for="first_name">First name: </label>
+    <input type="text" name="first_name" id="first_name" placeholder="First Name">
+    <label for="last_name">Last name: </label>
+    <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+    <label for="email">Email: </label>
+    <input type="email" name="email" id="email" placeholder="Email">
+</div>
+<button onclick="updateUser()">Edit</button>
+<button>Delete</button>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
+    var selected;
     document.onload = getUsers();
+    document.onload = getEventTypes();
 
     function getUsers() {
         $.ajax({
@@ -33,6 +47,30 @@
         }).done(function(res) {
             makeTable(res);
         })
+    }
+
+    function getEventTypes() {
+        $.ajax({
+            type: 'GET',
+            url: '/cms/getRoleTypes',
+        }).done(function(res) {
+            makeRoleTypes(res);
+        })
+    }
+
+    function makeRoleTypes(res) {
+        document.getElementById('role_types').innerHTML = "";
+        var select = document.getElementById('role_types');
+
+        for (const type of res) {
+            var option = document.createElement('option');
+            option.value = type.id;
+
+            var description = document.createTextNode(type.name);
+            option.appendChild(description);
+
+            select.appendChild(option);
+        }
     }
 
     function makeTable(res) {
@@ -72,7 +110,45 @@
     document.addEventListener('click', function(e) {
         if (e.target.tagName.toLowerCase() === "td") {
             let tr = e.target.closest('tr');
-            console.log('Clicked row with id: ', tr.id)
+            selected = tr.id;
+            getUser(selected);
+            console.log('Clicked row with id: ', selected)
         }
     })
+
+    function getUser(id) {
+        $.ajax({
+            type: 'GET',
+            url: '/cms/findById',
+            data: {
+                id: id
+            }
+        }).done(function(res) {
+            console.log(res);
+            fillInfo(res);
+        })
+    }
+    function updateUser() {
+        first_name = document.getElementById("first_name").value;
+        last_name = document.getElementById("last_name").value;
+        email = document.getElementById("email").value;
+        role_id = document.getElementById("role_types").value;
+        $.ajax({
+            type: 'PUT',
+            url: '/cms/updateUser',
+            data: {
+                id: selected
+            }
+        }).done(function(res) {
+            console.log(res);
+            fillInfo(res);
+        })
+    }
+
+    function fillInfo(res) {
+        document.getElementById("first_name").value = res.first_name;
+        document.getElementById("last_name").value = res.last_name;
+        document.getElementById("email").value = res.email;
+        document.getElementById("role_types").value = res.role_id;
+    }
 </script>

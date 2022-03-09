@@ -123,4 +123,45 @@ class CmsController extends Controller
         header("Content-type:application/json");
         echo json_encode(($users), JSON_PRETTY_PRINT);
     }
+    public function findById()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
+            if ($_SESSION['permission'] > 1) {
+                $userService = new UserService();
+                $user = $userService->findById($_GET['id']);
+                header("Content-type:application/json");
+                echo json_encode(($user), JSON_PRETTY_PRINT);
+            }
+        }
+    }
+
+    public function getRoleTypes()
+    {
+        $userService = new UserService();
+        $eventTypes = $userService->getRoleTypes();
+        header("Content-type:application/json");
+        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+    }
+
+    public function updateContent()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'PUT' && is_numeric($_POST['id']) && is_numeric($_POST['role_id']) && isset($_SESSION['loggedin'])) {
+                if ($_SESSION['permission'] > 1) {
+                    $content = array("id" => $_POST['id'], "first_name" => $this->clean($_POST['first_name']), "last_name" => $this->clean($_POST['last_name']), "email" => $this->clean($_POST['email']),);
+                    $user = new User($content);
+
+                    $userService = new UserService();
+                    if (!$userService->updateUser($user)) {
+                        echo "Something went wrong, content not updated!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!
+Content not updated.";
+                }
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong, content not updated!";
+        }
+    }
 }

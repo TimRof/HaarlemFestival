@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/repository.php';
 require_once __DIR__ . '/../models/user.php';
+require_once __DIR__ . '/../models/user_role.php';
 
 class UserRepository extends Repository
 {
@@ -12,6 +13,17 @@ class UserRepository extends Repository
 
         $stmt = $this->connection->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getRoleTypes()
+    {
+        $sql = 'SELECT * FROM user_role';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         $stmt->execute();
 
@@ -78,6 +90,18 @@ class UserRepository extends Repository
 
         return $stmt->fetch();
     }
+    public function findById($id)
+    {
+        $sql = 'SELECT * FROM user WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+        //var_dump($stmt->fetch());
+        return $stmt->fetch();
+    }
     public function checkCredentials($email, $password)
     {
         $user = $this->findByEmail($email);
@@ -89,5 +113,20 @@ class UserRepository extends Repository
         }
 
         return false;
+    }
+    public function updateUser($user)
+    {
+        // to update
+        var_dump($user);
+        $sql = 'UPDATE user
+        SET first_name = :first_name, last_name = :last_name, email = :email, role_id = :role_id
+        WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':first_name', $user->first_name, PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $user->last_name, PDO::PARAM_STR);
+        $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
+        $stmt->bindValue(':role_id', $user->role_id, PDO::PARAM_STR);
+        return $stmt->execute();
     }
 }

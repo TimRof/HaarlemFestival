@@ -52,6 +52,5 @@ class EventRepository extends Repository
         $stmt->bindValue(':title', $eventOverview->title, PDO::PARAM_STR);
         $stmt->bindValue(':image', $eventOverview->image, PDO::PARAM_STR);
         return $stmt->execute();
-        // return var_dump($eventOverview);
     }
 }

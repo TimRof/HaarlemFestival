@@ -2,11 +2,6 @@
 
 class EventOverview
 {
-    // private int $id;
-    // private string $title;
-    // private string $description;
-    // private Event_Type $eventType;
-
     public function __construct($data = [])
     {
         foreach ($data as $key => $value) {

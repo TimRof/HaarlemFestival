@@ -1,6 +1,6 @@
 <?php
 
-class Event
+class User_Role
 {
     public function __construct($data = [])
     {
@@ -15,13 +15,5 @@ class Event
     public function getName(): string
     {
         return $this->name;
-    }
-    public function getContent(): string
-    {
-        return $this->content;
-    }
-    public function getEventType(): Event_Type
-    {
-        return $this->eventType;
     }
 }

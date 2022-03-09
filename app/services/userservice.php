@@ -16,6 +16,10 @@ class UserService
     {
         return $this->repository->insert($user);
     }
+    public function getRoleTypes()
+    {
+        return $this->repository->getRoleTypes();
+    }
     public function validateEmail($email)
     {
         return !$this->repository->emailExists($email);
@@ -28,8 +32,16 @@ class UserService
     {
         return $this->repository->findByEmail($email);
     }
+    public function findById($id)
+    {
+        return $this->repository->findById($id);
+    }
     public function getUsers()
     {
         return $this->repository->getUsers();
+    }
+    public function UpdateUser($user)
+    {
+        return $this->repository->UpdateUser($user);
     }
 }
