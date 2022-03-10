@@ -1,0 +1,163 @@
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    body {
+        font-family:"Calibri, sans-serif";
+
+    }
+    /* Top header waar de winkelwagen zich bevind */
+    #topheader {
+        background-color: #005D9F;
+        padding-bottom: 10px;
+        padding-top: 20px;
+    }
+    #shopping-cart img{
+        width: 4%;
+        float: right;
+    }
+
+    .header_hr {
+        border-top: 1px solid white;
+    }
+
+    /* Header met logo en menu items */
+    #header {
+        background-color: #005D9F;
+        padding-bottom: 20px;
+        margin-top: -10px;
+    }
+
+    #logo img{
+        width: 100%;
+    }
+
+    #menu {
+        text-align: center;
+    }
+    .menu-main ul {
+        margin: 0;
+        padding:0;
+        font-size: 18px; 
+    }
+    .menu-main ul li {
+        display:inline-block;
+        vertical-align: top;
+        width: 20%;
+    }
+    .menu-main ul li a {
+        color: #FFF;
+        text-decoration:none;
+        outline: none;
+        padding: 15px 0;
+        display: block;
+    }
+
+    /* Side menu met button */
+
+    #side-menu {
+        text-align: right;
+        margin-top: -20px;
+    }
+    .side-menu-sub ul {
+        margin: 0;
+        padding:0;
+        font-size: 10px; 
+    }
+    .side-menu-sub ul li {
+        display:inline-block;
+        vertical-align: top;
+        width: 15%;
+    }
+    .side-menu-sub ul li a {
+        color: #FFF;
+        text-decoration:none;
+        outline: none;
+        padding: 15px 0;
+        display: block;
+    }
+
+  }
+
+
+
+#nav {
+    list-style: none inside;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#nav li {
+    display: block;
+    position: relative;
+    float: left;
+    background-color: #005D9F;
+    /* menu background color */
+}
+
+#nav li a {
+    display: block;
+    padding: 0;
+    text-decoration: none;
+    width: 200px;
+    /* this is the width of the menu items */
+    line-height: 35px;
+    /* this is the hieght of the menu items */
+    color: white;
+    /* background-color: white */
+    /* list item font color */
+}
+
+#nav li li a {
+    font-size: 80%;
+    color: white;
+    background-color: #005D9F;
+}
+
+/* smaller font size for sub menu items */
+
+#nav li:hover {
+    font-weight: bold;
+}
+
+
+
+/* highlights current hovered list item and the parent list items when hovering over sub menues */
+
+#nav ul {
+    position: absolute;
+    padding: 0;
+    left: 0;
+    display: none;
+    /* hides sublists */
+}
+
+#nav li:hover ul ul {
+    display: none;
+}
+
+/* hides sub-sublists */
+
+#nav li:hover ul {
+    display: block;
+}
+
+/* shows sublist on hover */
+
+#nav li li:hover ul {
+    display: block;
+    /* shows sub-sublist on hover */
+    margin-left: 200px;
+    /* this should be the same width as the parent list item */
+    margin-top: -35px;
+    /* aligns top of sub menu with top of list item */
+}
+
+.BuyTicketBtn {
+    border: 2px solid #005D9F;
+    box-sizing: border-box;
+    background-color: white;
+    color: #005D9F;
+    width: 55%;
+    padding: 5px;
+    border-radius: 11px;
+}

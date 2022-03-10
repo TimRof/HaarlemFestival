@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <title>Home</title>
+</head>
+<body>
+<?php include('header.php'); ?>
+
 <h1><a href="/">The Haarlem Festival</a></h1>
 <ul>
     <li><a href="/events">Program</a></li>
@@ -15,3 +27,5 @@
     <li><a href="/purchase">Buy Tickets</a></li>
     <li><a href="/cms">CMS</a></li>
 </ul>
+</body>
+</html>
