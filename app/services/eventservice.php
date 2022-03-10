@@ -12,6 +12,11 @@ class EventService
         $this->repository = new EventRepository();
     }
 
+    public function getEvents()
+    {
+        return $this->repository->getAllEvents();
+    }
+
     public function getEventTypes()
     {
         return $this->repository->getEventTypes();

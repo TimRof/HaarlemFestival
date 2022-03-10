@@ -1,0 +1,13 @@
+.event_style {
+  background-color: cadetblue;
+  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  padding: 15px;
+}
+
+#event_list {
+  background-color: khaki;
+  display: flex;
+}

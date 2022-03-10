@@ -43,6 +43,13 @@ class EventsController extends Controller
             echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
         }
     }
+    public function getAllEvents()
+    {
+        $eventService = new EventService();
+        $event = $eventService->getEvents();
+        header("Content-type:application/json");
+        echo json_encode(($event), JSON_PRETTY_PRINT);
+    }
     public function updateContent()
     {
         try {
