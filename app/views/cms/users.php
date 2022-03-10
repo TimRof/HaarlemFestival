@@ -21,15 +21,17 @@
     <tbody id="usersTableBody">
     </tbody>
 </table>
-<div><select name="role_types" id="role_types">
-    </select>
-    <label for=""></label>
+<div>
+
     <label for="first_name">First name: </label>
     <input type="text" name="first_name" id="first_name" placeholder="First Name">
     <label for="last_name">Last name: </label>
     <input type="text" name="last_name" id="last_name" placeholder="Last Name">
     <label for="email">Email: </label>
     <input type="email" name="email" id="email" placeholder="Email">
+    <label for="role_types">User Role: </label>
+    <select name="role_types" id="role_types">
+    </select>
 </div>
 <button onclick="updateUser()">Edit</button>
 <button onclick="deleteUser()">Delete</button>
@@ -71,6 +73,7 @@
 
             select.appendChild(option);
         }
+        clearInfo();
     }
 
     function makeTable(res) {
@@ -162,9 +165,9 @@
                 id: selected
             }
         }).done(function(res) {
-
             getUsers();
             alert(res);
+            clearInfo();
         })
     }
 
@@ -173,5 +176,13 @@
         document.getElementById("last_name").value = res.last_name;
         document.getElementById("email").value = res.email;
         document.getElementById("role_types").value = res.role_id;
+    }
+
+    function clearInfo() {
+        document.getElementById("first_name").value = null;
+        document.getElementById("last_name").value = null;
+        document.getElementById("email").value = null;
+        document.getElementById("role_types").value = null;
+        selected = null;
     }
 </script>
