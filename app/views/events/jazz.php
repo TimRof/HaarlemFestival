@@ -1,6 +1,10 @@
+<head>
+    <title>Jazz</title>
+</head>
 <h1><a href="/">The Haarlem Festival</a></h1>
 
 <h3 id="title"></h3>
+<link rel="stylesheet" href="../styles/jazz.css">
 <img id="image" src="" alt="Food Overview Image" style="border-radius: 100%;
               height: 250px;
               width: 250px;
@@ -8,6 +12,8 @@
               margin: 20px;
               box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;">
 <div id="description"></div>
+
+<a href="/purchase?filter=jazz"><h2>GET YOUR TICKETS NOW</h2></a>
 
 <!-- foreach with tickets -->
 
