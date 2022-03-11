@@ -2,6 +2,7 @@
 require_once __DIR__ . '/controller.php';
 require_once __DIR__ . '/../services/eventservice.php';
 require_once '../models/event_overview.php';
+require_once '../models/restaurant.php';
 
 class EventsController extends Controller
 {
@@ -60,6 +61,9 @@ class EventsController extends Controller
 Content not updated.";
                 }
             }
+            else{
+                $this->notFound();
+            }
         } catch (\Throwable $th) {
             echo "Something went wrong, content not updated!";
         }
@@ -71,5 +75,30 @@ Content not updated.";
         $eventTypes = $eventService->getEventTypes();
         header("Content-type:application/json");
         echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+    }
+
+    public function addRestaurant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($_SESSION['permission'] > 1) {
+                $restaurant = new Restaurant($_POST);
+                $eventService = new EventService();
+                try {
+                    if ($eventService->addRestaurant($restaurant)) {
+                        echo "Restaurant added!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } catch (\Throwable $th) {
+                    echo "Something went wrong!";
+                }
+            } else {
+                echo "You don't have the permissions to do this!
+    Content not updated.";
+            }
+        }
+        else{
+            $this->notFound();
+        }
     }
 }

@@ -53,4 +53,18 @@ class EventRepository extends Repository
         $stmt->bindValue(':image', $eventOverview->image, PDO::PARAM_STR);
         return $stmt->execute();
     }
+    public function addRestaurant($restaurant)
+    {
+        $sql = 'INSERT INTO restaurant (name, description, country, city, zipcode, address) VALUES (:name, :description, :country, :city, :zipcode, :address)';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $restaurant->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $restaurant->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $restaurant->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $restaurant->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $restaurant->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $restaurant->address, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

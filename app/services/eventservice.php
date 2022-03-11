@@ -28,4 +28,7 @@ class EventService
     {
         return $this->repository->updateEventOverview($eventOverview);
     }
+    public function addRestaurant($restaurant){
+        return $this->repository->addRestaurant($restaurant);
+    }
 }

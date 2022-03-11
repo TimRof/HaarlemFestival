@@ -41,6 +41,22 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function events()
+    {
+        try {
+            require __DIR__ . '/../views/cms/events.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function addevent()
+    {
+        try {
+            require __DIR__ . '/../views/cms/addevent.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -87,20 +103,19 @@ class CmsController extends Controller
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $user = new User($_POST);
-            $userService = new UserService();
-            try {
-                if ($userService->insert($user)) {
-                    $user = $userService->findByEmail($user->getEmail());
-                    $this->redirect('/cms/success');
-                } else {
+            if ($_SESSION['permission'] > 1) {
+                $user = new User($_POST);
+                $userService = new UserService();
+                try {
+                    if ($userService->insert($user)) {
+                        $user = $userService->findByEmail($user->getEmail());
+                        $this->redirect('/cms/success');
+                    } else {
+                        $this->redirect('/cms/failed');
+                    }
+                } catch (\Throwable $th) {
                     $this->redirect('/cms/failed');
                 }
-            } catch (\Throwable $th) {
-                echo "<pre>";
-                echo $th;
-                echo "</pre>";
-                $this->redirect('/cms/failed');
             }
         } else {
             $this->notFound();
@@ -132,6 +147,8 @@ class CmsController extends Controller
                 header("Content-type:application/json");
                 echo json_encode(($user), JSON_PRETTY_PRINT);
             }
+        } else {
+            $this->notFound();
         }
     }
 
@@ -164,7 +181,7 @@ class CmsController extends Controller
 User not updated.";
                 }
             } else {
-                echo "Data in incorrect format!";
+                $this->notFound();
             }
         } catch (\Throwable $th) {
         }
@@ -185,7 +202,7 @@ User not updated.";
 User not updated.";
                 }
             } else {
-                echo "Data in incorrect format!";
+                $this->notFound();
             }
         } catch (\Throwable $th) {
             echo "Something went wrong!";
