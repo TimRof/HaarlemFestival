@@ -67,4 +67,18 @@ class EventRepository extends Repository
 
         return $stmt->execute();
     }
+    public function addLocation($location)
+    {
+        $sql = 'INSERT INTO location (name, description, country, city, zipcode, address) VALUES (:name, :description, :country, :city, :zipcode, :address)';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $location->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $location->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $location->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $location->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $location->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $location->address, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

@@ -52,7 +52,7 @@
                 foodEvent();
                 break;
             case "History":
-                console.log("history");
+                historyEvent();
                 break;
             case "Jazz":
                 console.log("jazz");
@@ -61,37 +61,12 @@
                 break;
         }
     }
-    function jazzEvent(){
-        addJazButton();
-    }
 
-    function addJazButton() {
-        var button = document.createElement('button');
-        button.innerHTML = "Add location";
-        button.id = "add_location";
-        button.onclick = function() {
-            addLocation();
-        };
-        options.appendChild(button);
-    }
-
-    function addRestaurant() {
-        if (shown == "") {
-            shown = "addL";
-            add_location.remove();
-        } else {
-            container.innerHTML = "";
-            add.remove();
-            cancel.remove();
-            addJazButton();
-            shown = "";
-            return;
-        }
-
+    function addDefInputs($str) {
         var nameInput = document.createElement('input');
-        nameInput.placeholder = "Restaurant name";
+        nameInput.placeholder = $str + " name";
         nameInput.id = "name";
-
+        nameInput.required = "name";
         var desInput = document.createElement('input');
         desInput.placeholder = "Description";
         desInput.id = "description";
@@ -110,23 +85,7 @@
         adInput.placeholder = "Address";
         adInput.id = "address";
 
-        var butAdd = document.createElement('button');
-        butAdd.innerHTML = "Add";
-        butAdd.id = "add";
-        butAdd.onclick = function() {
-            addRes();
-        };
-        var butCan = document.createElement('button');
-        butCan.innerHTML = "Cancel";
-        butCan.id = "cancel";
-        butCan.onclick = function() {
-            addRestaurant();
-        };
-
-        options.appendChild(butAdd);
-        options.appendChild(butCan);
-
-        container.append(nameInput);
+        container.appendChild(nameInput);
         container.appendChild(desInput);
         container.appendChild(couInput);
         container.appendChild(citInput);
@@ -134,11 +93,57 @@
         container.appendChild(adInput);
     }
 
-    function foodEvent() {
-        addResButton();
+    function historyEvent() {
+        addHisButtons();
     }
 
-    function addResButton() {
+    function addHisButtons() {
+        var button = document.createElement('button');
+        button.innerHTML = "Add location";
+        button.id = "add_location";
+        button.onclick = function() {
+            addLocation();
+        };
+        options.appendChild(button);
+    }
+
+    function addLocation() {
+        if (shown == "") {
+            shown = "addL";
+            add_location.remove();
+        } else {
+            container.innerHTML = "";
+            add.remove();
+            cancel.remove();
+            addHisButtons();
+            shown = "";
+            return;
+        }
+
+        addDefInputs("Location")
+
+        var butAdd = document.createElement('button');
+        butAdd.innerHTML = "Add";
+        butAdd.id = "add";
+        butAdd.onclick = function() {
+            addLoc();
+        };
+        var butCan = document.createElement('button');
+        butCan.innerHTML = "Cancel";
+        butCan.id = "cancel";
+        butCan.onclick = function() {
+            addLocation();
+        };
+
+        options.appendChild(butAdd);
+        options.appendChild(butCan);
+    }
+
+    function foodEvent() {
+        addResButtons();
+    }
+
+    function addResButtons() {
         var button = document.createElement('button');
         button.innerHTML = "Add restaurant";
         button.id = "add_restaurant";
@@ -156,31 +161,12 @@
             container.innerHTML = "";
             add.remove();
             cancel.remove();
-            addResButton();
+            addResButtons();
             shown = "";
             return;
         }
 
-        var nameInput = document.createElement('input');
-        nameInput.placeholder = "Restaurant name";
-        nameInput.id = "name";
-        var desInput = document.createElement('input');
-        desInput.placeholder = "Description";
-        desInput.id = "description";
-        var couInput = document.createElement('input');
-        couInput.placeholder = "Country";
-        couInput.id = "country";
-        couInput.value = "Netherlands";
-        var citInput = document.createElement('input');
-        citInput.placeholder = "City";
-        citInput.id = "city";
-        citInput.value = "Haarlem";
-        var zipInput = document.createElement('input');
-        zipInput.placeholder = "Zipcode";
-        zipInput.id = "zipcode";
-        var adInput = document.createElement('input');
-        adInput.placeholder = "Address";
-        adInput.id = "address";
+        addDefInputs("Restaurant");
 
         var butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
@@ -197,16 +183,9 @@
 
         options.appendChild(butAdd);
         options.appendChild(butCan);
-
-        container.append(nameInput);
-        container.appendChild(desInput);
-        container.appendChild(couInput);
-        container.appendChild(citInput);
-        container.appendChild(zipInput);
-        container.appendChild(adInput);
     }
 
-    function clearResFields() {
+    function clearDefFields() {
         document.getElementById("name").value = "";
         document.getElementById("description").value = "";
         document.getElementById("zipcode").value = "";
@@ -234,7 +213,32 @@
             }
         }).done(function(res) {
             alert(res);
-            clearResFields();
+            clearDefFields();
+        })
+    }
+
+    function addLoc() {
+        var name = document.getElementById("name").value;
+        var description = document.getElementById("description").value;
+        var country = document.getElementById("country").value;
+        var city = document.getElementById("city").value;
+        var zipcode = document.getElementById("zipcode").value;
+        var address = document.getElementById("address").value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/events/addLocation',
+            data: {
+                name: name,
+                description: description,
+                country: country,
+                city: city,
+                zipcode: zipcode,
+                address: address
+            }
+        }).done(function(res) {
+            alert(res);
+            clearDefFields();
         })
     }
 </script>

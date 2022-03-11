@@ -31,4 +31,7 @@ class EventService
     public function addRestaurant($restaurant){
         return $this->repository->addRestaurant($restaurant);
     }
+    public function addLocation($location){
+        return $this->repository->addLocation($location);
+    }
 }

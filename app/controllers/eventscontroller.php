@@ -3,6 +3,7 @@ require_once __DIR__ . '/controller.php';
 require_once __DIR__ . '/../services/eventservice.php';
 require_once '../models/event_overview.php';
 require_once '../models/restaurant.php';
+require_once '../models/location.php';
 
 class EventsController extends Controller
 {
@@ -86,6 +87,30 @@ Content not updated.";
                 try {
                     if ($eventService->addRestaurant($restaurant)) {
                         echo "Restaurant added!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } catch (\Throwable $th) {
+                    echo "Something went wrong!";
+                }
+            } else {
+                echo "You don't have the permissions to do this!
+    Content not updated.";
+            }
+        }
+        else{
+            $this->notFound();
+        }
+    }
+    public function addLocation()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($_SESSION['permission'] > 1) {
+                $location = new Location($_POST);
+                $eventService = new EventService();
+                try {
+                    if ($eventService->addLocation($location)) {
+                        echo "Location added!";
                     } else {
                         echo "Something went wrong!";
                     }
