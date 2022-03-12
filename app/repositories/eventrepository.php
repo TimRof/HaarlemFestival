@@ -139,4 +139,36 @@ class EventRepository extends Repository
 
         return $stmt->execute();
     }
+    public function addAct($act)
+    {
+        $sql = 'INSERT INTO act (name, description, location) VALUES (:name, :description, :location)';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $act->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $act->description, PDO::PARAM_STR);
+        $stmt->bindValue(':location', $act->location, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $this->connection->lastInsertId();
+    }
+    public function addActMembers($id, $members)
+    {
+        // make one sql string from all members
+        $string = 'INSERT INTO act_member (name, act_id) VALUES ';
+        for ($i = 0; $i < count($members); $i++) {
+            $string .= "(:name$i, :act_id$i), ";
+        }
+        $sql = substr($string, 0, -2);
+
+        $stmt = $this->connection->prepare($sql);
+
+        $i = 0;
+        foreach ($members as $member) {
+            $stmt->bindValue(":name$i", $member->name, PDO::PARAM_STR);
+            $stmt->bindValue(":act_id$i", $id, PDO::PARAM_STR);
+            $i++;
+        }
+
+        return $stmt->execute();
+    }
 }

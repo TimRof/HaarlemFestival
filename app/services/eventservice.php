@@ -45,4 +45,8 @@ class EventService
         $id = $this->repository->addTour($tour);
         return $this->repository->addTourStops($id, $stops);
     }
+    public function addAct($act, $members){
+        $id = $this->repository->addAct($act);
+        return $this->repository->addActMembers($id, $members);
+    }
 }

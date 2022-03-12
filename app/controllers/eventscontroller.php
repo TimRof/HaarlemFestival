@@ -7,6 +7,8 @@ require_once '../models/tour_location.php';
 require_once '../models/tour_stop.php';
 require_once '../models/tour.php';
 require_once '../models/venue.php';
+require_once '../models/act.php';
+require_once '../models/act_member.php';
 
 class EventsController extends Controller
 {
@@ -167,6 +169,33 @@ class EventsController extends Controller
                 try {
                     if ($eventService->addTour($tour, $stops)) {
                         echo "Tour added!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } catch (\Throwable $th) {
+                    echo "Something went wrong!!";
+                }
+            } else {
+                echo "You don't have the permissions to do this!";
+            }
+        } else {
+            $this->notFound();
+        }
+    }
+    public function makeAct()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->checkAdmin()) {
+                $act = new Act($_POST['act']);
+                $members = [];
+                foreach ($_POST['members'] as $val) {
+                    $member = new Act_Member($val);
+                    array_push($members, $member);
+                }
+                $eventService = new EventService();
+                try {
+                    if ($eventService->addAct($act, $members)) {
+                        echo "Act added!";
                     } else {
                         echo "Something went wrong!";
                     }

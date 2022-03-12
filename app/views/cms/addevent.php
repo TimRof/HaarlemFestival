@@ -22,6 +22,7 @@
     var actName = "";
     var actMembers = 1;
     var actDesc = "";
+    var actLoc = "";
 
     // place start buttons
     function startButtons() {
@@ -206,16 +207,42 @@
         // act name input
         let nameLabel = document.createElement("label");
         nameLabel.htmlFor = "name";
-        let nameText = document.createTextNode("Act name: ");
+        let nameText = document.createTextNode("Act name*: ");
         nameLabel.appendChild(nameText);
 
         let nameInput = document.createElement("input");
         nameInput.id = "name";
         nameInput.value = actName;
-        nameInput.placeholder = "Act name";
+        nameInput.placeholder = "Name";
 
         container.appendChild(nameLabel);
         container.appendChild(nameInput);
+        // act description input
+        let descLabel = document.createElement("label");
+        descLabel.htmlFor = "description";
+        let descText = document.createTextNode("Act description: ");
+        descLabel.appendChild(descText);
+
+        let descInput = document.createElement("input");
+        descInput.id = "description";
+        descInput.value = actDesc;
+        descInput.placeholder = "Description";
+
+        container.appendChild(descLabel);
+        container.appendChild(descInput);
+        // act location input
+        let locLabel = document.createElement("label");
+        locLabel.htmlFor = "location";
+        let locText = document.createTextNode("Act location: ");
+        locLabel.appendChild(locText);
+
+        let locInput = document.createElement("input");
+        locInput.id = "location";
+        locInput.value = actLoc;
+        locInput.placeholder = "Specified location";
+
+        container.appendChild(locLabel);
+        container.appendChild(locInput);
 
         // act members amount
         let membersLabel = document.createElement("label");
@@ -257,7 +284,15 @@
                 butAdd.innerHTML = "Add Act";
                 butAdd.id = "add";
                 butAdd.onclick = function() {
-                    addActInfo();
+                    let inputs = document.getElementById('members').getElementsByTagName('input');
+                    let members = [];
+                    for (let index = 0; index < inputs.length; index++) {
+                        let act_member = {
+                            name: inputs[index].value
+                        }
+                        members.push(act_member);
+                    }
+                    makeAct(members);
                 };
                 options.appendChild(butBac);
                 options.appendChild(butAdd);
@@ -269,6 +304,29 @@
         } else {
             alert("Name can not be empty!");
         }
+    }
+
+    function makeAct(members) {
+        let act = {
+            name: actName,
+            description: actDesc,
+            location: actLoc
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/events/makeAct',
+            data: {
+                act: act,
+                members: members
+            }
+        }).done(function(res) {
+            alert(res);
+            actName = "";
+            actMembers = 1;
+            actDesc = "";
+            actLoc = "";
+            addActName();
+        })
     }
 
     function makeMemberInputs() {
