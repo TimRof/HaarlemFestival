@@ -2,13 +2,24 @@
 
 require_once __DIR__ . '/repository.php';
 require_once __DIR__ . '/../models/event_type.php';
-//require __DIR__ . '/../models/event.php';
+require_once __DIR__ . '/../models/event.php';
 
 class EventRepository extends Repository
 {
     public function getEventTypes()
     {
         $sql = 'SELECT * FROM event_type';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getStops()
+    {
+        $sql = 'SELECT * FROM tour_location';
 
         $stmt = $this->connection->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
@@ -67,9 +78,9 @@ class EventRepository extends Repository
 
         return $stmt->execute();
     }
-    public function addLocation($location)
+    public function addRouteLocation($location)
     {
-        $sql = 'INSERT INTO location (name, description, country, city, zipcode, address) VALUES (:name, :description, :country, :city, :zipcode, :address)';
+        $sql = 'INSERT INTO tour_location (name, description, country, city, zipcode, address) VALUES (:name, :description, :country, :city, :zipcode, :address)';
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindValue(':name', $location->name, PDO::PARAM_STR);
@@ -78,6 +89,38 @@ class EventRepository extends Repository
         $stmt->bindValue(':city', $location->city, PDO::PARAM_STR);
         $stmt->bindValue(':zipcode', $location->zipcode, PDO::PARAM_STR);
         $stmt->bindValue(':address', $location->address, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    public function addTour($tour)
+    {
+        $sql = 'INSERT INTO tour (name, language, stops) VALUES (:name, :language, :stops)';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $tour->name, PDO::PARAM_STR);
+        $stmt->bindValue(':language', $tour->language, PDO::PARAM_STR);
+        $stmt->bindValue(':stops', $tour->stops, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $this->connection->lastInsertId();
+    }
+    public function addTourStops($id, $stops)
+    {
+        $string = 'INSERT INTO tour_stop (stop_number, tour_id, tour_location_id) VALUES ';
+        for ($i = 0; $i < count($stops); $i++) {
+            $string .= "(:stop_number$i, :tour_id$i, :tour_location_id$i), ";
+        }
+        $sql = substr($string, 0, -2);
+
+        $stmt = $this->connection->prepare($sql);
+
+        $i = 0;
+        foreach ($stops as $stop) {
+            $stmt->bindValue(":stop_number$i", $stop->stop_number, PDO::PARAM_STR);
+            $stmt->bindValue(":tour_id$i", $id, PDO::PARAM_STR);
+            $stmt->bindValue(":tour_location_id$i", $stop->tour_location_id, PDO::PARAM_STR);
+            $i++;
+        }
 
         return $stmt->execute();
     }

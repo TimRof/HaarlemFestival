@@ -32,46 +32,46 @@ class UserRepository extends Repository
     public function insert($user)
     {
         $this->validate($user);
-        if (empty($user->errors)) {
+        if (empty($this->errors)) {
             $password_hash = password_hash($user->password, PASSWORD_DEFAULT);
             $sql = 'INSERT INTO user (first_name, last_name, email, password_hash) VALUES (:firstName, :lastName, :email, :password_hash)';
             $stmt = $this->connection->prepare($sql);
 
-            $stmt->bindValue(':firstName', $user->getFirstName(), PDO::PARAM_STR);
-            $stmt->bindValue(':lastName', $user->getLastName(), PDO::PARAM_STR);
-            $stmt->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
+            $stmt->bindValue(':firstName', $user->firstName, PDO::PARAM_STR);
+            $stmt->bindValue(':lastName', $user->lastName, PDO::PARAM_STR);
+            $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
 
             return $stmt->execute();
+        } else {
+            return $this->errors;
         }
-
-        return false;
     }
     protected function validate($user)
     {
         // first name
-        if ($user->getFirstName() == '') {
-            $user->errors[] = 'First Name is required.';
+        if ($user->firstName == '') {
+            $this->errors[] = 'First Name is required.';
         }
         // last name
-        if ($user->getLastName() == '') {
-            $user->errors[] = 'Last Name is required.';
+        if ($user->lastName == '') {
+            $this->errors[] = 'Last Name is required.';
         }
 
         // email address
-        if (filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL) === false) {
-            $user->errors[] = 'Invalid email.';
+        if (filter_var($user->email, FILTER_VALIDATE_EMAIL) === false) {
+            $this->errors[] = 'Invalid email.';
         }
-        if ($this->emailExists($user->getEmail())) {
-            $user->errors[] = 'Email is already taken';
+        if ($this->emailExists($user->email)) {
+            $this->errors[] = 'Email is already taken';
         }
 
         // password
         if ($user->password != $user->password_confirmation) {
-            $user->errors[] = 'Passwords do not match.';
+            $this->errors[] = 'Passwords do not match.';
         }
         if (strlen($user->password) < 6) {
-            $user->errors[] = 'Password should be at least 6 characters';
+            $this->errors[] = 'Password should be at least 6 characters';
         }
     }
     public function emailExists($email)

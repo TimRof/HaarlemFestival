@@ -8,26 +8,4 @@ class User
             $this->$key = $value;
         };
     }
-    public function getId(): int
-    {
-        return $this->id;
-    }
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-    public function setPermission(int $permission): self
-    {
-        $this->permission = $permission;
-
-        return $this;
-    }
 }

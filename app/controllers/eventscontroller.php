@@ -3,7 +3,9 @@ require_once __DIR__ . '/controller.php';
 require_once __DIR__ . '/../services/eventservice.php';
 require_once '../models/event_overview.php';
 require_once '../models/restaurant.php';
-require_once '../models/location.php';
+require_once '../models/tour_location.php';
+require_once '../models/tour_stop.php';
+require_once '../models/tour.php';
 
 class EventsController extends Controller
 {
@@ -49,7 +51,7 @@ class EventsController extends Controller
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id']) && isset($_SESSION['loggedin'])) {
-                if ($_SESSION['permission'] > 1) {
+                if ($this->checkAdmin()) {
                     $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $_POST['image']);
                     $eventOverview = new EventOverview($content);
 
@@ -58,11 +60,9 @@ class EventsController extends Controller
                         echo "Something went wrong, content not updated!";
                     }
                 } else {
-                    echo "You don't have the permissions to do this!
-Content not updated.";
+                    echo "You don't have the permissions to do this!";
                 }
-            }
-            else{
+            } else {
                 $this->notFound();
             }
         } catch (\Throwable $th) {
@@ -78,11 +78,19 @@ Content not updated.";
         echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 
+    public function getStops()
+    {
+        $eventService = new EventService();
+        $eventTypes = $eventService->getStops();
+        header("Content-type:application/json");
+        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+    }
+
     public function addRestaurant()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($_SESSION['permission'] > 1) {
-                $restaurant = new Restaurant($_POST);
+            if ($this->checkAdmin()) {
+                $restaurant = new Restaurant($_POST['values']);
                 $eventService = new EventService();
                 try {
                     if ($eventService->addRestaurant($restaurant)) {
@@ -94,35 +102,58 @@ Content not updated.";
                     echo "Something went wrong!";
                 }
             } else {
-                echo "You don't have the permissions to do this!
-    Content not updated.";
+                echo "You don't have the permissions to do this!";
             }
-        }
-        else{
+        } else {
             $this->notFound();
         }
     }
-    public function addLocation()
+    public function addRouteLocation()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($_SESSION['permission'] > 1) {
-                $location = new Location($_POST);
+            if ($this->checkAdmin()) {
+                $tour_location = new Tour_Location($_POST['values']);
                 $eventService = new EventService();
                 try {
-                    if ($eventService->addLocation($location)) {
+                    if ($eventService->addRouteLocation($tour_location)) {
                         echo "Location added!";
                     } else {
                         echo "Something went wrong!";
                     }
                 } catch (\Throwable $th) {
-                    echo "Something went wrong!";
+                    echo "Something went wrong!!";
                 }
             } else {
-                echo "You don't have the permissions to do this!
-    Content not updated.";
+                echo "You don't have the permissions to do this!";
             }
+        } else {
+            $this->notFound();
         }
-        else{
+    }
+    public function makeTour()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->checkAdmin()) {
+                $tour = new Tour($_POST['tour']);
+                $stops = [];
+                foreach ($_POST['stops'] as $val) {
+                    $stop = new Tour_Stop($val);
+                    array_push($stops, $stop);
+                }
+                $eventService = new EventService();
+                try {
+                    if ($eventService->addTour($tour, $stops)) {
+                        echo "Tour added!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } catch (\Throwable $th) {
+                    echo $th;
+                }
+            } else {
+                echo "You don't have the permissions to do this!";
+            }
+        } else {
             $this->notFound();
         }
     }

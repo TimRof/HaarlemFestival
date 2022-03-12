@@ -16,6 +16,10 @@ class EventService
     {
         return $this->repository->getEventTypes();
     }
+    public function getStops()
+    {
+        return $this->repository->getStops();
+    }
     public function getEventOverview($id)
     {
         return $this->repository->getEventOverview($id);
@@ -31,7 +35,11 @@ class EventService
     public function addRestaurant($restaurant){
         return $this->repository->addRestaurant($restaurant);
     }
-    public function addLocation($location){
-        return $this->repository->addLocation($location);
+    public function addRouteLocation($location){
+        return $this->repository->addRouteLocation($location);
+    }
+    public function addTour($tour, $stops){
+        $id = $this->repository->addTour($tour);
+        return $this->repository->addTourStops($id, $stops);
     }
 }

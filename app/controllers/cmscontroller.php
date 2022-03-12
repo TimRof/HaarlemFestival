@@ -107,8 +107,9 @@ class CmsController extends Controller
                 $user = new User($_POST);
                 $userService = new UserService();
                 try {
-                    if ($userService->insert($user)) {
-                        $user = $userService->findByEmail($user->getEmail());
+                    $result = $userService->insert($user);
+                    if ($result === true) {
+                        $user = $userService->findByEmail($user->email);
                         $this->redirect('/cms/success');
                     } else {
                         $this->redirect('/cms/failed');
@@ -177,8 +178,7 @@ class CmsController extends Controller
                         echo "Something went wrong!";
                     }
                 } else {
-                    echo "You don't have the permissions to do this!
-User not updated.";
+                    echo "You don't have the permissions to do this!";
                 }
             } else {
                 $this->notFound();
@@ -198,8 +198,7 @@ User not updated.";
                         echo "Something went wrong, content not deleted!";
                     }
                 } else {
-                    echo "You don't have the permissions to do this!
-User not updated.";
+                    echo "You don't have the permissions to do this!";
                 }
             } else {
                 $this->notFound();

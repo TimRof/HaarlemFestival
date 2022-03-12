@@ -7,7 +7,6 @@
     <li><a href="/cms/manage">manage pages</a></li>
     <li><a href="/cms/users">users</a></li>
     <li><a href="/cms/events">events</a></li>
-    <li><a href="/cms/archive">archived pages</a></li>
 </ul>
 <ul>
     <li><a href="/cms/logout">logout</a></li>
