@@ -200,7 +200,7 @@ class EventsController extends Controller
                         echo "Something went wrong!";
                     }
                 } catch (\Throwable $th) {
-                    echo $th;
+                    echo "Something went wrong!!";
                 }
             } else {
                 echo "You don't have the permissions to do this!";

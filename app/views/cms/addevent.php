@@ -266,7 +266,6 @@
         let nameInput = document.getElementById("name");
         let membersInput = document.getElementById("members");
         if (nameInput.value != "") {
-            console.log(membersInput.value);
             if (membersInput.value > 0 && membersInput.value < 21) {
                 actName = nameInput.value;
                 actMembers = membersInput.value;
