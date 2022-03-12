@@ -92,6 +92,20 @@ class EventRepository extends Repository
 
         return $stmt->execute();
     }
+    public function makeJazzVenue($venue)
+    {
+        $sql = 'INSERT INTO venue (name, description, country, city, zipcode, address) VALUES (:name, :description, :country, :city, :zipcode, :address)';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $venue->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $venue->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $venue->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $venue->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $venue->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $venue->address, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
     public function addTour($tour)
     {
         $sql = 'INSERT INTO tour (name, language, stops) VALUES (:name, :language, :stops)';
@@ -106,6 +120,7 @@ class EventRepository extends Repository
     }
     public function addTourStops($id, $stops)
     {
+        // make one sql string from all stops
         $string = 'INSERT INTO tour_stop (stop_number, tour_id, tour_location_id) VALUES ';
         for ($i = 0; $i < count($stops); $i++) {
             $string .= "(:stop_number$i, :tour_id$i, :tour_location_id$i), ";

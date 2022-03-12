@@ -18,6 +18,11 @@
     var tourName = "";
     var tourLang = "";
 
+    // act info
+    var actName = "";
+    var actMembers = 1;
+    var actDesc = "";
+
     // place start buttons
     function startButtons() {
         shown = "";
@@ -118,52 +123,210 @@
 
     function jazzEvent() {
         title.innerHTML = "Jazz event";
-        addJazButtons();
+        addJazzButtons();
     }
 
-    function addJazButtons() {
+    function addJazzButtons() {
         let addloc = document.createElement('button');
         addloc.innerHTML = "Add venue";
         addloc.id = "add_location";
         addloc.onclick = function() {
-            addJazzLocation();
+            addJazzVenue();
+        };
+        let addact = document.createElement('button');
+        addact.innerHTML = "Add act";
+        addact.id = "add_act";
+        addact.onclick = function() {
+            addAct();
         };
         options.appendChild(addloc);
+        options.appendChild(addact);
     }
 
-    // add venue for jazz
-    function addJazzLocation() {
+    // add act for jazz
+    function addAct() {
+        // reset act info
+        actMembers = 1;
+        actName = "";
         if (shown == "") {
-            shown = "addJL";
+            shown = "addJA";
+            add_act.remove();
             add_location.remove();
         } else {
             container.innerHTML = "";
-            add.remove();
+            if ($('#next').length > 0) {
+                next.remove();
+            }
+            if ($('#back').length > 0) {
+                back.remove();
+            }
             cancel.remove();
-            addHisButtons();
+            addJazzButtons();
             shown = "";
             return;
         }
 
-        addDefInputs("Location")
+        // cancel button
+        let butCan = document.createElement('button');
+        butCan.innerHTML = "Cancel";
+        butCan.id = "cancel";
+        butCan.onclick = function() {
+            addAct();
+        };
+
+        options.appendChild(butCan);
+
+        addActName();
+    }
+
+    function addActName() {
+        // check if back or new
+        if ($('#back').length > 0) {
+            container.innerHTML = "";
+            back.remove();
+            add.remove();
+            let butCan = document.createElement('button');
+            butCan.innerHTML = "Cancel";
+            butCan.id = "cancel";
+            butCan.onclick = function() {
+                addAct();
+            };
+            options.appendChild(butCan);
+        }
+        // next button
+        let butNext = document.createElement('button');
+        butNext.innerHTML = "Next";
+        butNext.id = "next";
+        butNext.onclick = function() {
+            addActInfo();
+        };
+
+        options.appendChild(butNext);
+
+        // act name input
+        let nameLabel = document.createElement("label");
+        nameLabel.htmlFor = "name";
+        let nameText = document.createTextNode("Act name: ");
+        nameLabel.appendChild(nameText);
+
+        let nameInput = document.createElement("input");
+        nameInput.id = "name";
+        nameInput.value = actName;
+        nameInput.placeholder = "Act name";
+
+        container.appendChild(nameLabel);
+        container.appendChild(nameInput);
+
+        // act members amount
+        let membersLabel = document.createElement("label");
+        membersLabel.htmlFor = "stops";
+        let membersText = document.createTextNode("Number of members (min 1, max 20): ");
+        membersLabel.appendChild(membersText);
+
+        let membersInput = document.createElement("input");
+        membersInput.type = "number";
+        membersInput.id = "members";
+        membersInput.min = "1";
+        membersInput.max = "20";
+        membersInput.value = actMembers;
+        membersInput.placeholder = "Number of members";
+
+        container.appendChild(membersLabel);
+        container.appendChild(membersInput);
+    }
+
+    function addActInfo() {
+        let nameInput = document.getElementById("name");
+        let membersInput = document.getElementById("members");
+        if (nameInput.value != "") {
+            console.log(membersInput.value);
+            if (membersInput.value > 0 && membersInput.value < 21) {
+                actName = nameInput.value;
+                actMembers = membersInput.value;
+                container.innerHTML = "";
+                cancel.remove();
+                next.remove();
+
+                let butBac = document.createElement('button');
+                butBac.innerHTML = "Back";
+                butBac.id = "back";
+                butBac.onclick = function() {
+                    addActName();
+                };
+                let butAdd = document.createElement('button');
+                butAdd.innerHTML = "Add Act";
+                butAdd.id = "add";
+                butAdd.onclick = function() {
+                    addActInfo();
+                };
+                options.appendChild(butBac);
+                options.appendChild(butAdd);
+
+                makeMemberInputs();
+            } else {
+                alert("An act should have between 1 and 20 members!");
+            }
+        } else {
+            alert("Name can not be empty!");
+        }
+    }
+
+    function makeMemberInputs() {
+        let div = document.createElement("div");
+        div.id = "members";
+        // make inputs for member names
+        for (let index = 1; index <= actMembers; index++) {
+            let label = document.createElement("label");
+            label.htmlFor = index;
+
+            let text = document.createTextNode("Member " + index + ": ");
+            label.appendChild(text);
+
+            let input = document.createElement("input");
+            input.id = index;
+            input.placeholder = "Name";
+
+            div.appendChild(label);
+            div.appendChild(input);
+        }
+
+        container.appendChild(div);
+    }
+
+    // add venue for jazz
+    function addJazzVenue() {
+        if (shown == "") {
+            shown = "addJV";
+            add_location.remove();
+            add_act.remove();
+        } else {
+            container.innerHTML = "";
+            add.remove();
+            cancel.remove();
+            addJazzButtons();
+            shown = "";
+            return;
+        }
+
+        addDefInputs("Venue")
 
         // add button
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
         butAdd.onclick = function() {
-            addJazzLoc();
+            makeJazzVenue();
         };
         // cancel button
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
         butCan.onclick = function() {
-            addJazzLocation();
+            addJazzVenue();
         };
 
-        options.appendChild(butAdd);
         options.appendChild(butCan);
+        options.appendChild(butAdd);
     }
 
     function historyEvent() {
@@ -237,7 +400,7 @@
             };
             options.appendChild(butCan);
         }
-        // cancel button
+        // next button
         let butNext = document.createElement('button');
         butNext.innerHTML = "Next";
         butNext.id = "next";
@@ -300,9 +463,9 @@
         if (nameInput.value != "" && langInput.value != "") {
             if (stopsInput.value > 2) {
                 if (stopsInput.value < 21) {
-                    tourStops = document.getElementById("stops").value;
-                    tourName = document.getElementById("name").value;
-                    tourLang = document.getElementById("language").value;
+                    tourStops = stopsInput.value;
+                    tourName = nameInput.value;
+                    tourLang = langInput.value;
                     container.innerHTML = "";
                     cancel.remove();
                     next.remove();
@@ -320,18 +483,16 @@
                         let inputs = document.getElementById('stops').getElementsByTagName('select');
                         let stops = [];
                         for (let index = 0; index < inputs.length; index++) {
-                            //console.log("Stop " + inputs[index].id + ": " + inputs[index].value);
                             let tour_stop = {
                                 stop_number: inputs[index].id,
                                 tour_location_id: inputs[index].value
                             }
                             stops.push(tour_stop);
                         }
-                        //console.log(stops);
                         makeTour(stops);
                     };
-                    options.insertBefore(butBac, options.children[1]);
-                    options.insertBefore(butAdd, options.children[2]);
+                    options.appendChild(butBac);
+                    options.appendChild(butAdd);
 
                     getStops();
                 } else {
@@ -341,7 +502,7 @@
                 alert("A tour should have atleast 3 stops!")
             }
         } else {
-            alert("Name and language can not be empty!")
+            alert("Name and language can not be empty!");
         }
     }
 
@@ -359,7 +520,11 @@
                 stops: stops
             }
         }).done(function(res) {
-            console.log(res);
+            alert(res);
+            tourName = "";
+            tourLang = "";
+            stops = 3;
+            tourInfo();
         })
     }
 
@@ -423,7 +588,7 @@
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
         butAdd.onclick = function() {
-            addRouteLoc();
+            makeRouteLoc();
         };
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
@@ -432,8 +597,8 @@
             addRouteLocation();
         };
 
-        options.appendChild(butAdd);
         options.appendChild(butCan);
+        options.appendChild(butAdd);
     }
 
     function foodEvent() {
@@ -470,7 +635,7 @@
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
         butAdd.onclick = function() {
-            addRes();
+            makeRestaurant();
         };
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
@@ -479,8 +644,8 @@
             addRestaurant();
         };
 
-        options.appendChild(butAdd);
         options.appendChild(butCan);
+        options.appendChild(butAdd);
     }
 
     function clearDefFields() {
@@ -502,12 +667,12 @@
         return values;
     }
 
-    function addRes() {
+    function makeRestaurant() {
         let values = getDefValues();
 
         $.ajax({
             type: 'POST',
-            url: '/events/addRestaurant',
+            url: '/events/makeRestaurant',
             data: {
                 values
             }
@@ -517,12 +682,12 @@
         })
     }
 
-    function addRouteLoc() {
+    function makeRouteLoc() {
         let values = getDefValues();
 
         $.ajax({
             type: 'POST',
-            url: '/events/addRouteLocation',
+            url: '/events/makeRouteLocation',
             data: {
                 values
             }
@@ -532,12 +697,12 @@
         })
     }
 
-    function addJazzLoc() {
+    function makeJazzVenue() {
         let values = getDefValues();
 
         $.ajax({
             type: 'POST',
-            url: '/events/addJazzLocation',
+            url: '/events/makeJazzVenue',
             data: {
                 values
             }

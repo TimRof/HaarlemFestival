@@ -6,6 +6,7 @@ require_once '../models/restaurant.php';
 require_once '../models/tour_location.php';
 require_once '../models/tour_stop.php';
 require_once '../models/tour.php';
+require_once '../models/venue.php';
 
 class EventsController extends Controller
 {
@@ -86,7 +87,7 @@ class EventsController extends Controller
         echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
     }
 
-    public function addRestaurant()
+    public function makeRestaurant()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->checkAdmin()) {
@@ -108,7 +109,7 @@ class EventsController extends Controller
             $this->notFound();
         }
     }
-    public function addRouteLocation()
+    public function makeRouteLocation()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($this->checkAdmin()) {
@@ -117,6 +118,28 @@ class EventsController extends Controller
                 try {
                     if ($eventService->addRouteLocation($tour_location)) {
                         echo "Location added!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } catch (\Throwable $th) {
+                    echo "Something went wrong!!";
+                }
+            } else {
+                echo "You don't have the permissions to do this!";
+            }
+        } else {
+            $this->notFound();
+        }
+    }
+    public function makeJazzVenue()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->checkAdmin()) {
+                $venue = new Venue($_POST['values']);
+                $eventService = new EventService();
+                try {
+                    if ($eventService->makeJazzVenue($venue)) {
+                        echo "Venue added!";
                     } else {
                         echo "Something went wrong!";
                     }
