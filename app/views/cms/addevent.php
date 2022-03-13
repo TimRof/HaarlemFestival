@@ -426,8 +426,6 @@
             return;
         }
 
-        addDefInputs("Venue")
-
         // add button
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
@@ -449,6 +447,7 @@
 
         options.appendChild(butCan);
         options.appendChild(butAdd);
+        addDefInputs("Venue");
     }
 
     function historyEvent() {
@@ -746,8 +745,6 @@
             return;
         }
 
-        addDefInputs("Location")
-
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
@@ -767,6 +764,7 @@
 
         options.appendChild(butCan);
         options.appendChild(butAdd);
+        addDefInputs("Location");
     }
 
     function foodEvent() {
@@ -852,8 +850,6 @@
             return;
         }
 
-        addDefInputs("Restaurant");
-
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
@@ -873,6 +869,7 @@
 
         options.appendChild(butCan);
         options.appendChild(butAdd);
+        addDefInputs("Restaurant");
     }
 
     function clearDefFields() {
