@@ -81,7 +81,6 @@
         };
         options.appendChild(backBut);
         main.insertBefore(options, main.firstChild);
-        //main.appendChild(options);
     }
 
     // check chosen event
@@ -807,11 +806,12 @@
     }
 
     function makeTable(res, string) {
+        // make title
         let title = document.createElement("h3");
         let titleText = document.createTextNode(string);
         title.appendChild(titleText);
         title.id = "T" + string;
-        console.log(res);
+        // reset if tables already present
         if ($('#' + string).length > 0) {
             document.getElementById(string).remove();
             document.getElementById("T" + string).remove();
@@ -822,18 +822,16 @@
         table.classList.add("table-striped");
         var thead = document.createElement('thead');
         thead.classList.add("thead-dark");
-
+        // make headers
         table.appendChild(thead);
         for (let k in res[0]) {
             thead.appendChild(document.createElement("th")).
             appendChild(document.createTextNode(k.charAt(0).toUpperCase() + k.slice(1)));
         }
 
-        //container.insertBefore(table, container.firstChild);
-        //container.insertBefore(title, container.firstChild);
-        container.appendChild(table);
         container.appendChild(title);
-
+        container.appendChild(table);
+        // fill data
         res.forEach(element => {
             let i = 0;
             let row = table.insertRow();
