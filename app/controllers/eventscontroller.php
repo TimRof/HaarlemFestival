@@ -84,9 +84,37 @@ class EventsController extends Controller
     public function getStops()
     {
         $eventService = new EventService();
-        $eventTypes = $eventService->getStops();
+        $stops = $eventService->getStops();
         header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+        echo json_encode(($stops), JSON_PRETTY_PRINT);
+    }
+    public function getRestaurants()
+    {
+        $eventService = new EventService();
+        $restaurants = $eventService->getRestaurants();
+        header("Content-type:application/json");
+        echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+    }
+    public function getVenues()
+    {
+        $eventService = new EventService();
+        $venues = $eventService->getVenues();
+        header("Content-type:application/json");
+        echo json_encode(($venues), JSON_PRETTY_PRINT);
+    }
+    public function getTours()
+    {
+        $eventService = new EventService();
+        $tours = $eventService->getTours();
+        header("Content-type:application/json");
+        echo json_encode(($tours), JSON_PRETTY_PRINT);
+    }
+    public function getActs()
+    {
+        $eventService = new EventService();
+        $acts = $eventService->getActs();
+        header("Content-type:application/json");
+        echo json_encode(($acts), JSON_PRETTY_PRINT);
     }
 
     public function makeRestaurant()

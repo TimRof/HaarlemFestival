@@ -28,6 +28,50 @@ class EventRepository extends Repository
 
         return $stmt->fetchAll();
     }
+    public function getRestaurants()
+    {
+        $sql = 'SELECT * FROM restaurant';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getVenues()
+    {
+        $sql = 'SELECT * FROM venue';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getTours()
+    {
+        $sql = 'SELECT * FROM tour';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getActs()
+    {
+        $sql = 'SELECT * FROM act';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
     public function getEventOverview($id)
     {
         $sql = 'SELECT * FROM event_overview WHERE event_type_id = :id';

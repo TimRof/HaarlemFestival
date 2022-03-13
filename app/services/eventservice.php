@@ -20,6 +20,22 @@ class EventService
     {
         return $this->repository->getStops();
     }
+    public function getRestaurants()
+    {
+        return $this->repository->getRestaurants();
+    }
+    public function getVenues()
+    {
+        return $this->repository->getVenues();
+    }
+    public function getTours()
+    {
+        return $this->repository->getTours();
+    }
+    public function getActs()
+    {
+        return $this->repository->getActs();
+    }
     public function getEventOverview($id)
     {
         return $this->repository->getEventOverview($id);

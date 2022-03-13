@@ -2,11 +2,13 @@
 
 <h3>CMS</h3>
 <div>
-    <h3 id="title"></h3>
+    <h2 id="title"></h2>
 </div>
 <div id="main">
 </div>
 
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     document.onload = startButtons();
@@ -33,6 +35,8 @@
         let foodB = document.createElement('button');
         foodB.innerHTML = "Food";
         foodB.value = "Food";
+        foodB.classList.add("btn");
+        foodB.classList.add("btn-primary");
         foodB.onclick = function() {
             eventChosen(this.value)
         };
@@ -41,6 +45,8 @@
         let histB = document.createElement('button');
         histB.innerHTML = "History";
         histB.value = "History";
+        histB.classList.add("btn");
+        histB.classList.add("btn-primary");
         histB.onclick = function() {
             eventChosen(this.value)
         };
@@ -49,6 +55,8 @@
         let jazzB = document.createElement('button');
         jazzB.innerHTML = "Jazz";
         jazzB.value = "Jazz";
+        jazzB.classList.add("btn");
+        jazzB.classList.add("btn-primary");
         jazzB.onclick = function() {
             eventChosen(this.value)
         };
@@ -61,11 +69,14 @@
         options.id = "options";
         let backBut = document.createElement('button');
         backBut.innerHTML = "Back to start";
+        backBut.classList.add("btn");
+        backBut.classList.add("btn-secondary");
         backBut.onclick = function() {
             startButtons();
         };
         options.appendChild(backBut);
-        main.appendChild(options);
+        main.insertBefore(options, main.firstChild);
+        //main.appendChild(options);
     }
 
     // check chosen event
@@ -92,6 +103,8 @@
 
     // default inputs: name, description, country, city, zipcode, address
     function addDefInputs($str) {
+        let div = document.createElement("div");
+        div.id = "inputs";
         let nameInput = document.createElement('input');
         nameInput.placeholder = $str + " name";
         nameInput.id = "name";
@@ -114,29 +127,58 @@
         adInput.placeholder = "Address";
         adInput.id = "address";
 
-        container.appendChild(nameInput);
-        container.appendChild(desInput);
-        container.appendChild(couInput);
-        container.appendChild(citInput);
-        container.appendChild(zipInput);
-        container.appendChild(adInput);
+        div.appendChild(nameInput);
+        div.appendChild(desInput);
+        div.appendChild(couInput);
+        div.appendChild(citInput);
+        div.appendChild(zipInput);
+        div.appendChild(adInput);
+        options.appendChild(div);
     }
 
     function jazzEvent() {
         title.innerHTML = "Jazz event";
+        jazzOverview();
         addJazzButtons();
+    }
+
+    function jazzOverview() {
+        venuesOverview();
+        actsOverview();
+    }
+
+    function venuesOverview() {
+        $.ajax({
+            type: 'GET',
+            url: '/events/getVenues',
+        }).done(function(res) {
+            makeTable(res, "Venues");
+        })
+    }
+
+    function actsOverview() {
+        $.ajax({
+            type: 'GET',
+            url: '/events/getActs',
+        }).done(function(res) {
+            makeTable(res, "Acts");
+        })
     }
 
     function addJazzButtons() {
         let addloc = document.createElement('button');
         addloc.innerHTML = "Add venue";
         addloc.id = "add_location";
+        addloc.classList.add("btn");
+        addloc.classList.add("btn-primary");
         addloc.onclick = function() {
             addJazzVenue();
         };
         let addact = document.createElement('button');
         addact.innerHTML = "Add act";
         addact.id = "add_act";
+        addact.classList.add("btn");
+        addact.classList.add("btn-primary");
         addact.onclick = function() {
             addAct();
         };
@@ -154,7 +196,7 @@
             add_act.remove();
             add_location.remove();
         } else {
-            container.innerHTML = "";
+            document.getElementById("inputs").remove();
             if ($('#next').length > 0) {
                 next.remove();
             }
@@ -171,6 +213,8 @@
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
+        butCan.classList.add("btn");
+        butCan.classList.add("btn-danger");
         butCan.onclick = function() {
             addAct();
         };
@@ -183,21 +227,27 @@
     function addActName() {
         // check if back or new
         if ($('#back').length > 0) {
-            container.innerHTML = "";
+            document.getElementById("members").remove();
             back.remove();
             add.remove();
             let butCan = document.createElement('button');
             butCan.innerHTML = "Cancel";
             butCan.id = "cancel";
+            butCan.classList.add("btn");
+            butCan.classList.add("btn-danger");
             butCan.onclick = function() {
                 addAct();
             };
             options.appendChild(butCan);
         }
+        let div = document.createElement("div");
+        div.id = "inputs";
         // next button
         let butNext = document.createElement('button');
         butNext.innerHTML = "Next";
         butNext.id = "next";
+        butNext.classList.add("btn");
+        butNext.classList.add("btn-primary");
         butNext.onclick = function() {
             addActInfo();
         };
@@ -215,8 +265,8 @@
         nameInput.value = actName;
         nameInput.placeholder = "Name";
 
-        container.appendChild(nameLabel);
-        container.appendChild(nameInput);
+        div.appendChild(nameLabel);
+        div.appendChild(nameInput);
         // act description input
         let descLabel = document.createElement("label");
         descLabel.htmlFor = "description";
@@ -228,8 +278,8 @@
         descInput.value = actDesc;
         descInput.placeholder = "Description";
 
-        container.appendChild(descLabel);
-        container.appendChild(descInput);
+        div.appendChild(descLabel);
+        div.appendChild(descInput);
         // act location input
         let locLabel = document.createElement("label");
         locLabel.htmlFor = "location";
@@ -241,47 +291,57 @@
         locInput.value = actLoc;
         locInput.placeholder = "Specified location";
 
-        container.appendChild(locLabel);
-        container.appendChild(locInput);
+        div.appendChild(locLabel);
+        div.appendChild(locInput);
 
         // act members amount
         let membersLabel = document.createElement("label");
         membersLabel.htmlFor = "stops";
-        let membersText = document.createTextNode("Number of members (min 1, max 20): ");
+        let membersText = document.createTextNode("Number of members (min 1, max 8): ");
         membersLabel.appendChild(membersText);
 
         let membersInput = document.createElement("input");
         membersInput.type = "number";
         membersInput.id = "members";
         membersInput.min = "1";
-        membersInput.max = "20";
+        membersInput.max = "8";
         membersInput.value = actMembers;
         membersInput.placeholder = "Number of members";
 
-        container.appendChild(membersLabel);
-        container.appendChild(membersInput);
+        div.appendChild(membersLabel);
+        div.appendChild(membersInput);
+
+        options.appendChild(div);
     }
 
     function addActInfo() {
         let nameInput = document.getElementById("name");
+        let descInput = document.getElementById("description");
+        let locInput = document.getElementById("location");
         let membersInput = document.getElementById("members");
         if (nameInput.value != "") {
-            if (membersInput.value > 0 && membersInput.value < 21) {
+            if (membersInput.value > 0 && membersInput.value < 9) {
                 actName = nameInput.value;
+                actDesc = descInput.value;
+                actLoc = locInput.value;
                 actMembers = membersInput.value;
-                container.innerHTML = "";
+                document.getElementById("inputs").remove();
                 cancel.remove();
                 next.remove();
 
                 let butBac = document.createElement('button');
                 butBac.innerHTML = "Back";
                 butBac.id = "back";
+                butBac.classList.add("btn");
+                butBac.classList.add("btn-warning");
                 butBac.onclick = function() {
                     addActName();
                 };
                 let butAdd = document.createElement('button');
                 butAdd.innerHTML = "Add Act";
                 butAdd.id = "add";
+                butAdd.classList.add("btn");
+                butAdd.classList.add("btn-success");
                 butAdd.onclick = function() {
                     let inputs = document.getElementById('members').getElementsByTagName('input');
                     let members = [];
@@ -298,7 +358,7 @@
 
                 makeMemberInputs();
             } else {
-                alert("An act should have between 1 and 20 members!");
+                alert("An act should have between 1 and 8 members!");
             }
         } else {
             alert("Name can not be empty!");
@@ -325,6 +385,7 @@
             actDesc = "";
             actLoc = "";
             addActName();
+            jazzOverview();
         })
     }
 
@@ -347,7 +408,7 @@
             div.appendChild(input);
         }
 
-        container.appendChild(div);
+        options.appendChild(div);
     }
 
     // add venue for jazz
@@ -357,7 +418,7 @@
             add_location.remove();
             add_act.remove();
         } else {
-            container.innerHTML = "";
+            document.getElementById("inputs").remove();
             add.remove();
             cancel.remove();
             addJazzButtons();
@@ -371,6 +432,8 @@
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
+        butAdd.classList.add("btn");
+        butAdd.classList.add("btn-success");
         butAdd.onclick = function() {
             makeJazzVenue();
         };
@@ -378,6 +441,8 @@
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
+        butCan.classList.add("btn");
+        butCan.classList.add("btn-danger");
         butCan.onclick = function() {
             addJazzVenue();
         };
@@ -388,13 +453,39 @@
 
     function historyEvent() {
         title.innerHTML = "History event";
+        historyOverview();
         addHisButtons();
+    }
+
+    function historyOverview() {
+        locationsOverview();
+        toursOverview();
+    }
+
+    function locationsOverview() {
+        $.ajax({
+            type: 'GET',
+            url: '/events/getStops',
+        }).done(function(res) {
+            makeTable(res, "Locations");
+        })
+    }
+
+    function toursOverview() {
+        $.ajax({
+            type: 'GET',
+            url: '/events/getTours',
+        }).done(function(res) {
+            makeTable(res, "Tours");
+        })
     }
 
     function addHisButtons() {
         let addLoc = document.createElement('button');
         addLoc.innerHTML = "Add location";
         addLoc.id = "add_location";
+        addLoc.classList.add("btn");
+        addLoc.classList.add("btn-primary");
         addLoc.onclick = function() {
             addRouteLocation();
         };
@@ -403,6 +494,8 @@
         let addTou = document.createElement('button');
         addTou.innerHTML = "Add tour";
         addTou.id = "add_tour";
+        addTou.classList.add("btn");
+        addTou.classList.add("btn-primary");
         addTou.onclick = function() {
             addTour();
         };
@@ -419,7 +512,7 @@
             add_location.remove();
             add_tour.remove();
         } else {
-            container.innerHTML = "";
+            document.getElementById("inputs").remove();
             if ($('#add').length > 0) {
                 add.remove();
             }
@@ -435,6 +528,8 @@
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
+        butCan.classList.add("btn");
+        butCan.classList.add("btn-danger");
         butCan.onclick = function() {
             addTour();
         };
@@ -446,21 +541,27 @@
     function tourInfo() {
         // check if back or new
         if ($('#back').length > 0) {
-            container.innerHTML = "";
+            document.getElementById("stops").remove();
             back.remove();
             add.remove();
             let butCan = document.createElement('button');
             butCan.innerHTML = "Cancel";
             butCan.id = "cancel";
+            butCan.classList.add("btn");
+            butCan.classList.add("btn-danger");
             butCan.onclick = function() {
                 addTour();
             };
             options.appendChild(butCan);
         }
+        let div = document.createElement('div');
+        div.id = "inputs";
         // next button
         let butNext = document.createElement('button');
         butNext.innerHTML = "Next";
         butNext.id = "next";
+        butNext.classList.add("btn");
+        butNext.classList.add("btn-primary");
         butNext.onclick = function() {
             chooseStops();
         };
@@ -503,12 +604,13 @@
         stopsInput.value = tourStops;
         stopsInput.placeholder = "Number of stops";
 
-        container.appendChild(nameLabel);
-        container.appendChild(nameInput);
-        container.appendChild(langLabel);
-        container.appendChild(langInput);
-        container.appendChild(stopsLabel);
-        container.appendChild(stopsInput);
+        div.appendChild(nameLabel);
+        div.appendChild(nameInput);
+        div.appendChild(langLabel);
+        div.appendChild(langInput);
+        div.appendChild(stopsLabel);
+        div.appendChild(stopsInput);
+        options.appendChild(div);
     }
 
     // choose stops for tour
@@ -523,19 +625,23 @@
                     tourStops = stopsInput.value;
                     tourName = nameInput.value;
                     tourLang = langInput.value;
-                    container.innerHTML = "";
+                    document.getElementById("inputs").remove();
                     cancel.remove();
                     next.remove();
 
                     let butBac = document.createElement('button');
                     butBac.innerHTML = "Back";
                     butBac.id = "back";
+                    butBac.classList.add("btn");
+                    butBac.classList.add("btn-warning");
                     butBac.onclick = function() {
                         tourInfo();
                     };
                     let butAdd = document.createElement('button');
                     butAdd.innerHTML = "Add Tour";
                     butAdd.id = "add";
+                    butAdd.classList.add("btn");
+                    butAdd.classList.add("btn-success");
                     butAdd.onclick = function() {
                         let inputs = document.getElementById('stops').getElementsByTagName('select');
                         let stops = [];
@@ -582,6 +688,7 @@
             tourLang = "";
             stops = 3;
             tourInfo();
+            historyOverview();
         })
     }
 
@@ -622,7 +729,7 @@
             div.appendChild(select);
         }
 
-        container.appendChild(div);
+        options.appendChild(div);
     }
 
     function addRouteLocation() {
@@ -631,7 +738,7 @@
             add_location.remove();
             add_tour.remove();
         } else {
-            container.innerHTML = "";
+            document.getElementById("inputs").remove();
             add.remove();
             cancel.remove();
             addHisButtons();
@@ -644,12 +751,16 @@
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
+        butAdd.classList.add("btn");
+        butAdd.classList.add("btn-success");
         butAdd.onclick = function() {
             makeRouteLoc();
         };
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
+        butCan.classList.add("btn");
+        butCan.classList.add("btn-danger");
         butCan.onclick = function() {
             addRouteLocation();
         };
@@ -660,13 +771,68 @@
 
     function foodEvent() {
         title.innerHTML = "Food event";
+        foodOverview();
         addResButtons();
+    }
+
+    function foodOverview() {
+        restaurantOverview();
+    }
+
+    function restaurantOverview() {
+        $.ajax({
+            type: 'GET',
+            url: '/events/getRestaurants',
+        }).done(function(res) {
+            makeTable(res, "Restaurants");
+        })
+    }
+
+    function makeTable(res, string) {
+        let title = document.createElement("h3");
+        let titleText = document.createTextNode(string);
+        title.appendChild(titleText);
+        title.id = "T" + string;
+        console.log(res);
+        if ($('#' + string).length > 0) {
+            document.getElementById(string).remove();
+            document.getElementById("T" + string).remove();
+        }
+        let table = document.createElement("table");
+        table.id = string;
+        table.classList.add("table");
+        table.classList.add("table-striped");
+        var thead = document.createElement('thead');
+        thead.classList.add("thead-dark");
+
+        table.appendChild(thead);
+        for (let k in res[0]) {
+            thead.appendChild(document.createElement("th")).
+            appendChild(document.createTextNode(k.charAt(0).toUpperCase() + k.slice(1)));
+        }
+
+        //container.insertBefore(table, container.firstChild);
+        //container.insertBefore(title, container.firstChild);
+        container.appendChild(table);
+        container.appendChild(title);
+
+        res.forEach(element => {
+            let i = 0;
+            let row = table.insertRow();
+            for (var k in element) {
+                let cell = row.insertCell(i);
+                cell.innerHTML = element[k];
+                i++;
+            }
+        });
     }
 
     function addResButtons() {
         let addRes = document.createElement('button');
         addRes.innerHTML = "Add restaurant";
         addRes.id = "add_restaurant";
+        addRes.classList.add("btn");
+        addRes.classList.add("btn-primary");
         addRes.onclick = function() {
             addRestaurant();
         };
@@ -678,7 +844,7 @@
             shown = "addR";
             add_restaurant.remove();
         } else {
-            container.innerHTML = "";
+            document.getElementById("inputs").remove();
             add.remove();
             cancel.remove();
             addResButtons();
@@ -691,12 +857,16 @@
         let butAdd = document.createElement('button');
         butAdd.innerHTML = "Add";
         butAdd.id = "add";
+        butAdd.classList.add("btn");
+        butAdd.classList.add("btn-success");
         butAdd.onclick = function() {
             makeRestaurant();
         };
         let butCan = document.createElement('button');
         butCan.innerHTML = "Cancel";
         butCan.id = "cancel";
+        butCan.classList.add("btn");
+        butCan.classList.add("btn-danger");
         butCan.onclick = function() {
             addRestaurant();
         };
@@ -736,6 +906,7 @@
         }).done(function(res) {
             alert(res);
             clearDefFields();
+            foodOverview();
         })
     }
 
@@ -751,6 +922,7 @@
         }).done(function(res) {
             alert(res);
             clearDefFields();
+            historyOverview();
         })
     }
 
@@ -766,6 +938,7 @@
         }).done(function(res) {
             alert(res);
             clearDefFields();
+            jazzOverview();
         })
     }
 </script>
