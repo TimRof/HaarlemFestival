@@ -7,7 +7,11 @@
 <div id="main">
 </div>
 
-
+<style>
+.btn{
+    margin-right: 5px;
+    margin-bottom: 10px;
+}</style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
@@ -37,6 +41,7 @@
         foodB.value = "Food";
         foodB.classList.add("btn");
         foodB.classList.add("btn-primary");
+
         foodB.onclick = function() {
             eventChosen(this.value)
         };
@@ -109,23 +114,29 @@
         nameInput.placeholder = $str + " name";
         nameInput.id = "name";
         nameInput.required = "name";
+        nameInput.classList.add("form-control");
         let desInput = document.createElement('input');
         desInput.placeholder = "Description";
         desInput.id = "description";
+        desInput.classList.add("form-control");
         let couInput = document.createElement('input');
         couInput.placeholder = "Country";
         couInput.id = "country";
         couInput.value = "Netherlands";
+        couInput.classList.add("form-control");
         let citInput = document.createElement('input');
         citInput.placeholder = "City";
         citInput.id = "city";
         citInput.value = "Haarlem";
+        citInput.classList.add("form-control");
         let zipInput = document.createElement('input');
         zipInput.placeholder = "Zipcode";
         zipInput.id = "zipcode";
+        zipInput.classList.add("form-control");
         let adInput = document.createElement('input');
         adInput.placeholder = "Address";
         adInput.id = "address";
+        adInput.classList.add("form-control");
 
         div.appendChild(nameInput);
         div.appendChild(desInput);
@@ -264,6 +275,7 @@
         nameInput.id = "name";
         nameInput.value = actName;
         nameInput.placeholder = "Name";
+        nameInput.classList.add("form-control");
 
         div.appendChild(nameLabel);
         div.appendChild(nameInput);
@@ -277,6 +289,7 @@
         descInput.id = "description";
         descInput.value = actDesc;
         descInput.placeholder = "Description";
+        descInput.classList.add("form-control");
 
         div.appendChild(descLabel);
         div.appendChild(descInput);
@@ -290,6 +303,7 @@
         locInput.id = "location";
         locInput.value = actLoc;
         locInput.placeholder = "Specified location";
+        locInput.classList.add("form-control");
 
         div.appendChild(locLabel);
         div.appendChild(locInput);
@@ -307,6 +321,7 @@
         membersInput.max = "8";
         membersInput.value = actMembers;
         membersInput.placeholder = "Number of members";
+        membersInput.classList.add("form-control");
 
         div.appendChild(membersLabel);
         div.appendChild(membersInput);
@@ -403,6 +418,7 @@
             let input = document.createElement("input");
             input.id = index;
             input.placeholder = "Name";
+            input.classList.add("form-control");
 
             div.appendChild(label);
             div.appendChild(input);
@@ -577,6 +593,7 @@
         nameInput.placeholder = "Tour name";
         nameInput.value = tourName;
         nameInput.id = "name";
+        nameInput.classList.add("form-control");
 
         // language input
         let langLabel = document.createElement("label");
@@ -588,6 +605,7 @@
         langInput.placeholder = "Tour language";
         langInput.value = tourLang;
         langInput.id = "language";
+        langInput.classList.add("form-control");
 
         // stops input
         let stopsLabel = document.createElement("label");
@@ -602,6 +620,7 @@
         stopsInput.max = "20";
         stopsInput.value = tourStops;
         stopsInput.placeholder = "Number of stops";
+        stopsInput.classList.add("form-control");
 
         div.appendChild(nameLabel);
         div.appendChild(nameInput);
@@ -713,6 +732,7 @@
 
             let select = document.createElement("select");
             select.id = index;
+            select.classList.add("form-control");
 
             for (const type of res) {
                 var option = document.createElement('option');
