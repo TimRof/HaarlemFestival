@@ -1,0 +1,115 @@
+.Cart{
+    background-color: lightblue;
+    font-size: 2.1875rem;
+    color: black;
+    height: 6.25rem;
+    margin-top: 10.5rem;
+}
+#CartTitle{
+    margin-left: 4.375rem;
+}
+#CartTable{
+    float: left;
+    margin-top: 6.25rem;
+    margin-left: 3.875rem;
+    border-color: black;
+    border: 0.125rem solid #000000;
+    font-size: 1.25rem;
+    text-align: left;
+}
+#TableHead{
+    background-color: rgb(228, 228, 228);    
+}
+#TabledataCart{
+    text-align: left;
+    padding-right: 3.125rem;
+    padding-bottom: 2rem;
+}
+#Tabledata1{
+    text-align: left;
+    padding-right: 5rem;
+    padding-bottom: 2rem;
+}
+#Tabledata2{
+    text-align: left;
+    padding-right: 5rem;
+    padding-bottom: 2rem;
+}
+#Tabledata3{
+    text-align: left;
+    padding-right: 5rem;
+    padding-bottom: 2rem;
+}
+#Tabledata4{
+    text-align: right;
+    padding-left: 3rem;
+    padding-bottom: 2rem;
+}
+
+.Payment{
+   display: inline;
+
+}
+#Ordertable{
+    float: left;
+    position: absolute;
+    top: 22rem;
+    left: 95rem;
+    margin-right: 12.5rem;
+    border-color: black;
+    border: 0.125rem solid #000000;
+    font-size: 1.25rem;
+    text-align: left;
+}
+#ProceedButton{
+    float: left;
+    position: absolute;
+    left: 96.1rem;
+    top: 35rem;
+    background-color: green;
+    color: white;
+    font-size: 1.125rem;
+    width: 16.25rem;
+    height: 4rem;
+}
+
+#TotalPrice{
+    position: absolute;
+    font-size: 1.625rem;
+    top: 30rem;
+    left: 95rem;
+}
+
+#CommentsTable{
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.input {
+    width: 2rem;
+    border: none;
+    border: 0.125rem #BCE0FD solid;
+    border-radius: 0.3125rem;
+    background-color: #F1F9FF;
+    text-align: right;
+
+}
+
+.minus {
+    width: 1.4375rem;
+    height: 1.4375rem;
+    border: none;
+    background-color: #AA2828;
+    color: #FFFFFF;
+    border-radius: 50%;
+}
+
+.plus {
+    width: 1.4375rem;
+    height: 1.4375rem;
+    border: none;
+    background-color: #2699FB;
+    color: #FFFFFF;
+    border-radius: 50%;
+}
