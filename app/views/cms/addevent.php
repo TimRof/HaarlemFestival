@@ -1,18 +1,17 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
-
-<h3>CMS</h3>
-<div>
-    <h2 id="title"></h2>
+<?php
+include_once __DIR__ . '/../cmsnav.php';
+$PageTitle = "CMS - Add event";
+?>
+<div id="pagecontent">
+    <h3>CMS - Add Event</h3>
+    <div style="text-align: center; margin: auto">
+        <h2 id="title"></h2>
+    </div>
+    <div style="text-align: center; margin: auto" id="main">
+    </div>
 </div>
-<div id="main">
-</div>
 
-<style>
-.btn{
-    margin-right: 5px;
-    margin-bottom: 10px;
-}</style>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     document.onload = startButtons();
@@ -41,6 +40,7 @@
         foodB.value = "Food";
         foodB.classList.add("btn");
         foodB.classList.add("btn-primary");
+        foodB.classList.add("optionsbutton");
 
         foodB.onclick = function() {
             eventChosen(this.value)
@@ -52,6 +52,7 @@
         histB.value = "History";
         histB.classList.add("btn");
         histB.classList.add("btn-primary");
+        histB.classList.add("optionsbutton");
         histB.onclick = function() {
             eventChosen(this.value)
         };
@@ -62,6 +63,7 @@
         jazzB.value = "Jazz";
         jazzB.classList.add("btn");
         jazzB.classList.add("btn-primary");
+        jazzB.classList.add("optionsbutton");
         jazzB.onclick = function() {
             eventChosen(this.value)
         };
@@ -76,6 +78,7 @@
         backBut.innerHTML = "Back to start";
         backBut.classList.add("btn");
         backBut.classList.add("btn-secondary");
+        backBut.classList.add("optionsbutton");
         backBut.onclick = function() {
             startButtons();
         };
@@ -114,7 +117,7 @@
         nameInput.id = "name";
         nameInput.required = "name";
         nameInput.classList.add("form-control");
-        let desInput = document.createElement('input');
+        let desInput = document.createElement('textarea');
         desInput.placeholder = "Description";
         desInput.id = "description";
         desInput.classList.add("form-control");
@@ -181,6 +184,7 @@
         addloc.id = "add_location";
         addloc.classList.add("btn");
         addloc.classList.add("btn-primary");
+        addloc.classList.add("optionsbutton");
         addloc.onclick = function() {
             addJazzVenue();
         };
@@ -189,6 +193,7 @@
         addact.id = "add_act";
         addact.classList.add("btn");
         addact.classList.add("btn-primary");
+        addact.classList.add("optionsbutton");
         addact.onclick = function() {
             addAct();
         };
@@ -225,6 +230,7 @@
         butCan.id = "cancel";
         butCan.classList.add("btn");
         butCan.classList.add("btn-danger");
+        butCan.classList.add("optionsbutton");
         butCan.onclick = function() {
             addAct();
         };
@@ -245,6 +251,7 @@
             butCan.id = "cancel";
             butCan.classList.add("btn");
             butCan.classList.add("btn-danger");
+            butCan.classList.add("optionsbutton");
             butCan.onclick = function() {
                 addAct();
             };
@@ -258,6 +265,7 @@
         butNext.id = "next";
         butNext.classList.add("btn");
         butNext.classList.add("btn-primary");
+        butNext.classList.add("optionsbutton");
         butNext.onclick = function() {
             addActInfo();
         };
@@ -284,7 +292,7 @@
         let descText = document.createTextNode("Act description: ");
         descLabel.appendChild(descText);
 
-        let descInput = document.createElement("input");
+        let descInput = document.createElement("textarea");
         descInput.id = "description";
         descInput.value = actDesc;
         descInput.placeholder = "Description";
@@ -348,6 +356,7 @@
                 butBac.id = "back";
                 butBac.classList.add("btn");
                 butBac.classList.add("btn-warning");
+                butBac.classList.add("optionsbutton");
                 butBac.onclick = function() {
                     addActName();
                 };
@@ -356,6 +365,7 @@
                 butAdd.id = "add";
                 butAdd.classList.add("btn");
                 butAdd.classList.add("btn-success");
+                butAdd.classList.add("optionsbutton");
                 butAdd.onclick = function() {
                     let inputs = document.getElementById('members').getElementsByTagName('input');
                     let members = [];
@@ -447,6 +457,7 @@
         butAdd.id = "add";
         butAdd.classList.add("btn");
         butAdd.classList.add("btn-success");
+        butAdd.classList.add("optionsbutton");
         butAdd.onclick = function() {
             makeJazzVenue();
         };
@@ -456,6 +467,7 @@
         butCan.id = "cancel";
         butCan.classList.add("btn");
         butCan.classList.add("btn-danger");
+        butCan.classList.add("optionsbutton");
         butCan.onclick = function() {
             addJazzVenue();
         };
@@ -500,6 +512,7 @@
         addLoc.id = "add_location";
         addLoc.classList.add("btn");
         addLoc.classList.add("btn-primary");
+        addLoc.classList.add("optionsbutton");
         addLoc.onclick = function() {
             addRouteLocation();
         };
@@ -510,6 +523,7 @@
         addTou.id = "add_tour";
         addTou.classList.add("btn");
         addTou.classList.add("btn-primary");
+        addTou.classList.add("optionsbutton");
         addTou.onclick = function() {
             addTour();
         };
@@ -544,6 +558,7 @@
         butCan.id = "cancel";
         butCan.classList.add("btn");
         butCan.classList.add("btn-danger");
+        butCan.classList.add("optionsbutton");
         butCan.onclick = function() {
             addTour();
         };
@@ -563,6 +578,7 @@
             butCan.id = "cancel";
             butCan.classList.add("btn");
             butCan.classList.add("btn-danger");
+            butCan.classList.add("optionsbutton");
             butCan.onclick = function() {
                 addTour();
             };
@@ -576,6 +592,7 @@
         butNext.id = "next";
         butNext.classList.add("btn");
         butNext.classList.add("btn-primary");
+        butNext.classList.add("optionsbutton");
         butNext.onclick = function() {
             chooseStops();
         };
@@ -651,6 +668,7 @@
                     butBac.id = "back";
                     butBac.classList.add("btn");
                     butBac.classList.add("btn-warning");
+                    butBac.classList.add("optionsbutton");
                     butBac.onclick = function() {
                         tourInfo();
                     };
@@ -659,6 +677,7 @@
                     butAdd.id = "add";
                     butAdd.classList.add("btn");
                     butAdd.classList.add("btn-success");
+                    butAdd.classList.add("optionsbutton");
                     butAdd.onclick = function() {
                         let inputs = document.getElementById('stops').getElementsByTagName('select');
                         let stops = [];
@@ -769,6 +788,7 @@
         butAdd.id = "add";
         butAdd.classList.add("btn");
         butAdd.classList.add("btn-success");
+        butAdd.classList.add("optionsbutton");
         butAdd.onclick = function() {
             makeRouteLoc();
         };
@@ -777,6 +797,7 @@
         butCan.id = "cancel";
         butCan.classList.add("btn");
         butCan.classList.add("btn-danger");
+        butCan.classList.add("optionsbutton");
         butCan.onclick = function() {
             addRouteLocation();
         };
@@ -849,6 +870,7 @@
         addRes.id = "add_restaurant";
         addRes.classList.add("btn");
         addRes.classList.add("btn-primary");
+        addRes.classList.add("optionsbutton");
         addRes.onclick = function() {
             addRestaurant();
         };
@@ -873,6 +895,7 @@
         butAdd.id = "add";
         butAdd.classList.add("btn");
         butAdd.classList.add("btn-success");
+        butAdd.classList.add("optionsbutton");
         butAdd.onclick = function() {
             makeRestaurant();
         };
@@ -881,6 +904,7 @@
         butCan.id = "cancel";
         butCan.classList.add("btn");
         butCan.classList.add("btn-danger");
+        butCan.classList.add("optionsbutton");
         butCan.onclick = function() {
             addRestaurant();
         };

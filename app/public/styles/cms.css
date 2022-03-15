@@ -1,0 +1,28 @@
+.topnavbar {
+  background-color: #2d3748;
+}
+.navbar a {
+  padding-left: 10;
+  display: inline-block;
+}
+.btn-outline-secondary {
+  color: #f7fafc;
+}
+.nav a {
+  padding: 10px 10px;
+  display: inline-block;
+}
+.nav ul {
+  margin: 0;
+}
+.optionsbutton {
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+h3 {
+  text-align: center;
+}
+#pagecontent {
+  width: 50%;
+  margin: auto;
+}

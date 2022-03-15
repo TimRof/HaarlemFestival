@@ -1,18 +1,21 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
+<?php
+include_once __DIR__ . '/../cmsnav.php';
+$PageTitle = "CMS - Add User";
+?>
 
-<h3>CMS</h3>
-<div>
-    <p>Overview Pages</p>
+<div id="pagecontent">
+    <h3>CMS - Manage Pages</h3>
+    <h5>Overview Pages</h5>
     <label for="event_types">Event type: </label>
-    <div><select name="event_types" id="event_types">
+    <div><select class="form-control" name="event_types" id="event_types">
         </select></div>
     <div>
-        <label for="title">Title: </label>
-        <input type="text" name="titleInput" id="titleInput">
+        <label for="title">Page title: </label>
+        <input class="form-control" type="text" name="titleInput" id="titleInput">
         <div>
-            <label for="image">Image: </label>
-            <input type="text" name="imageInput" id="imageInput" value="">
-            <label for="imagePreview">Preview: </label>
+            <label for="image">Image URL: </label>
+            <input class="form-control" type="text" name="imageInput" id="imageInput" value="">
+            <label for="imagePreview">Image preview: </label>
             <img name="imagePreview" id="imagePreview" alt="Event Preview Image" style="border-radius: 100%;
               height: 150px;
               width: 150px;
@@ -20,13 +23,13 @@
               margin: 20px;">
         </div>
     </div>
-    <label for="description">Description: </label>
+    <label for="description">Page description: </label>
     <!-- <div><textarea name="description" id="description" cols="50" rows="10"></textarea></div> -->
     <!-- Include stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <!-- Create the editor container -->
-    <div id="editor">
+    <div style="height: 30%;" id="editor">
         <p>Hello World!</p>
         <p>Some initial <strong>bold</strong> text</p>
         <p><br></p>
@@ -34,10 +37,7 @@
 
     <!-- Include the Quill library -->
 
-    <div><button onclick="updateContent()">Change</button></div>
-</div>
-<div>
-    <p>Events</p>
+    <div style="text-align: right;"><button class="btn btn-primary mt-2" onclick="updateContent()">Save changes</button></div>
 </div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>

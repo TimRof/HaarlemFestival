@@ -76,7 +76,7 @@ class CmsController extends Controller
         }
     }
 
-    public function logout()
+    public function signout()
     {
         try {
             $_SESSION = array();

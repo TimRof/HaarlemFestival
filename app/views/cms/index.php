@@ -1,5 +1,8 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
-
+<?php
+include_once __DIR__ . '/../cmsnav.php';
+$PageTitle = "CMS - Add User";
+?>
+<div id="pagecontent">
 <h3>CMS</h3>
 
 <ul>
@@ -9,7 +12,7 @@
     <li><a href="/cms/events">events</a></li>
 </ul>
 <ul>
-    <li><a href="/cms/logout">logout</a></li>
+    <li><a href="/cms/signout">sign out</a></li>
 </ul>
 
 <?php if (isset($_SESSION['user_id'])) {
@@ -18,3 +21,4 @@
     echo "<br>PermissionsID: " . htmlspecialchars($_SESSION['permission']);
 }
 ?>
+</div>

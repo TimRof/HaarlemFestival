@@ -1,6 +1,9 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
-
-<h3>CMS</h3>
+<?php
+include_once __DIR__ . '/../cmsnav.php';
+$PageTitle = "CMS - Add User";
+?>
+<div id="pagecontent">
+<h3>CMS - Users</h3>
 <a href="/cms/adduser">add user</a>
 
 <ul id="users_list"></ul>
@@ -24,18 +27,18 @@
 <div>
 
     <label for="first_name">First name: </label>
-    <input type="text" name="first_name" id="first_name" placeholder="First Name">
+    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name">
     <label for="last_name">Last name: </label>
-    <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name">
     <label for="email">Email: </label>
-    <input type="email" name="email" id="email" placeholder="Email">
+    <input class="form-control" type="email" name="email" id="email" placeholder="Email">
     <label for="role_types">User Role: </label>
-    <select name="role_types" id="role_types">
+    <select class="form-control" name="role_types" id="role_types">
     </select>
 </div>
-<button onclick="updateUser()">Edit</button>
-<button onclick="deleteUser()">Delete</button>
-
+<button class="btn btn-primary mt-2" onclick="updateUser()">Edit</button>
+<button class="btn btn-primary mt-2" onclick="deleteUser()">Delete</button>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     var selected;
