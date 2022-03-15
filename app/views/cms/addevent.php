@@ -750,13 +750,13 @@ $PageTitle = "CMS - Add event";
 
             let select = document.createElement("select");
             select.id = index;
-            select.classList.add("form-control");
+            select.classList.add("form-select");
 
             for (const type of res) {
-                var option = document.createElement('option');
+                let option = document.createElement('option');
                 option.value = type.id;
 
-                var description = document.createTextNode(type.name);
+                let description = document.createTextNode(type.name);
                 option.appendChild(description);
 
                 select.appendChild(option);
@@ -841,7 +841,7 @@ $PageTitle = "CMS - Add event";
         table.id = string;
         table.classList.add("table");
         table.classList.add("table-striped");
-        var thead = document.createElement('thead');
+        let thead = document.createElement('thead');
         thead.classList.add("thead-dark");
         // make headers
         table.appendChild(thead);
@@ -856,7 +856,7 @@ $PageTitle = "CMS - Add event";
         res.forEach(element => {
             let i = 0;
             let row = table.insertRow();
-            for (var k in element) {
+            for (let k in element) {
                 let cell = row.insertCell(i);
                 cell.innerHTML = element[k];
                 i++;

@@ -57,6 +57,31 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function personal()
+    {
+        try {
+            require __DIR__ . '/../views/cms/personal.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function resetpassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userService = new UserService();
+            if ($userService->resetPassword($_POST['old'], $_POST['new'])){
+                echo true;
+            }
+            else{
+                echo false;
+            }
+        }
+        try {
+            require __DIR__ . '/../views/cms/resetpassword.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -139,6 +164,13 @@ class CmsController extends Controller
         header("Content-type:application/json");
         echo json_encode(($users), JSON_PRETTY_PRINT);
     }
+    public function getOwnInfo()
+    {
+        $userService = new UserService();
+        $user = $userService->getOwnInfo();
+        header("Content-type:application/json");
+        echo json_encode(($user), JSON_PRETTY_PRINT);
+    }
     public function findById()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
@@ -184,6 +216,22 @@ class CmsController extends Controller
                 $this->notFound();
             }
         } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    function updateSelf()
+    {
+        try {
+            $content = array("first_name" => $this->clean($_POST['first_name']), "last_name" => $this->clean($_POST['last_name']), "email" => $this->clean($_POST['email']));
+            $user = new User($content);
+            $userService = new UserService();
+            if ($userService->updateSelf($user)) {
+                echo "Updated!";
+            } else {
+                echo "Something went wrong!";
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
         }
     }
     function deleteUser()
@@ -204,7 +252,7 @@ class CmsController extends Controller
                 $this->notFound();
             }
         } catch (\Throwable $th) {
-            echo "Something went wrong!";
+            echo "Something went wrong!!";
         }
     }
 }

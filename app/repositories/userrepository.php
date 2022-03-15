@@ -6,7 +6,7 @@ require_once __DIR__ . '/../models/user_role.php';
 
 class UserRepository extends Repository
 {
-    public $errors = [];
+    private $errors = [];
     public function getUsers()
     {
         $sql = 'SELECT id, first_name, last_name, email, role_id, created_at, updated_at FROM user';
@@ -99,7 +99,31 @@ class UserRepository extends Repository
         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
 
         $stmt->execute();
-        //var_dump($stmt->fetch());
+
+        return $stmt->fetch();
+    }
+    public function getOwnEmail()
+    {
+        $sql = 'SELECT email FROM user WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+    public function getOwnInfo()
+    {
+        $sql = 'SELECT first_name, last_name, email, role_id FROM user WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
         return $stmt->fetch();
     }
     public function checkCredentials($email, $password)
@@ -126,6 +150,33 @@ class UserRepository extends Repository
         $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
         $stmt->bindValue(':role_id', $user->role_id, PDO::PARAM_STR);
         $stmt->bindValue(':id', $user->id, PDO::PARAM_STR);
+        return $stmt->execute();
+    }
+    public function updateSelf($user)
+    {
+        $sql = 'UPDATE user
+        SET first_name = :first_name, last_name = :last_name, email = :email
+        WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':first_name', $user->first_name, PDO::PARAM_STR);
+        $stmt->bindValue(':last_name', $user->last_name, PDO::PARAM_STR);
+        $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    public function resetPassword($newPass)
+    {
+        $hash = password_hash($newPass, PASSWORD_DEFAULT);
+        $sql = 'UPDATE user
+        SET password_hash = :password_hash
+        WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':password_hash', $hash, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $_SESSION['user_id'], PDO::PARAM_STR);
+
         return $stmt->execute();
     }
     public function deleteUser($id)

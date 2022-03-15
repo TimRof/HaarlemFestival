@@ -168,7 +168,6 @@ $PageTitle = "CMS - Add User";
                 titleDirty = false;
                 imageDirty = false;
             } else {
-                // console.log(res);
                 alert(res);
             }
         })
