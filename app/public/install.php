@@ -305,6 +305,104 @@ if ($type == "mysql") {
     } catch (PDOException $e) {
         echo "Failed: " . $e->getMessage() . "<br><br><br>";
     }
+     try {
+        echo "Creating Table: Event_Tour...<br><br>";
+        $sql = "CREATE TABLE `event_tour` (
+            `tour_id` int(11) NOT NULL,
+            `event_id` int(11) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+          $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $connection->exec($sql);
+          echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+     try {
+         echo "Insert data: Event_Tour...<br><br>";
+         $sql = "INSERT INTO `event_tour` (`tour_id`, `event_id`) VALUES
+         (1, 1);";
+         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $connection->exec($sql);
+         echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+
+    try {
+        echo "Creating Table: Tour...<br><br>";
+        $sql = "CREATE TABLE `tour` (
+            `id` int(11) NOT NULL,
+            `name` varchar(255) NOT NULL,
+            'language' varchar(255) NOT NULL,
+            'stops' int(11) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+          $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $connection->exec($sql);
+          echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+         echo "Insert data: Tour...<br><br>";
+         $sql = "INSERT INTO `tour` (`id`, `name`, 'language', 'stops') VALUES
+         (1, 'Frans Hals Musea Tour', 'Chinese', '2');";
+         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $connection->exec($sql);
+         echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+        echo "Creating Table: Tour_stops...<br><br>";
+        $sql = "CREATE TABLE `tour_stops` (
+            `stop_number` int(11) NOT NULL,
+            `tour_id` int(11) NOT NULL,
+            'tour_location_id' int(11) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+          $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $connection->exec($sql);
+          echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+         echo "Insert data: Tour_stops...<br><br>";
+         $sql = "INSERT INTO `tour_stops` (`stop_number`, `tour_id`, 'tour_location_id') VALUES
+         ('1', 1, 1);";
+         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $connection->exec($sql);
+         echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+
+      try {
+        echo "Creating Table: Tour_location...<br><br>";
+        $sql = "CREATE TABLE `tour_location` (
+            `id` int(11) NOT NULL,
+            `name` varchar(255) NOT NULL,
+            'description' varchar(255) NOT NULL,
+            'country' varchar(255) NOT NULL,
+            'city' varchar(255) NOT NULL,
+            'zipcode' varchar(255) NOT NULL,
+            'address' varchar(255) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+          $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $connection->exec($sql);
+          echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+         echo "Insert data: Tour_location...<br><br>";
+         $sql = "INSERT INTO `tour_location` (`id`, `name`, 'description', 'country', 'city', 'zipcode', 'address') VALUES
+         (1, 'Tour', 'A musea tour', 'The Netherlands', 'Haarlem', '1122AB', 'InhollStreet');";
+         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $connection->exec($sql);
+         echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
 } else {
 
 

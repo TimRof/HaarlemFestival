@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="style/style.css">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <div id="topheader">
@@ -15,11 +17,11 @@
     <div class="container">
         <div class="row">
             <div class="col-2" id="logo">
-                <img src="../assets/logo.png" alt="Logo">
+                <a href="/home"><img src="../assets/logo.png" alt="Logo"></a>
             </div>
             <div class="col-7" id="menu">
             <ul id="nav">
-                <li><a href="#">Program</a>
+                <li><a href="../events">Program</a>
                     <ul class="sublist">
                         <li><a href="#">Food</a></li>
                         <li><a href="#">History</a></li>

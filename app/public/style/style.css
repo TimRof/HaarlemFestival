@@ -2,7 +2,7 @@
     /* For desktop: */
     body {
         font-family:"Calibri, sans-serif";
-
+        background-color: #E5E5E5;
     }
     /* Top header waar de winkelwagen zich bevind */
     #topheader {
@@ -161,3 +161,163 @@
     padding: 5px;
     border-radius: 11px;
 }
+
+/* Footer */
+
+.footer {
+    background: #005D9F;
+    padding: 25px;
+    color: white;
+}
+
+.footer_title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 10px;
+}
+
+.footer_links p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 10px;
+    margin-top: 25px;
+}
+
+.sm-icon img{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+}
+/* tickets overview (Program) */
+.overview {
+    margin-top: 10px;
+    padding: 10px;
+}
+.ticket {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(24, 47, 67, 0.2);
+    border-radius: 6px;
+    padding: 25px;
+    margin-top: 15px;
+
+}
+.date {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #868686;
+}
+.capacity {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    background: #005D9F;
+    border-radius: 56px;
+    color: white;
+    padding: 10px;
+    width: 16%;
+}
+.name {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 35px;
+    color: #182F43;
+}
+
+.content {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #182F43;
+}
+
+.language img{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 40px;
+}
+
+.price {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21px;
+    color: #005D9F;
+    position: relative;
+    top: 5px;
+}
+
+/* Button */
+
+.BuyTicketsBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 24px;
+    color: white;
+    background: #005D9F;
+    border-radius: 8px;
+    width: 115%;
+    right: 15px;
+    position: relative;
+    border: none;
+}
+
+
+
+/* Dropdown Sort By */
+
+select {
+    width: 150px;
+    height: 35px;
+    padding: 4px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px #999;
+    background: transparent;
+    border: none;
+    outline: none;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    padding: 6px;
+  }
+  label {
+    position: relative;
+  }
+  label:after {
+    content: '>';
+    color: black;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+    right: 8px;
+    top: 2px;
+    padding: 0 0 2px;
+    border-bottom: 1px solid #ddd;
+    position: absolute;
+    pointer-events: none;
+    background-color: transparent;
+  }
+  label:before {
+    content: '';
+    right: 6px;
+    top: 0px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    pointer-events: none;
+    display: block;
+  }

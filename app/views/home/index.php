@@ -8,7 +8,8 @@
     <title>Home</title>
 </head>
 <body>
-<?php include('header.php'); ?>
+<?php $root = $_SERVER["DOCUMENT_ROOT"];
+include($root . '/sub/header.php'); ?>
 
 <h1><a href="/">The Haarlem Festival</a></h1>
 <ul>
