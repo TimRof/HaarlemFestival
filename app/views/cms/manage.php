@@ -119,7 +119,6 @@ include_once __DIR__ . '/../cmsnav.php';
             titleDirty = 0;
             imageDirty = 0;
             editorDirty = 0;
-            console.log(res);
             fillPage(res);
         })
     }

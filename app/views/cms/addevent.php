@@ -99,7 +99,6 @@ include_once __DIR__ . '/../cmsnav.php';
 
     // check chosen event
     function eventChosen(value) {
-        console.log(value);
         main.innerHTML = "";
         var container = document.createElement('div');
         container.id = "container";
@@ -907,8 +906,6 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function makeTable(res, string) {
         // make title
-        //console.log(res);
-
         let title = document.createElement("h3");
         let titleText = document.createTextNode(string);
         title.appendChild(titleText);

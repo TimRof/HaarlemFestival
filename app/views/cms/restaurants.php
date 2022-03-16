@@ -207,7 +207,6 @@ include_once __DIR__ . '/../cmsnav.php';
                 id: id
             }
         }).done(function(res) {
-            console.log(res);
             fillInfo(res);
         })
     }
