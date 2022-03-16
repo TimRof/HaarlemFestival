@@ -52,6 +52,32 @@ class EventsController extends Controller
             $this->notFound();
         }
     }
+    public function getVenue()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
+            if ($_SESSION['permission'] > 1) {
+                $eventService = new eventService();
+                $venue = $eventService->getVenueById($_GET['id']);
+                header("Content-type:application/json");
+                echo json_encode(($venue), JSON_PRETTY_PRINT);
+            }
+        } else {
+            $this->notFound();
+        }
+    }
+    public function getTourLocation()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
+            if ($_SESSION['permission'] > 1) {
+                $eventService = new eventService();
+                $location = $eventService->getTourLocationById($_GET['id']);
+                header("Content-type:application/json");
+                echo json_encode(($location), JSON_PRETTY_PRINT);
+            }
+        } else {
+            $this->notFound();
+        }
+    }
     public function getEventOverview()
     {
         if (is_numeric($_GET['id'])) {
@@ -88,6 +114,56 @@ class EventsController extends Controller
             echo "Something went wrong!!";
         }
     }
+    public function updateVenue()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $content = array("id" => $_POST['id'], "name" => $this->clean($_POST['name']), "description" => $this->clean($_POST['description']), "country" => $this->clean($_POST['country']), "city" => $this->clean($_POST['city']), "zipcode" => $this->clean($_POST['zipcode']), "address" => $this->clean($_POST['address']));
+
+                    $venue = new Venue($content);
+                    $eventService = new EventService();
+
+                    if ($eventService->updateVenue($venue)) {
+                        echo "Venue updated!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    public function updateTourLocation()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $content = array("id" => $_POST['id'], "name" => $this->clean($_POST['name']), "description" => $this->clean($_POST['description']), "country" => $this->clean($_POST['country']), "city" => $this->clean($_POST['city']), "zipcode" => $this->clean($_POST['zipcode']), "address" => $this->clean($_POST['address']));
+
+                    $location = new Tour_Location($content);
+                    $eventService = new EventService();
+
+                    if ($eventService->updateTourLocation($location)) {
+                        echo "Tour location updated!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
     function deleteRestaurant()
     {
         try {
@@ -96,6 +172,48 @@ class EventsController extends Controller
                     $eventService = new EventService();
                     if ($eventService->deleteRestaurant($_POST['id'])) {
                         echo "Restaurant deleted!";
+                    } else {
+                        echo "Something went wrong, content not deleted!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    function deleteTourLocation()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $eventService = new EventService();
+                    if ($eventService->deleteTourLocation($_POST['id'])) {
+                        echo "Tour location deleted!";
+                    } else {
+                        echo "Something went wrong, content not deleted!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    function deleteVenue()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $eventService = new EventService();
+                    if ($eventService->deleteVenue($_POST['id'])) {
+                        echo "Venue deleted!";
                     } else {
                         echo "Something went wrong, content not deleted!";
                     }
@@ -175,6 +293,32 @@ class EventsController extends Controller
                 $restaurants = $eventService->searchRestaurants($_GET['limit'], '%' . $_GET['query'] . '%');
                 header("Content-type:application/json");
                 echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function searchVenues()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $venue = $eventService->searchVenues($_GET['limit'], '%' . $_GET['query'] . '%');
+                header("Content-type:application/json");
+                echo json_encode(($venue), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function searchTourLocations()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $locations = $eventService->searchTourLocations($_GET['limit'], '%' . $_GET['query'] . '%');
+                header("Content-type:application/json");
+                echo json_encode(($locations), JSON_PRETTY_PRINT);
             }
         } catch (\Throwable $th) {
             echo $th;

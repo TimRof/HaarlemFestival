@@ -65,10 +65,26 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
-    public function personal()
+    public function venues()
     {
         try {
-            require __DIR__ . '/../views/cms/personal.php';
+            require __DIR__ . '/../views/cms/venues.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function tourlocations()
+    {
+        try {
+            require __DIR__ . '/../views/cms/tourlocations.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function accountinfo()
+    {
+        try {
+            require __DIR__ . '/../views/cms/accountinfo.php';
         } catch (\Throwable $th) {
             $this->notFound();
         }

@@ -64,6 +64,30 @@ class EventRepository extends Repository
 
         return $stmt->fetch();
     }
+    public function getVenueById($id)
+    {
+        $sql = 'SELECT * FROM venue  WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Venue');
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+    public function getTourLocationById($id)
+    {
+        $sql = 'SELECT * FROM tour_location  WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
     public function getLimitedRestaurants($limit)
     {
         $sql = 'SELECT *, (SELECT count(*) from restaurant) as count FROM `restaurant` order by id desc limit :limit, 5';
@@ -91,6 +115,36 @@ class EventRepository extends Repository
 
         return $stmt->fetchAll();
     }
+    public function searchVenues($limit, $query)
+    {
+        $sql = 'SELECT *, (SELECT count(*) from venue WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address) as count FROM venue WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':name', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Venue');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function searchTourLocations($limit, $query)
+    {
+        $sql = 'SELECT *, (SELECT count(*) from tour_location WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address) as count FROM tour_location WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':name', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tour_Location');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
     public function updateRestaurant($restaurant)
     {
         $sql = 'UPDATE restaurant
@@ -107,9 +161,59 @@ class EventRepository extends Repository
 
         return $stmt->execute();
     }
+    public function updateVenue($venue)
+    {
+        $sql = 'UPDATE venue
+        SET name = :name, description = :description, country = :country, city = :city, zipcode = :zipcode, address = :address WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $venue->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $venue->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $venue->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $venue->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $venue->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $venue->address, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $venue->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    public function updateTourLocation($location)
+    {
+        $sql = 'UPDATE tour_location
+        SET name = :name, description = :description, country = :country, city = :city, zipcode = :zipcode, address = :address WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $location->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $location->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $location->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $location->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $location->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $location->address, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $location->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
     public function deleteRestaurant($id)
     {
         $sql = 'DELETE FROM restaurant WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    public function deleteTourLocation($id)
+    {
+        $sql = 'DELETE FROM tour_location WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+    public function deleteVenue($id)
+    {
+        $sql = 'DELETE FROM venue WHERE id = :id';
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);

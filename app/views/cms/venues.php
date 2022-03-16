@@ -1,12 +1,12 @@
 <?php
-$pageTitle = "CMS - Restaurants";
+$pageTitle = "CMS - Venues";
 include_once __DIR__ . '/../cmsnav.php';
 ?>
 <div id="pagecontent">
-    <h3>CMS - Restaurants</h3>
+    <h3>CMS - Venues</h3>
 
     <div class="backTitle">
-        <a class="btn btn-outline-dark" href="/cms/addevent?type=food">Back</a>
+        <a class="btn btn-outline-dark" href="/cms/addevent?type=jazz">Back</a>
         <h3 id="tableTitle">Overview</h3>
     </div>
     <div>
@@ -38,9 +38,9 @@ include_once __DIR__ . '/../cmsnav.php';
     <hr style="clear: both">
     <div style="margin: auto;width: 30%;">
         <h5 id="updateTitle">Update (none selected)</h5>
-        <label for="name">Restaurant name: </label>
+        <label for="name">Location name: </label>
         <input class="form-control" type="text" name="name" id="name" placeholder="Name">
-        <label for="description">Restaurant description: </label>
+        <label for="description">Location description: </label>
         <textarea class="form-control" name="description" id="description" placeholder="Description" rows="7"></textarea>
         <label for="country">Country: </label>
         <input class="form-control" type="country" name="country" id="country" placeholder="Country">
@@ -51,8 +51,8 @@ include_once __DIR__ . '/../cmsnav.php';
         <label for="address">Address: </label>
         <input class="form-control" type="address" name="address" id="address" placeholder="Address">
         <div style="text-align: center;">
-            <button class="btn btn-primary optionsbutton mt-2" onclick="updateRestaurant()">Make changes</button>
-            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteRestaurant()">Delete</button>
+            <button class="btn btn-primary optionsbutton mt-2" onclick="updateVenue()">Make changes</button>
+            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteVenue()">Delete</button>
         </div>
     </div>
 </div>
@@ -65,7 +65,7 @@ include_once __DIR__ . '/../cmsnav.php';
     var totalPages = 0;
     var query = "";
 
-    document.onload = searchRestaurants(0);
+    document.onload = searchVenues(0);
 
     var search = document.getElementById('searchbutton')
     search.addEventListener("click", function() {
@@ -75,19 +75,19 @@ include_once __DIR__ . '/../cmsnav.php';
         } else {
             document.getElementById('clearbutton').hidden = false;
         }
-        searchRestaurants(0);
+        searchVenues(0);
     });
     document.getElementById('clearbutton').addEventListener("click", function() {
         document.getElementById('searchbox').value = "";
         query = "";
         document.getElementById('clearbutton').hidden = true;
-        searchRestaurants(0);
+        searchVenues(0);
     });
 
-    function searchRestaurants(index) {
+    function searchVenues(index) {
         $.ajax({
             type: 'GET',
-            url: '/events/searchRestaurants',
+            url: '/events/searchVenues',
             data: {
                 limit: index,
                 query: query
@@ -147,7 +147,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function nextButtonPressed() {
         currentPage++;
-        searchRestaurants(currentPage * elementsShown); // variable is index of elements
+        searchVenues(currentPage * elementsShown); // variable is index of elements
     }
 
     function backButton() {
@@ -165,7 +165,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function backButtonPressed() {
         currentPage--;
-        searchRestaurants(currentPage * elementsShown); // variable is index of elements
+        searchVenues(currentPage * elementsShown); // variable is index of elements
     }
 
     function makeTable(res) {
@@ -194,25 +194,24 @@ include_once __DIR__ . '/../cmsnav.php';
                 clearInfo();
             } else {
                 selected = e.target.id;
-                getRestaurant(selected);
+                getVenue(selected);
             }
         }
     })
 
-    function getRestaurant(id) {
+    function getVenue(id) {
         $.ajax({
             type: 'GET',
-            url: '/events/getRestaurant',
+            url: '/events/getVenue',
             data: {
                 id: id
             }
         }).done(function(res) {
-            console.log(res);
             fillInfo(res);
         })
     }
 
-    function updateRestaurant() {
+    function updateVenue() {
         let name = document.getElementById("name").value
         let description = document.getElementById("description").value
         let country = document.getElementById("country").value
@@ -222,7 +221,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
         $.ajax({
             type: 'POST',
-            url: '/events/updateRestaurant',
+            url: '/events/updateVenue',
             data: {
                 id: selected,
                 name: name,
@@ -234,24 +233,24 @@ include_once __DIR__ . '/../cmsnav.php';
             }
         }).done(function(res) {
             alert(res);
-            searchRestaurants(currentPage * elementsShown);
+            searchVenues(currentPage * elementsShown);
         })
     }
 
-    function deleteRestaurant() {
-        var text = "Are you sure you want to delete this restaurant?\nThis can not be undone!";
+    function deleteVenue() {
+        var text = "Are you sure you want to delete this venue?\nThis can not be undone!";
         if (confirm(text) == false) {
             return;
         }
         $.ajax({
             type: 'POST',
-            url: '/events/deleteRestaurant',
+            url: '/events/deleteVenue',
             data: {
                 id: selected
             }
         }).done(function(res) {
             alert(res);
-            searchRestaurants(currentPage * elementsShown);
+            searchVenues(currentPage * elementsShown);
         })
     }
 
@@ -262,7 +261,7 @@ include_once __DIR__ . '/../cmsnav.php';
         document.getElementById("city").value = res.city;
         document.getElementById("zipcode").value = res.zipcode;
         document.getElementById("address").value = res.address;
-        updateTitle.innerHTML = "Updating restaurant";
+        updateTitle.innerHTML = "Updating venue";
     }
 
     function clearInfo() {

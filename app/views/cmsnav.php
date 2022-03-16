@@ -22,7 +22,8 @@
     <ul class="sidebar-nav">
         <li class="sidebar-brand"><span id="sidetitle">Manage</span>
         </li>
-        <li><a href="/">View site</a>
+
+        <li><a href="/cms">Dashboard</a>
         </li>
         <?php if (isset($_SESSION['loggedin'])) : ?>
             <li><a href="/cms/manage">Manage pages</a>
@@ -31,8 +32,11 @@
             </li>
             <li><a href="/cms/users">Users</a>
             </li>
-            <li><a href="/cms/personal">Personal</a>
+            <li><a href="/cms/accountinfo">Account info</a>
             </li>
         <?php endif; ?>
+        <hr style="width: 70%;">
+        <li><a href="/">View site</a>
+        </li>
     </ul>
 </div>

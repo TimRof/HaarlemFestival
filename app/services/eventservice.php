@@ -32,6 +32,14 @@ class EventService
     {
         return $this->repository->getRestaurantById($id);
     }
+    public function getVenueById($id)
+    {
+        return $this->repository->getVenueById($id);
+    }
+    public function getTourLocationById($id)
+    {
+        return $this->repository->getTourLocationById($id);
+    }
     public function getLimitedRestaurants($limit)
     {
         return $this->repository->getLimitedRestaurants($limit);
@@ -40,13 +48,37 @@ class EventService
     {
         return $this->repository->searchRestaurants($limit, $query);
     }
+    public function searchVenues($limit, $query)
+    {
+        return $this->repository->searchVenues($limit, $query);
+    }
+    public function searchTourLocations($limit, $query)
+    {
+        return $this->repository->searchTourLocations($limit, $query);
+    }
     public function updateRestaurant($restaurant)
     {
         return $this->repository->updateRestaurant($restaurant);
     }
+    public function updateVenue($venue)
+    {
+        return $this->repository->updateVenue($venue);
+    }
+    public function updateTourLocation($location)
+    {
+        return $this->repository->updateTourLocation($location);
+    }
     public function deleteRestaurant($id)
     {
         return $this->repository->deleteRestaurant($id);
+    }
+    public function deleteTourLocation($id)
+    {
+        return $this->repository->deleteTourLocation($id);
+    }
+    public function deleteVenue($id)
+    {
+        return $this->repository->deleteVenue($id);
     }
     public function getVenues()
     {

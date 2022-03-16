@@ -14,7 +14,6 @@ include_once __DIR__ . '/../cmsnav.php';
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
-    //document.onload = startButtons();
     document.onload = start();
 
     function start() {
@@ -45,6 +44,7 @@ include_once __DIR__ . '/../cmsnav.php';
         shown = "";
         main.innerHTML = "";
         title.innerHTML = "Pick an event"
+        history.pushState(null, null, '/cms/addevent');
 
         let foodB = document.createElement('button');
         foodB.innerHTML = "Food";
@@ -162,6 +162,7 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function jazzEvent() {
+        history.pushState(null, null, '/cms/addevent?type=jazz');
         title.innerHTML = "Jazz event";
         jazzOverview();
         addJazzButtons();
@@ -506,6 +507,7 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function historyEvent() {
+        history.pushState(null, null, '/cms/addevent?type=history');
         title.innerHTML = "History event";
         historyOverview();
         addHisButtons();
@@ -856,6 +858,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function foodEvent() {
         title.innerHTML = "Food event";
+        history.pushState(null, null, '/cms/addevent?type=food');
         foodOverview();
         addResButtons();
     }
@@ -893,6 +896,7 @@ include_once __DIR__ . '/../cmsnav.php';
         moreBut.appendChild(butText);
         moreBut.classList.add("btn");
         moreBut.classList.add("btn-primary");
+        moreBut.classList.add("optionsbutton");
         moreBut.href = location;
         let text = document.createElement("p");
         text.innerHTML = "Showing latest 5 items..."
