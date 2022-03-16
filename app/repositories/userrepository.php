@@ -149,7 +149,8 @@ class UserRepository extends Repository
         $stmt->bindValue(':last_name', $user->last_name, PDO::PARAM_STR);
         $stmt->bindValue(':email', $user->email, PDO::PARAM_STR);
         $stmt->bindValue(':role_id', $user->role_id, PDO::PARAM_STR);
-        $stmt->bindValue(':id', $user->id, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $user->id, PDO::PARAM_INT);
+        
         return $stmt->execute();
     }
     public function updateSelf($user)

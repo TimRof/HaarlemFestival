@@ -63,6 +63,52 @@ class EventsController extends Controller
             echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
         }
     }
+    public function updateRestaurant()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $content = array("id" => $_POST['id'], "name" => $this->clean($_POST['name']), "description" => $this->clean($_POST['description']), "country" => $this->clean($_POST['country']), "city" => $this->clean($_POST['city']), "zipcode" => $this->clean($_POST['zipcode']), "address" => $this->clean($_POST['address']));
+
+                    $restaurant = new Restaurant($content);
+                    $eventService = new EventService();
+
+                    if ($eventService->updateRestaurant($restaurant)) {
+                        echo "Restaurant updated!";
+                    } else {
+                        echo "Something went wrong!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    function deleteRestaurant()
+    {
+        try {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id'])) {
+                if ($this->checkSuperAdmin()) {
+                    $eventService = new EventService();
+                    if ($eventService->deleteRestaurant($_POST['id'])) {
+                        echo "Restaurant deleted!";
+                    } else {
+                        echo "Something went wrong, content not deleted!";
+                    }
+                } else {
+                    echo "You don't have the permissions to do this!";
+                }
+            } else {
+                $this->notFound();
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
     public function updateContent()
     {
         try {

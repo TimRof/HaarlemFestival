@@ -51,8 +51,8 @@ include_once __DIR__ . '/../cmsnav.php';
         <label for="address">Address: </label>
         <input class="form-control" type="address" name="address" id="address" placeholder="Address">
         <div style="text-align: center;">
-            <button class="btn btn-primary optionsbutton mt-2" onclick="updateUser()">Edit user</button>
-            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteUser()">Delete user</button>
+            <button class="btn btn-primary optionsbutton mt-2" onclick="updateRestaurant()">Make changes</button>
+            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteRestaurant()">Delete</button>
         </div>
     </div>
 </div>
@@ -170,8 +170,7 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function makeTable(res) {
-        // reset boxes
-        clearInfo();
+        clearInfo(); // reset boxes
         let table = document.getElementById("table-body");
         $("#table-body tr").remove();
         res.forEach(element => {
@@ -180,7 +179,7 @@ include_once __DIR__ . '/../cmsnav.php';
             for (let k in element) {
                 let cell = row.insertCell(i);
                 cell.id = element.id;
-                if (element[k].length > 90) { // max length
+                if (element[k].length > 90) { // max length of text
                     cell.innerHTML = element[k].slice(0, 90) + ' ...';
                 } else {
                     cell.innerHTML = element[k];
@@ -210,6 +209,49 @@ include_once __DIR__ . '/../cmsnav.php';
             }
         }).done(function(res) {
             fillInfo(res);
+        })
+    }
+
+    function updateRestaurant() {
+        let name = document.getElementById("name").value
+        let description = document.getElementById("description").value
+        let country = document.getElementById("country").value
+        let city = document.getElementById("city").value
+        let zipcode = document.getElementById("zipcode").value
+        let address = document.getElementById("address").value
+
+        $.ajax({
+            type: 'POST',
+            url: '/events/updateRestaurant',
+            data: {
+                id: selected,
+                name: name,
+                description: description,
+                country: country,
+                city: city,
+                zipcode: zipcode,
+                address: address
+            }
+        }).done(function(res) {
+            alert(res);
+            searchRestaurants(currentPage * elementsShown);
+        })
+    }
+
+    function deleteRestaurant() {
+        var text = "Are you sure you want to delete this restaurant?\nThis can not be undone!";
+        if (confirm(text) == false) {
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/events/deleteRestaurant',
+            data: {
+                id: selected
+            }
+        }).done(function(res) {
+            alert(res);
+            searchRestaurants(currentPage * elementsShown);
         })
     }
 

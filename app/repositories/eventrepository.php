@@ -87,10 +87,34 @@ class EventRepository extends Repository
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
 
-        //var_dump($stmt);
         $stmt->execute();
 
         return $stmt->fetchAll();
+    }
+    public function updateRestaurant($restaurant)
+    {
+        $sql = 'UPDATE restaurant
+        SET name = :name, description = :description, country = :country, city = :city, zipcode = :zipcode, address = :address WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':name', $restaurant->name, PDO::PARAM_STR);
+        $stmt->bindValue(':description', $restaurant->description, PDO::PARAM_STR);
+        $stmt->bindValue(':country', $restaurant->country, PDO::PARAM_STR);
+        $stmt->bindValue(':city', $restaurant->city, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $restaurant->zipcode, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $restaurant->address, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $restaurant->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+    public function deleteRestaurant($id)
+    {
+        $sql = 'DELETE FROM restaurant WHERE id = :id';
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
     public function getVenues()
     {

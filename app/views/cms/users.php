@@ -32,8 +32,8 @@ include_once __DIR__ . '/../cmsnav.php';
         <select class="form-select" name="role_types" id="role_types">
         </select>
         <div style="text-align: center;">
-            <button class="btn btn-primary optionsbutton mt-2" onclick="updateUser()">Edit user</button>
-            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteUser()">Delete user</button>
+            <button class="btn btn-primary optionsbutton mt-2" onclick="updateUser()">Make changes</button>
+            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteUser()">Delete</button>
         </div>
     </div>
 </div>

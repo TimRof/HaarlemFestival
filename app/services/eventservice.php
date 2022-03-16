@@ -40,6 +40,14 @@ class EventService
     {
         return $this->repository->searchRestaurants($limit, $query);
     }
+    public function updateRestaurant($restaurant)
+    {
+        return $this->repository->updateRestaurant($restaurant);
+    }
+    public function deleteRestaurant($id)
+    {
+        return $this->repository->deleteRestaurant($id);
+    }
     public function getVenues()
     {
         return $this->repository->getVenues();
@@ -76,20 +84,25 @@ class EventService
     {
         return $this->repository->updateEventOverview($eventOverview);
     }
-    public function addRestaurant($restaurant){
+    public function addRestaurant($restaurant)
+    {
         return $this->repository->addRestaurant($restaurant);
     }
-    public function makeJazzVenue($location){
+    public function makeJazzVenue($location)
+    {
         return $this->repository->makeJazzVenue($location);
     }
-    public function addRouteLocation($location){
+    public function addRouteLocation($location)
+    {
         return $this->repository->addRouteLocation($location);
     }
-    public function addTour($tour, $stops){
+    public function addTour($tour, $stops)
+    {
         $id = $this->repository->addTour($tour);
         return $this->repository->addTourStops($id, $stops);
     }
-    public function addAct($act, $members){
+    public function addAct($act, $members)
+    {
         $id = $this->repository->addAct($act);
         return $this->repository->addActMembers($id, $members);
     }
