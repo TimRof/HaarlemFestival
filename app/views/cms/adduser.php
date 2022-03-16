@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Add User";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 <div id="pagecontent">
     <h3>CMS - Add User</h3>
@@ -28,7 +28,7 @@ $PageTitle = "CMS - Add User";
                 <input class="form-control" type="password" id="inputPasswordConfirmation" name="password_confirmation" placeholder="Repeat password" maxlength="128" value="testtest1">
             </div>
             <div>
-                <button class="btn btn-primary mt-2" type="submit">Sign up</button>
+                <button class="btn btn-primary mt-2" type="submit">Add user</button>
             </div>
         </form>
     </div>

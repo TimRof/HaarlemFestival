@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Sign in";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 <div id="pagecontent" style="width:15%">
     <h3>CMS - Sign in</h3>

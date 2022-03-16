@@ -22,7 +22,7 @@
     <ul class="sidebar-nav">
         <li class="sidebar-brand"><span id="sidetitle">Manage</span>
         </li>
-        <li><a href="/cms">View site</a>
+        <li><a href="/">View site</a>
         </li>
         <li><a href="/cms/manage">Manage pages</a>
         </li>

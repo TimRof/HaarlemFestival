@@ -39,6 +39,19 @@ class EventsController extends Controller
         require __DIR__ . '/../views/events/purchase.php';
     }
 
+    public function getRestaurant()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
+            if ($_SESSION['permission'] > 1) {
+                $eventService = new eventService();
+                $restaurant = $eventService->getRestaurantById($_GET['id']);
+                header("Content-type:application/json");
+                echo json_encode(($restaurant), JSON_PRETTY_PRINT);
+            }
+        } else {
+            $this->notFound();
+        }
+    }
     public function getEventOverview()
     {
         if (is_numeric($_GET['id'])) {
@@ -56,7 +69,7 @@ class EventsController extends Controller
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id']) && isset($_SESSION['loggedin'])) {
                 if ($this->checkAdmin()) {
                     $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $_POST['image']);
-                    $eventOverview = new EventOverview($content);
+                    $eventOverview = new Event_Overview($content);
 
                     $eventService = new EventService();
                     if (!$eventService->updateEventOverview($eventOverview)) {
@@ -94,6 +107,71 @@ class EventsController extends Controller
         $restaurants = $eventService->getRestaurants();
         header("Content-type:application/json");
         echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+    }
+    public function getLimitedRestaurants()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $restaurants = $eventService->getLimitedRestaurants($_GET['limit']);
+                header("Content-type:application/json");
+                echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function getLimitedStops()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $stops = $eventService->getLimitedStops($_GET['limit']);
+                header("Content-type:application/json");
+                echo json_encode(($stops), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function getLimitedTours()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $tours = $eventService->getLimitedTours($_GET['limit']);
+                header("Content-type:application/json");
+                echo json_encode(($tours), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function getLimitedActs()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $acts = $eventService->getLimitedActs($_GET['limit']);
+                header("Content-type:application/json");
+                echo json_encode(($acts), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
+    public function getLimitedVenues()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $venues = $eventService->getLimitedVenues($_GET['limit']);
+                header("Content-type:application/json");
+                echo json_encode(($venues), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
     }
     public function getVenues()
     {

@@ -1,11 +1,11 @@
 <?php
+$pageTitle = "CMS - Users";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 <div id="pagecontent">
     <h3>CMS - Users</h3>
 
-    <h3 id="tableTitle">Users</h3>
+    <h3 id="tableTitle">Overview</h3>
     <table id="users" class="table table-striped">
         <thead class="thead-light">
             <th>Id</th>

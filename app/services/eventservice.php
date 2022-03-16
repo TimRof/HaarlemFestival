@@ -20,21 +20,45 @@ class EventService
     {
         return $this->repository->getStops();
     }
+    public function getLimitedStops($limit)
+    {
+        return $this->repository->getLimitedStops($limit);
+    }
     public function getRestaurants()
     {
         return $this->repository->getRestaurants();
+    }
+    public function getRestaurantById($id)
+    {
+        return $this->repository->getRestaurantById($id);
+    }
+    public function getLimitedRestaurants($limit)
+    {
+        return $this->repository->getLimitedRestaurants($limit);
     }
     public function getVenues()
     {
         return $this->repository->getVenues();
     }
+    public function getLimitedVenues($limit)
+    {
+        return $this->repository->getLimitedVenues($limit);
+    }
     public function getTours()
     {
         return $this->repository->getTours();
     }
+    public function getLimitedTours($limit)
+    {
+        return $this->repository->getLimitedTours($limit);
+    }
     public function getActs()
     {
         return $this->repository->getActs();
+    }
+    public function getLimitedActs($limit)
+    {
+        return $this->repository->getLimitedActs($limit);
     }
     public function getEventOverview($id)
     {

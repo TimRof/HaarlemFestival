@@ -57,6 +57,14 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function restaurants()
+    {
+        try {
+            require __DIR__ . '/../views/cms/restaurants.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function personal()
     {
         try {

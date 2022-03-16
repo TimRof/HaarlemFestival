@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Manage";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 
 <div id="pagecontent">
@@ -119,6 +119,7 @@ $PageTitle = "CMS - Add User";
             titleDirty = 0;
             imageDirty = 0;
             editorDirty = 0;
+            console.log(res);
             fillPage(res);
         })
     }

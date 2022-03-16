@@ -1,6 +1,6 @@
 <?php
 
-class EventOverview
+class Event_Overview
 {
     public function __construct($data = [])
     {

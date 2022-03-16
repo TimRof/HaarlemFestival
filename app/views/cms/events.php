@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Events";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Events";
 ?>
 <div id="pagecontent">
     <h3>CMS - Events</h3>

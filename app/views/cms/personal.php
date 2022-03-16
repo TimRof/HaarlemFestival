@@ -1,11 +1,11 @@
 <?php
+$pageTitle = "CMS - Personal";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 <div id="pagecontent">
     <h3>CMS - Personal</h3>
 
-    <h3 id="tableTitle">Users</h3>
+    <h3 id="tableTitle">Account info</h3>
     <table id="users" class="table table-striped">
         <thead class="thead-light">
             <th>First name</th>
@@ -15,7 +15,6 @@ $PageTitle = "CMS - Add User";
         </thead>
         <tbody id="table-body"></tbody>
     </table>
-    <div style="text-align:right"><a class="btn btn-primary" href="/cms/adduser">Add user</a></div>
     <hr>
     <div style="margin: auto;width: 30%;">
         <h5 id="updateTitle">Update information</h5>

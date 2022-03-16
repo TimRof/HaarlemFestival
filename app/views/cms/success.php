@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Success";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add User";
 ?>
 <div id="pagecontent">
     <h3>CMS - Success!</h3>

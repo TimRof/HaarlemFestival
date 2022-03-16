@@ -1,6 +1,6 @@
 <?php
+$pageTitle = "CMS - Add event";
 include_once __DIR__ . '/../cmsnav.php';
-$PageTitle = "CMS - Add event";
 ?>
 <div id="pagecontent">
     <h3>CMS - Add Event</h3>
@@ -14,7 +14,18 @@ $PageTitle = "CMS - Add event";
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
-    document.onload = startButtons();
+    //document.onload = startButtons();
+    document.onload = start();
+
+    function start() {
+        let type = new URLSearchParams(window.location.search).get('type');
+
+        if (type) {
+            eventChosen(type);
+        } else {
+            startButtons();
+        }
+    }
 
     var shown = "";
 
@@ -37,7 +48,7 @@ $PageTitle = "CMS - Add event";
 
         let foodB = document.createElement('button');
         foodB.innerHTML = "Food";
-        foodB.value = "Food";
+        foodB.value = "food";
         foodB.classList.add("btn");
         foodB.classList.add("btn-primary");
         foodB.classList.add("optionsbutton");
@@ -49,7 +60,7 @@ $PageTitle = "CMS - Add event";
 
         let histB = document.createElement('button');
         histB.innerHTML = "History";
-        histB.value = "History";
+        histB.value = "history";
         histB.classList.add("btn");
         histB.classList.add("btn-primary");
         histB.classList.add("optionsbutton");
@@ -60,7 +71,7 @@ $PageTitle = "CMS - Add event";
 
         let jazzB = document.createElement('button');
         jazzB.innerHTML = "Jazz";
-        jazzB.value = "Jazz";
+        jazzB.value = "jazz";
         jazzB.classList.add("btn");
         jazzB.classList.add("btn-primary");
         jazzB.classList.add("optionsbutton");
@@ -88,19 +99,20 @@ $PageTitle = "CMS - Add event";
 
     // check chosen event
     function eventChosen(value) {
+        console.log(value);
         main.innerHTML = "";
         var container = document.createElement('div');
         container.id = "container";
         main.appendChild(container);
         backToStart();
         switch (value) {
-            case "Food":
+            case "food":
                 foodEvent();
                 break;
-            case "History":
+            case "history":
                 historyEvent();
                 break;
-            case "Jazz":
+            case "jazz":
                 jazzEvent();
                 break;
             default:
@@ -163,18 +175,34 @@ $PageTitle = "CMS - Add event";
     function venuesOverview() {
         $.ajax({
             type: 'GET',
-            url: '/events/getVenues',
+            url: '/events/getLimitedVenues',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
+            let key = "count";
+            res.forEach(element => {
+                delete element[key];
+            });
             makeTable(res, "Venues");
+            viewMoreButton("/cms/venues");
         })
     }
 
     function actsOverview() {
         $.ajax({
             type: 'GET',
-            url: '/events/getActs',
+            url: '/events/getLimitedActs',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
+            let key = "count";
+            res.forEach(element => {
+                delete element[key];
+            });
             makeTable(res, "Acts");
+            viewMoreButton("/cms/acts");
         })
     }
 
@@ -491,18 +519,34 @@ $PageTitle = "CMS - Add event";
     function locationsOverview() {
         $.ajax({
             type: 'GET',
-            url: '/events/getStops',
+            url: '/events/getLimitedStops',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
+            let key = "count";
+            res.forEach(element => {
+                delete element[key];
+            });
             makeTable(res, "Locations");
+            viewMoreButton("/cms/tourlocations");
         })
     }
 
     function toursOverview() {
         $.ajax({
             type: 'GET',
-            url: '/events/getTours',
+            url: '/events/getLimitedTours',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
+            let key = "count";
+            res.forEach(element => {
+                delete element[key];
+            });
             makeTable(res, "Tours");
+            viewMoreButton("/cms/tours");
         })
     }
 
@@ -732,6 +776,9 @@ $PageTitle = "CMS - Add event";
         $.ajax({
             type: 'GET',
             url: '/events/getStops',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
             makeStopDropdowns(res);
         })
@@ -820,14 +867,44 @@ $PageTitle = "CMS - Add event";
     function restaurantOverview() {
         $.ajax({
             type: 'GET',
-            url: '/events/getRestaurants',
+            url: '/events/getLimitedRestaurants',
+            data: {
+                limit: 0
+            }
         }).done(function(res) {
+            let key = "count";
+            res.forEach(element => {
+                delete element[key];
+            });
             makeTable(res, "Restaurants");
+            viewMoreButton("/cms/restaurants");
         })
+    }
+
+    function viewMoreButton(location) {
+        if ($('#' + location.substr(location.length - 5)).length > 0) {
+            document.getElementById(location.substr(location.length - 5)).remove();
+        }
+        let div = document.createElement("div");
+        div.id = location.substr(location.length - 5);
+        div.classList.add("moreButton");
+        let moreBut = document.createElement("a");
+        let butText = document.createTextNode("View more & edit");
+        moreBut.appendChild(butText);
+        moreBut.classList.add("btn");
+        moreBut.classList.add("btn-primary");
+        moreBut.href = location;
+        let text = document.createElement("p");
+        text.innerHTML = "Showing latest 5 items..."
+        div.appendChild(text);
+        div.appendChild(moreBut);
+        container.appendChild(div);
     }
 
     function makeTable(res, string) {
         // make title
+        //console.log(res);
+
         let title = document.createElement("h3");
         let titleText = document.createTextNode(string);
         title.appendChild(titleText);
@@ -858,7 +935,11 @@ $PageTitle = "CMS - Add event";
             let row = table.insertRow();
             for (let k in element) {
                 let cell = row.insertCell(i);
-                cell.innerHTML = element[k];
+                if (element[k].length > 90) {
+                    cell.innerHTML = element[k].slice(0, 90) + ' ...';
+                } else {
+                    cell.innerHTML = element[k];
+                }
                 i++;
             }
         });

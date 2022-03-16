@@ -3,6 +3,7 @@
 require_once __DIR__ . '/repository.php';
 require_once __DIR__ . '/../models/event_type.php';
 require_once __DIR__ . '/../models/event.php';
+require_once __DIR__ . '/../models/event_overview.php';
 
 class EventRepository extends Repository
 {
@@ -11,7 +12,7 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM event_type';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Event_Type');
 
         $stmt->execute();
 
@@ -22,7 +23,19 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM tour_location';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tour_Location');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getLimitedStops($limit)
+    {
+        $sql = 'SELECT * FROM `tour_location` order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tour_Location');
 
         $stmt->execute();
 
@@ -33,7 +46,31 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM restaurant';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getRestaurantById($id)
+    {
+        $sql = 'SELECT * FROM restaurant  WHERE id = :id';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getLimitedRestaurants($limit)
+    {
+        $sql = 'SELECT *, (SELECT count(*) from restaurant) as count FROM `restaurant` order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
 
         $stmt->execute();
 
@@ -44,7 +81,19 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM venue';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Venue');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getLimitedVenues($limit)
+    {
+        $sql = 'SELECT * FROM `venue` order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'venue');
 
         $stmt->execute();
 
@@ -55,7 +104,19 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM tour';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tour');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getLimitedTours($limit)
+    {
+        $sql = 'SELECT * FROM `tour` order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Tour');
 
         $stmt->execute();
 
@@ -66,7 +127,19 @@ class EventRepository extends Repository
         $sql = 'SELECT * FROM act';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'act');
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+    public function getLimitedActs($limit)
+    {
+        $sql = 'SELECT * FROM `act` order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'act');
 
         $stmt->execute();
 
@@ -78,7 +151,7 @@ class EventRepository extends Repository
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'event_overview');
 
         $stmt->execute();
 
