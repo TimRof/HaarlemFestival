@@ -76,6 +76,22 @@ class EventRepository extends Repository
 
         return $stmt->fetchAll();
     }
+    public function searchRestaurants($limit, $query)
+    {
+        $sql = 'SELECT *, (SELECT count(*) from restaurant WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address) as count FROM restaurant WHERE name LIKE :name OR zipcode LIKE :zipcode OR address LIKE :address order by id desc limit :limit, 5';
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(':name', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':zipcode', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $query, PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Restaurant');
+
+        //var_dump($stmt);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
     public function getVenues()
     {
         $sql = 'SELECT * FROM venue';

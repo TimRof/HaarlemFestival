@@ -36,6 +36,10 @@ class EventService
     {
         return $this->repository->getLimitedRestaurants($limit);
     }
+    public function searchRestaurants($limit, $query)
+    {
+        return $this->repository->searchRestaurants($limit, $query);
+    }
     public function getVenues()
     {
         return $this->repository->getVenues();

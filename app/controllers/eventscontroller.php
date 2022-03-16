@@ -121,6 +121,19 @@ class EventsController extends Controller
             echo $th;
         }
     }
+    public function searchRestaurants()
+    {
+        try {
+            if (is_numeric($_GET['limit'])) {
+                $eventService = new EventService();
+                $restaurants = $eventService->searchRestaurants($_GET['limit'], '%' . $_GET['query'] . '%');
+                header("Content-type:application/json");
+                echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+            }
+        } catch (\Throwable $th) {
+            echo $th;
+        }
+    }
     public function getLimitedStops()
     {
         try {

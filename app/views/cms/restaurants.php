@@ -10,6 +10,13 @@ include_once __DIR__ . '/../cmsnav.php';
         <h3 id="tableTitle">Overview</h3>
     </div>
     <div>
+        <button type="button" class="btn btn-outline-danger" id="clearbutton" hidden>Clear search</button>
+        <div class="input-group" style="width: 30%; float:right">
+            <input type="search" class="form-control rounded" placeholder="Search" id="searchbox" />
+            <button type="button" class="btn btn-outline-primary" id="searchbutton">search</button>
+        </div>
+    </div>
+    <div>
         <table id="users" class="table table-striped">
             <thead class="thead-light">
                 <th>Id</th>
@@ -27,7 +34,6 @@ include_once __DIR__ . '/../cmsnav.php';
             <div style="float:right" id="nextButton"></div>
         </div>
     </div>
-
 
     <hr style="clear: both">
     <div style="margin: auto;width: 30%;">
@@ -57,26 +63,48 @@ include_once __DIR__ . '/../cmsnav.php';
     var currentPage = 0;
     var elementsShown = 5;
     var totalPages = 0;
-    var add = true;
+    var query = "";
 
-    document.onload = getRestaurants(0);
+    document.onload = searchRestaurants(0);
 
-    function getRestaurants(index) {
+    var search = document.getElementById('searchbutton')
+    search.addEventListener("click", function() {
+        query = document.getElementById('searchbox').value;
+        if (query == "") {
+            document.getElementById('clearbutton').hidden = true;
+        } else {
+            document.getElementById('clearbutton').hidden = false;
+        }
+        searchRestaurants(0);
+    });
+    document.getElementById('clearbutton').addEventListener("click", function() {
+        document.getElementById('searchbox').value = "";
+        query = "";
+        document.getElementById('clearbutton').hidden = true;
+        searchRestaurants(0);
+    });
+
+    function searchRestaurants(index) {
         $.ajax({
             type: 'GET',
-            url: '/events/getLimitedRestaurants',
+            url: '/events/searchRestaurants',
             data: {
-                limit: index
+                limit: index,
+                query: query
             }
         }).done(function(res) {
-            // get total amount of items
-            let key = "count";
-            elementsTotal = res[0].count;
-            res.forEach(element => {
-                delete element[key];
-            });
-            makeTable(res);
-            calculatePages();
+            if (res.length === 0) {
+                alert("Nothing found!");
+            } else {
+                // get total amount of items
+                let key = "count";
+                elementsTotal = res[0].count;
+                res.forEach(element => {
+                    delete element[key];
+                });
+                makeTable(res);
+                calculatePages();
+            }
         })
     }
 
@@ -92,7 +120,7 @@ include_once __DIR__ . '/../cmsnav.php';
             if (!($('#next').length > 0)) {
                 nextButton();
             }
-        } else {
+        } else if ($('#next').length > 0) {
             next.remove();
         }
         if (currentPage > 0) {
@@ -119,7 +147,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function nextButtonPressed() {
         currentPage++;
-        getRestaurants(currentPage * elementsShown); // variable is index of elements
+        searchRestaurants(currentPage * elementsShown); // variable is index of elements
     }
 
     function backButton() {
@@ -138,7 +166,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function backButtonPressed() {
         currentPage--;
-        getRestaurants(currentPage * elementsShown); // variable is index of elements
+        searchRestaurants(currentPage * elementsShown); // variable is index of elements
     }
 
     function makeTable(res) {
@@ -186,7 +214,6 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function fillInfo(res) {
-        console.log(res);
         document.getElementById("name").value = res.name;
         document.getElementById("description").value = res.description;
         document.getElementById("country").value = res.country;
