@@ -62,7 +62,7 @@ class EventRepository extends Repository
 
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return $stmt->fetch();
     }
     public function getLimitedRestaurants($limit)
     {

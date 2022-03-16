@@ -9,59 +9,67 @@ include_once __DIR__ . '/../cmsnav.php';
         <a class="btn btn-outline-dark" href="/cms/addevent?type=food">Back</a>
         <h3 id="tableTitle">Overview</h3>
     </div>
-    <table id="users" class="table table-striped">
-        <thead class="thead-light">
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Country</th>
-            <th>City</th>
-            <th>Zipcode</th>
-            <th>Address</th>
-        </thead>
-        <tbody id="table-body"></tbody>
-    </table>
-    <div id="pageNav"></div>
-    <hr>
+    <div>
+        <table id="users" class="table table-striped">
+            <thead class="thead-light">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Zipcode</th>
+                <th>Address</th>
+            </thead>
+            <tbody id="table-body"></tbody>
+        </table>
+        <div id="pageNav">
+            <div style="float:left" id="previousButton"></div>
+            <div style="float:right" id="nextButton"></div>
+        </div>
+    </div>
+
+
+    <hr style="clear: both">
     <div style="margin: auto;width: 30%;">
         <h5 id="updateTitle">Update (none selected)</h5>
-        <label for="first_name">First name: </label>
-        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name">
-        <label for="last_name">Last name: </label>
-        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name">
-        <label for="email">Email: </label>
-        <input class="form-control" type="email" name="email" id="email" placeholder="Email">
-        <label for="role_types">User Role: </label>
-        <select class="form-select" name="role_types" id="role_types">
-        </select>
+        <label for="name">Restaurant name: </label>
+        <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+        <label for="description">Restaurant description: </label>
+        <textarea class="form-control" name="description" id="description" placeholder="Description" rows="7"></textarea>
+        <label for="country">Country: </label>
+        <input class="form-control" type="country" name="country" id="country" placeholder="Country">
+        <label for="city">City: </label>
+        <input class="form-control" type="city" name="city" id="city" placeholder="City">
+        <label for="zipcode">Zipcode: </label>
+        <input class="form-control" type="zipcode" name="zipcode" id="zipcode" placeholder="Zipcode">
+        <label for="address">Address: </label>
+        <input class="form-control" type="address" name="address" id="address" placeholder="Address">
         <div style="text-align: center;">
-            <button class="btn btn-primary mt-2" onclick="updateUser()">Edit user</button>
-            <button class="btn btn-danger mt-2" onclick="deleteUser()">Delete user</button>
+            <button class="btn btn-primary optionsbutton mt-2" onclick="updateUser()">Edit user</button>
+            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteUser()">Delete user</button>
         </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     var selected;
-    var previousItems = 0;
     var elementsTotal = 0;
-    var elementsIndex = -5;
-    var elementsShown = 0;
-    var elementsMax = 5;
-    var elementsOnPage = 0;
-    var pagesLeft = 0;
-    var add;
+    var currentPage = 0;
+    var elementsShown = 5;
+    var totalPages = 0;
+    var add = true;
 
-    document.onload = nextButtonPressed();
+    document.onload = getRestaurants(0);
 
-    function getRestaurants() {
+    function getRestaurants(index) {
         $.ajax({
             type: 'GET',
             url: '/events/getLimitedRestaurants',
             data: {
-                limit: elementsIndex
+                limit: index
             }
         }).done(function(res) {
+            // get total amount of items
             let key = "count";
             elementsTotal = res[0].count;
             res.forEach(element => {
@@ -73,49 +81,32 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function calculatePages() {
-        if (add) {
-            elementsShown += elementsOnPage;
-        } else {
-            elementsShown -= previousItems;
-        }
-        let elementsLeft = elementsTotal - elementsShown;
-        // console.log(add);
-        // console.log("Total items: " + elementsTotal);
-        // console.log("Items index: " + elementsIndex);
-        // console.log("Items shown: " + elementsShown);
-        // console.log("Items left: " + elementsLeft);
-        // console.log("Previous: " + previousItems);
-        // console.log("Page: " + elementsOnPage);
-        pagesLeft = 0;
-        while (elementsLeft > 0) {
-            pagesLeft++;
-            elementsLeft -= elementsMax;
-        }
-        // console.log("Pages left: " + pagesLeft);
+        // total amount of pages (rounded up)
+        totalPages = Math.ceil(elementsTotal / elementsShown);
         pageButtons();
-        previousItems = elementsOnPage;
     }
 
     function pageButtons() {
-        if ($('#next').length > 0) {
+        // create next and back buttons
+        if (currentPage < totalPages - 1) {
+            if (!($('#next').length > 0)) {
+                nextButton();
+            }
+        } else {
             next.remove();
         }
-        if ($('#back').length > 0) {
+        if (currentPage > 0) {
+            if (!($('#back').length > 0)) {
+                backButton();
+            }
+        } else if ($('#back').length > 0) {
             back.remove();
-        }
-        if (elementsIndex > 0) {
-            // console.log("Back button");
-            backButton();
-        }
-        if (pagesLeft > 0) {
-            // console.log("Next button");
-            nextButton();
         }
     }
 
     function nextButton() {
         let nextBut = document.createElement('button');
-        nextBut.innerHTML = "Next";
+        nextBut.innerHTML = "Next page";
         nextBut.id = "next";
         nextBut.classList.add("btn");
         nextBut.classList.add("btn-primary");
@@ -123,18 +114,17 @@ include_once __DIR__ . '/../cmsnav.php';
         nextBut.onclick = function() {
             nextButtonPressed();
         };
-        document.getElementById('pageNav').appendChild(nextBut);
+        document.getElementById('nextButton').appendChild(nextBut);
     }
 
     function nextButtonPressed() {
-        add = true;
-        elementsIndex += 5;
-        getRestaurants();
+        currentPage++;
+        getRestaurants(currentPage * elementsShown); // variable is index of elements
     }
 
     function backButton() {
         let backBut = document.createElement('button');
-        backBut.innerHTML = "Back";
+        backBut.innerHTML = "Previous page";
         backBut.id = "back";
         backBut.classList.add("btn");
         backBut.classList.add("btn-primary");
@@ -142,27 +132,27 @@ include_once __DIR__ . '/../cmsnav.php';
         backBut.onclick = function() {
             backButtonPressed();
         };
-        document.getElementById('pageNav').appendChild(backBut);
+        document.getElementById('previousButton').appendChild(backBut);
+        // document.getElementById('pageNav').insertBefore(backBut, document.getElementById('pageNav').firstChild);
     }
 
     function backButtonPressed() {
-        add = false;
-        elementsIndex -= 5;
-        getRestaurants();
+        currentPage--;
+        getRestaurants(currentPage * elementsShown); // variable is index of elements
     }
 
     function makeTable(res) {
+        // reset boxes
+        clearInfo();
         let table = document.getElementById("table-body");
         $("#table-body tr").remove();
-        elementsOnPage = 0;
         res.forEach(element => {
-            elementsOnPage++;
             let i = 0;
             let row = table.insertRow();
             for (let k in element) {
                 let cell = row.insertCell(i);
                 cell.id = element.id;
-                if (element[k].length > 90) {
+                if (element[k].length > 90) { // max length
                     cell.innerHTML = element[k].slice(0, 90) + ' ...';
                 } else {
                     cell.innerHTML = element[k];
@@ -191,23 +181,28 @@ include_once __DIR__ . '/../cmsnav.php';
                 id: id
             }
         }).done(function(res) {
-            console.log(res);
+            fillInfo(res);
         })
     }
 
     function fillInfo(res) {
-        document.getElementById("first_name").value = res.first_name;
-        document.getElementById("last_name").value = res.last_name;
-        document.getElementById("email").value = res.email;
-        document.getElementById("role_types").value = res.role_id;
-        updateTitle.innerHTML = "Updating user";
+        console.log(res);
+        document.getElementById("name").value = res.name;
+        document.getElementById("description").value = res.description;
+        document.getElementById("country").value = res.country;
+        document.getElementById("city").value = res.city;
+        document.getElementById("zipcode").value = res.zipcode;
+        document.getElementById("address").value = res.address;
+        updateTitle.innerHTML = "Updating restaurant";
     }
 
     function clearInfo() {
-        document.getElementById("first_name").value = null;
-        document.getElementById("last_name").value = null;
-        document.getElementById("email").value = null;
-        document.getElementById("role_types").value = null;
+        document.getElementById("name").value = null;
+        document.getElementById("description").value = null;
+        document.getElementById("country").value = null;
+        document.getElementById("city").value = null;
+        document.getElementById("zipcode").value = null;
+        document.getElementById("address").value = null;
         updateTitle.innerHTML = "Update (none selected)";
         selected = null;
     }
