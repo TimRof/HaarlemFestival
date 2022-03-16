@@ -73,7 +73,7 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
-    public function resetpassword()
+    public function changepassword()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userService = new UserService();
@@ -83,9 +83,10 @@ class CmsController extends Controller
             else{
                 echo false;
             }
+            return;
         }
         try {
-            require __DIR__ . '/../views/cms/resetpassword.php';
+            require __DIR__ . '/../views/cms/changepassword.php';
         } catch (\Throwable $th) {
             $this->notFound();
         }

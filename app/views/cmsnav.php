@@ -24,13 +24,15 @@
         </li>
         <li><a href="/">View site</a>
         </li>
-        <li><a href="/cms/manage">Manage pages</a>
-        </li>
-        <li><a href="/cms/events">Events</a>
-        </li>
-        <li><a href="/cms/users">Users</a>
-        </li>
-        <li><a href="/cms/personal">Personal</a>
-        </li>
+        <?php if (isset($_SESSION['loggedin'])) : ?>
+            <li><a href="/cms/manage">Manage pages</a>
+            </li>
+            <li><a href="/cms/events">Events</a>
+            </li>
+            <li><a href="/cms/users">Users</a>
+            </li>
+            <li><a href="/cms/personal">Personal</a>
+            </li>
+        <?php endif; ?>
     </ul>
 </div>

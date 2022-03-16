@@ -26,7 +26,7 @@ include_once __DIR__ . '/../cmsnav.php';
         <input class="form-control" type="email" name="email" id="email" placeholder="Email">
         <div style="text-align: center;">
             <button class="btn btn-primary mt-2" onclick="updateSelf()">Edit user</button>
-            <a class="btn btn-warning mt-2" href="/cms/resetpassword">Reset password</a>
+            <a class="btn btn-warning mt-2" href="/cms/changepassword">Change password</a>
         </div>
     </div>
 </div>

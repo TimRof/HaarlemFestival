@@ -1,9 +1,9 @@
 <?php
-$pageTitle = "CMS - Reset Password";
+$pageTitle = "CMS - Change Password";
 include_once __DIR__ . '/../cmsnav.php';
 ?>
 <div id="pagecontent">
-    <h3>CMS - Reset own password</h3>
+    <h3>CMS - Change password</h3>
 
     <div style="margin: auto;width: 30%;">
         <label for="first_name">Current password: </label>
@@ -29,7 +29,7 @@ include_once __DIR__ . '/../cmsnav.php';
         } else if (document.getElementById("new_password").value.length > 7) {
             $.ajax({
                 type: 'POST',
-                url: '/cms/resetpassword',
+                url: '/cms/changepassword',
                 data: {
                     old: document.getElementById("current_password").value,
                     new: document.getElementById("new_password").value
