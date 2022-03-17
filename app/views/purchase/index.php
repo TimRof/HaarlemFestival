@@ -76,8 +76,8 @@
             })
 
             event.appendChild(title);
-            event.appendChild(capacity);
             event.appendChild(date);
+            event.appendChild(capacity);
             event.appendChild(price);
             event.appendChild(content);
             event.appendChild(createdDate);

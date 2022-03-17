@@ -291,10 +291,10 @@ class EventRepository extends Repository
     }
     public function getAllEvents()
     {
-        $sql ='SELECT * FROM event';
+        $sql ='SELECT * FROM `event`';
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'event');
 
         $stmt->execute();
 

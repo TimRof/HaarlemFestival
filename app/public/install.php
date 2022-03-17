@@ -708,6 +708,64 @@ if ($type == "mysql") {
     } catch (PDOException $e) {
         echo "Failed: " . $e->getMessage() . "<br><br><br>";
     }
+    try {
+        echo "Creating Table: Event...<br><br>";
+        $sql = "CREATE TABLE `event` (
+            `id` int(11) NOT NULL,
+            `name` varchar(255) NOT NULL,
+            `capacity` varchar(10) NOT NULL,
+            `date` datetime NOT NULL,
+            `price` int(10) NOT NULL,
+            `content` varchar(255) NOT NULL,
+            `thumbnail` varchar(255) NOT NULL,
+            `created_at` datetime NOT NULL,
+            `updated_at` datetime NOT NULL,
+            `event_type_id` int(11) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+        // set the PDO error mode to exception
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->exec($sql);
+        echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+        echo "Insert data: Event...<br><br>";
+        $sql = "INSERT INTO `event` (`id`, `name`, `capacity`, `date`, `price`, `content`, `thumbnail`, `created_at`, `updated_at`, `event_type_id`) VALUES
+        (1, 'Gumbo Kings', '300', '2022-04-28 18:00:00', 15, 'The Gumbo Kings are five-headed Soul Monster that combines the groove of New Orleans Funk with the grittiness of Delta Blues and the melodies of Memphis Soul.', '', '2022-03-10 10:58:57', '2022-03-10 10:58:57', 3),
+        (2, 'Fox & The Mayors', '300', '2022-04-28 18:00:00', 15, 'Fox & The Mayors might be mayors but they are know to make memerable events, that leave people in wonder if they even have jobs next to making music.', '', '2022-03-17 13:30:38', '2022-03-17 13:30:38', 2);";
+        // set the PDO error mode to exception
+        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection->exec($sql);
+        echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+        echo "Creating Table: Event_location...<br><br>";
+        $sql = "CREATE TABLE `event_location` (
+            `id` int(11) NOT NULL,
+            `country` varchar(255) NOT NULL,
+            `address` varchar(255) NOT NULL,
+            `zipcode` varchar(255) NOT NULL,
+            `act_id` int(11) NOT NULL
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+          $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $connection->exec($sql);
+          echo "Success: Table added! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
+    try {
+         echo "Insert data: Event_location...<br><br>";
+         $sql = "INSERT INTO `event_location` (`id`, `country`, `address`, `zipcode`, `act_id`) VALUES
+         (1, 'Netherlands', 'Zijlsingel 2', '2013 DN Haarlem', 1);";
+         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         $connection->exec($sql);
+         echo "Success: Data inserted! <br><br><br>";
+    } catch (PDOException $e) {
+        echo "Failed: " . $e->getMessage() . "<br><br><br>";
+    }
 } else {
     echo "Wrong database type..";
 }
