@@ -6,7 +6,7 @@ include_once __DIR__ . '/../cmsnav.php';
     <h3>CMS - Tour Locations</h3>
 
     <div class="backTitle">
-        <a class="btn btn-outline-dark" href="/cms/addevent?type=history">Back</a>
+        <a class="btn btn-outline-dark" href="/cms/addactivities?type=history">Back</a>
         <h3 id="tableTitle">Overview</h3>
     </div>
     <div>

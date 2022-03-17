@@ -8,16 +8,16 @@ include_once __DIR__ . '/../cmsnav.php';
     <br>
     <h4>Event management</h4>
     <ul>
-        <li><a href="/cms/addevent?type=food">Food</a></li>
+        <li><a href="/cms/addactivities?type=food">Food</a></li>
         <ul>
             <li><a href="/cms/restaurants">Restaurants</a></li>
         </ul>
-        <li><a href="/cms/addevent?type=history">History</a></li>
+        <li><a href="/cms/addactivities?type=history">History</a></li>
         <ul>
             <li><a href="/cms/tours">Tours</a></li>
             <li><a href="/cms/tourlocations">Tour locations</a></li>
         </ul>
-        <li><a href="/cms/addevent?type=jazz">Jazz</a></li>
+        <li><a href="/cms/addactivities?type=jazz">Jazz</a></li>
         <ul>
             <li><a href="/cms/venues">Venues</a></li>
             <li><a href="/cms/acts">Acts</a></li>

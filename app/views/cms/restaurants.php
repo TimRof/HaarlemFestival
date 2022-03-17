@@ -6,7 +6,7 @@ include_once __DIR__ . '/../cmsnav.php';
     <h3>CMS - Restaurants</h3>
 
     <div class="backTitle">
-        <a class="btn btn-outline-dark" href="/cms/addevent?type=food">Back</a>
+        <a class="btn btn-outline-dark" href="/cms/addactivities?type=food">Back</a>
         <h3 id="tableTitle">Overview</h3>
     </div>
     <div>
@@ -56,7 +56,6 @@ include_once __DIR__ . '/../cmsnav.php';
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
     var selected;
     var elementsTotal = 0;

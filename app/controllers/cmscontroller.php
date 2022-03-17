@@ -49,10 +49,10 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
-    public function addevent()
+    public function addactivities()
     {
         try {
-            require __DIR__ . '/../views/cms/addevent.php';
+            require __DIR__ . '/../views/cms/addactivities.php';
         } catch (\Throwable $th) {
             $this->notFound();
         }
