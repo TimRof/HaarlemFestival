@@ -20,7 +20,7 @@ include_once __DIR__ . '/../cmsnav.php';
         <li><a href="/cms/addactivities?type=jazz">Jazz</a></li>
         <ul>
             <li><a href="/cms/venues">Venues</a></li>
-            <li><a href="/cms/acts">Acts</a></li>
+            <li><a href="/cms/jazzacts">Acts</a></li>
         </ul>
     </ul>
     <h4>User management</h4>
