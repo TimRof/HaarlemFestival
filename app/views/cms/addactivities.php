@@ -202,7 +202,7 @@ include_once __DIR__ . '/../cmsnav.php';
                 delete element[key];
             });
             makeTable(res, "Acts");
-            viewMoreButton("/cms/acts");
+            viewMoreButton("/cms/jazzacts");
         })
     }
 

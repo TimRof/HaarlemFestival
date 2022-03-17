@@ -25,6 +25,22 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function jazzacts()
+    {
+        try {
+            require __DIR__ . '/../views/cms/jazzacts.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function tours()
+    {
+        try {
+            require __DIR__ . '/../views/cms/tours.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function users()
     {
         try {
@@ -93,10 +109,9 @@ class CmsController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userService = new UserService();
-            if ($userService->resetPassword($_POST['old'], $_POST['new'])){
+            if ($userService->resetPassword($_POST['old'], $_POST['new'])) {
                 echo true;
-            }
-            else{
+            } else {
                 echo false;
             }
             return;
