@@ -6,7 +6,7 @@ include_once __DIR__ . '/../cmsnav.php';
     <h3>CMS - Venues</h3>
 
     <div class="backTitle">
-        <a class="btn btn-outline-dark" href="/cms/addevent?type=jazz">Back</a>
+        <a class="btn btn-outline-dark" href="/cms/addactivities?type=jazz">Back</a>
         <h3 id="tableTitle">Overview</h3>
     </div>
     <div>
@@ -76,6 +76,7 @@ include_once __DIR__ . '/../cmsnav.php';
             document.getElementById('clearbutton').hidden = false;
         }
         searchVenues(0);
+        currentPage = 0;
     });
     document.getElementById('clearbutton').addEventListener("click", function() {
         document.getElementById('searchbox').value = "";
