@@ -76,6 +76,7 @@ include_once __DIR__ . '/../cmsnav.php';
             document.getElementById('clearbutton').hidden = false;
         }
         searchRestaurants(0);
+        currentPage = 0;
     });
     document.getElementById('clearbutton').addEventListener("click", function() {
         document.getElementById('searchbox').value = "";
