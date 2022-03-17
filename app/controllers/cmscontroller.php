@@ -186,15 +186,13 @@ class CmsController extends Controller
     {
         $userService = new UserService();
         $users = $userService->getUsers();
-        header("Content-type:application/json");
-        echo json_encode(($users), JSON_PRETTY_PRINT);
+        $this->printJSON($users);
     }
     public function getOwnInfo()
     {
         $userService = new UserService();
         $user = $userService->getOwnInfo();
-        header("Content-type:application/json");
-        echo json_encode(($user), JSON_PRETTY_PRINT);
+        $this->printJSON($user);
     }
     public function findById()
     {
@@ -202,8 +200,7 @@ class CmsController extends Controller
             if ($_SESSION['permission'] > 1) {
                 $userService = new UserService();
                 $user = $userService->findById($_GET['id']);
-                header("Content-type:application/json");
-                echo json_encode(($user), JSON_PRETTY_PRINT);
+                $this->printJSON($user);
             }
         } else {
             $this->notFound();
@@ -213,9 +210,8 @@ class CmsController extends Controller
     public function getRoleTypes()
     {
         $userService = new UserService();
-        $eventTypes = $userService->getRoleTypes();
-        header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+        $roleTypes = $userService->getRoleTypes();
+        $this->printJSON($roleTypes);
     }
 
     public function updateUser()

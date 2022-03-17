@@ -43,4 +43,9 @@ abstract class Controller
             return false;
         }
     }
+    function printJSON($object)
+    {
+        header("Content-type:application/json");
+        echo json_encode(($object), JSON_PRETTY_PRINT);
+    }
 }
