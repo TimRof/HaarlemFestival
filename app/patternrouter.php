@@ -45,6 +45,12 @@ class PatternRouter
         }
         $methodName = $explodedUri[1];
 
+        // if (!isset($explodedUri[2])) { // two deep subdirectories?
+        //     $methodName = $explodedUri[1];
+        // } else {
+        //     $methodName = $explodedUri[2];
+        // }
+
         // load the file with the controller class
         $filename = __DIR__ . '/controllers/' . $controllerName . '.php';
         if ($api) {

@@ -28,6 +28,17 @@ class UserService
     {
         return $this->repository->checkCredentials($email, $password);
     }
+    public function resetPassword($oldPass, $newPass)
+    {
+        $email = $this->repository->getOwnEmail()->email;
+        
+        if ($this->repository->checkCredentials($email, $oldPass)) {
+            return $this->repository->resetPassword($newPass);
+        }
+        else{
+            return false;
+        }
+    }
     public function findByEmail($email)
     {
         return $this->repository->findByEmail($email);
@@ -36,6 +47,10 @@ class UserService
     {
         return $this->repository->findById($id);
     }
+    public function getOwnInfo()
+    {
+        return $this->repository->getOwnInfo();
+    }
     public function getUsers()
     {
         return $this->repository->getUsers();
@@ -43,6 +58,10 @@ class UserService
     public function updateUser($user)
     {
         return $this->repository->updateUser($user);
+    }
+    public function updateSelf($user)
+    {
+        return $this->repository->updateSelf($user);
     }
     public function deleteUser($id)
     {

@@ -1,42 +1,45 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
+<?php
+$pageTitle = "CMS - Users";
+include_once __DIR__ . '/../cmsnav.php';
+?>
+<div id="pagecontent">
+    <h3>CMS - Users</h3>
 
-<h3>CMS</h3>
-<a href="/cms/adduser">add user</a>
-
-<ul id="users_list"></ul>
-<table id="usersTable" style="border: thick solid #333;">
-    <thead>
-        <tr>
-            <th colspan="6">Users</th>
-        </tr>
-        <tr>
+    <h3 id="tableTitle">Overview</h3>
+    <table id="users" class="table table-striped">
+        <thead class="thead-light">
             <th>Id</th>
-            <th>Name</th>
+            <th>First name</th>
+            <th>Last name</th>
             <th>Email</th>
             <th>Role</th>
             <th>Created on</th>
             <th>Updated at</th>
-        </tr>
-    </thead>
-    <tbody id="usersTableBody">
-    </tbody>
-</table>
-<div><select name="role_types" id="role_types">
-    </select>
-    <label for=""></label>
-    <label for="first_name">First name: </label>
-    <input type="text" name="first_name" id="first_name" placeholder="First Name">
-    <label for="last_name">Last name: </label>
-    <input type="text" name="last_name" id="last_name" placeholder="Last Name">
-    <label for="email">Email: </label>
-    <input type="email" name="email" id="email" placeholder="Email">
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+    <div style="text-align:right"><a class="btn btn-primary" href="/cms/adduser">Add user</a></div>
+    <hr>
+    <div style="margin: auto;width: 30%;">
+        <h5 id="updateTitle">Update (none selected)</h5>
+        <label for="first_name">First name: </label>
+        <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name">
+        <label for="last_name">Last name: </label>
+        <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name">
+        <label for="email">Email: </label>
+        <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+        <label for="role_types">User Role: </label>
+        <select class="form-select" name="role_types" id="role_types">
+        </select>
+        <div style="text-align: center;">
+            <button class="btn btn-primary optionsbutton mt-2" onclick="updateUser()">Make changes</button>
+            <button class="btn btn-danger optionsbutton mt-2" onclick="deleteUser()">Delete</button>
+        </div>
+    </div>
 </div>
-<button onclick="updateUser()">Edit</button>
-<button onclick="deleteUser()">Delete</button>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script>
-    var selected;
+    var selected = null;
     document.onload = getUsers();
     document.onload = getEventTypes();
 
@@ -71,48 +74,49 @@
 
             select.appendChild(option);
         }
+        clearInfo();
     }
 
     function makeTable(res) {
-        var table = document.getElementById("usersTableBody");
-        table.innerHTML = "";
-        for (const user of res) {
-
-            var row = table.insertRow();
-            row.id = user.id;
-
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
-
-            cell1.innerHTML = user.id;
-            cell2.innerHTML = user.first_name + " " + user.last_name;
-            cell3.innerHTML = user.email;
-            switch (user.role_id) {
-                case 1:
-                    cell4.innerHTML = "User";
-                    break;
-                case 2:
-                    cell4.innerHTML = "Administrator";
-                    break;
-                case 3:
-                    cell4.innerHTML = "SuperAdministrator";
-                    break;
-                default:
-                    break;
+        let table = document.getElementById("table-body");
+        $("#table-body tr").remove();
+        res.forEach(element => {
+            let i = 0;
+            let row = table.insertRow();
+            for (var k in element) {
+                let cell = row.insertCell(i);
+                cell.id = element.id;
+                if (k === "role_id") {
+                    switch (element[k]) {
+                        case 1:
+                            cell.innerHTML = "User";
+                            break;
+                        case 2:
+                            cell.innerHTML = "Administrator";
+                            break;
+                        case 3:
+                            cell.innerHTML = "Super Administrator";
+                            break;
+                        default:
+                            cell.innerHTML = "Error in database";
+                            break;
+                    }
+                } else {
+                    cell.innerHTML = element[k];
+                }
+                i++;
             }
-            cell5.innerHTML = user.created_at;
-            cell6.innerHTML = user.updated_at;
-        }
+        });
     }
+    // click event for table fill
     document.addEventListener('click', function(e) {
         if (e.target.tagName.toLowerCase() === "td") {
-            let tr = e.target.closest('tr');
-            selected = tr.id;
-            getUser(selected);
+            if (e.target.id === selected) {
+                clearInfo();
+            } else {
+                selected = e.target.id;
+                getUser(selected);
+            }
         }
     })
 
@@ -146,6 +150,7 @@
             }
         }).done(function(res) {
             getUsers();
+            clearInfo();
             alert(res);
         })
     }
@@ -162,9 +167,9 @@
                 id: selected
             }
         }).done(function(res) {
-
             getUsers();
             alert(res);
+            clearInfo();
         })
     }
 
@@ -173,5 +178,15 @@
         document.getElementById("last_name").value = res.last_name;
         document.getElementById("email").value = res.email;
         document.getElementById("role_types").value = res.role_id;
+        updateTitle.innerHTML = "Updating user";
+    }
+
+    function clearInfo() {
+        document.getElementById("first_name").value = null;
+        document.getElementById("last_name").value = null;
+        document.getElementById("email").value = null;
+        document.getElementById("role_types").value = null;
+        updateTitle.innerHTML = "Update (none selected)";
+        selected = null;
     }
 </script>

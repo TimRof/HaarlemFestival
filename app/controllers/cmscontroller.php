@@ -41,6 +41,72 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function events()
+    {
+        try {
+            require __DIR__ . '/../views/cms/events.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function addevent()
+    {
+        try {
+            require __DIR__ . '/../views/cms/addevent.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function restaurants()
+    {
+        try {
+            require __DIR__ . '/../views/cms/restaurants.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function venues()
+    {
+        try {
+            require __DIR__ . '/../views/cms/venues.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function tourlocations()
+    {
+        try {
+            require __DIR__ . '/../views/cms/tourlocations.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function accountinfo()
+    {
+        try {
+            require __DIR__ . '/../views/cms/accountinfo.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function changepassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userService = new UserService();
+            if ($userService->resetPassword($_POST['old'], $_POST['new'])){
+                echo true;
+            }
+            else{
+                echo false;
+            }
+            return;
+        }
+        try {
+            require __DIR__ . '/../views/cms/changepassword.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,7 +126,7 @@ class CmsController extends Controller
         }
     }
 
-    public function logout()
+    public function signout()
     {
         try {
             $_SESSION = array();
@@ -87,20 +153,20 @@ class CmsController extends Controller
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $user = new User($_POST);
-            $userService = new UserService();
-            try {
-                if ($userService->insert($user)) {
-                    $user = $userService->findByEmail($user->getEmail());
-                    $this->redirect('/cms/success');
-                } else {
+            if ($_SESSION['permission'] > 1) {
+                $user = new User($_POST);
+                $userService = new UserService();
+                try {
+                    $result = $userService->insert($user);
+                    if ($result === true) {
+                        $user = $userService->findByEmail($user->email);
+                        $this->redirect('/cms/success');
+                    } else {
+                        $this->redirect('/cms/failed');
+                    }
+                } catch (\Throwable $th) {
                     $this->redirect('/cms/failed');
                 }
-            } catch (\Throwable $th) {
-                echo "<pre>";
-                echo $th;
-                echo "</pre>";
-                $this->redirect('/cms/failed');
             }
         } else {
             $this->notFound();
@@ -123,6 +189,13 @@ class CmsController extends Controller
         header("Content-type:application/json");
         echo json_encode(($users), JSON_PRETTY_PRINT);
     }
+    public function getOwnInfo()
+    {
+        $userService = new UserService();
+        $user = $userService->getOwnInfo();
+        header("Content-type:application/json");
+        echo json_encode(($user), JSON_PRETTY_PRINT);
+    }
     public function findById()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
@@ -132,6 +205,8 @@ class CmsController extends Controller
                 header("Content-type:application/json");
                 echo json_encode(($user), JSON_PRETTY_PRINT);
             }
+        } else {
+            $this->notFound();
         }
     }
 
@@ -160,13 +235,28 @@ class CmsController extends Controller
                         echo "Something went wrong!";
                     }
                 } else {
-                    echo "You don't have the permissions to do this!
-User not updated.";
+                    echo "You don't have the permissions to do this!";
                 }
             } else {
-                echo "Data in incorrect format!";
+                $this->notFound();
             }
         } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
+    function updateSelf()
+    {
+        try {
+            $content = array("first_name" => $this->clean($_POST['first_name']), "last_name" => $this->clean($_POST['last_name']), "email" => $this->clean($_POST['email']));
+            $user = new User($content);
+            $userService = new UserService();
+            if ($userService->updateSelf($user)) {
+                echo "Updated!";
+            } else {
+                echo "Something went wrong!";
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
         }
     }
     function deleteUser()
@@ -181,14 +271,13 @@ User not updated.";
                         echo "Something went wrong, content not deleted!";
                     }
                 } else {
-                    echo "You don't have the permissions to do this!
-User not updated.";
+                    echo "You don't have the permissions to do this!";
                 }
             } else {
-                echo "Data in incorrect format!";
+                $this->notFound();
             }
         } catch (\Throwable $th) {
-            echo "Something went wrong!";
+            echo "Something went wrong!!";
         }
     }
 }

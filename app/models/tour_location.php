@@ -1,5 +1,6 @@
 <?php
-class Show
+
+class Tour_Location
 {
     public function __construct($data = [])
     {

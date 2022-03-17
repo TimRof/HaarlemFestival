@@ -1,6 +1,11 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
+<?php
+$pageTitle = "CMS - Success";
+include_once __DIR__ . '/../cmsnav.php';
+?>
+<div id="pagecontent">
+    <h3>CMS - Success!</h3>
+    <br>
+    <p style="text-align: center;">Redirecting you automatically, click <a href="/cms/">here</a> if your browser does not redirect you.</p>
 
-<h3>CMS</h3>
-
-Success! Redirecting you automatically, click <a href="/cms/">here</a> if your browser does not redirect you.
-<meta http-equiv="refresh" content="3;url= /cms/ " />
+    <meta http-equiv="refresh" content="3;url= /cms/ " />
+</div>

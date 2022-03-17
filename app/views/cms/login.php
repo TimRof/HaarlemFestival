@@ -1,30 +1,34 @@
-<h1><a href="/">The Haarlem Festival</a></h1>
+<?php
+$pageTitle = "CMS - Sign in";
+include_once __DIR__ . '/../cmsnav.php';
+?>
+<div id="pagecontent" style="width:15%">
+    <h3>CMS - Sign in</h3>
 
-<h3>CMS</h3>
-
-<form method="post" action="/cms/login" id="formLogin">
-    <div>
-        <label class="inputlabel" for="inputEmail">Email</label>
-        <input type="email" id="inputEmail" name="email" placeholder="Email address" value="<?php if (!empty($email)) {
-                                                                                                echo $email;
-                                                                                            } ?>admin@admin.admin" <?php if (empty($email)) { ?> autofocus <?php } ?>>
-    </div>
-    <div>
-        <label class="inputlabel" for="inputPassword">Password</label>
-        <input type="password" id="inputPassword" name="password" placeholder="Password" <?php if (!empty($email)) { ?> autofocus <?php } ?> value="secret123">
-    </div>
-
-    <div>
+    <form method="post" action="/cms/login" id="formLogin">
         <div>
-            <button type="submit">Login</button>
+            <label class="inputlabel" for="inputEmail">Email</label>
+            <input class="form-control" type="email" id="inputEmail" name="email" placeholder="Email address" value="<?php if (!empty($email)) {
+                                                                                                                            echo $email;
+                                                                                                                        } ?>admin@admin.admin" <?php if (empty($email)) { ?> autofocus <?php } ?>>
         </div>
-    </div>
-    <div><?php if (!empty($user) && $user == false && !is_null($email)) { ?>
-            <hr>
-            <p role="alert">
-                <b>Incorrect Credentials</b><br>
-                Verify your email address and password and try again.
-            </p>
-        <?php } ?>
-    </div>
-</form>
+        <div>
+            <label class="inputlabel" for="inputPassword">Password</label>
+            <input class="form-control" type="password" id="inputPassword" name="password" placeholder="Password" <?php if (!empty($email)) { ?> autofocus <?php } ?> value="secret123">
+        </div>
+
+        <div>
+            <div>
+                <button class="btn btn-primary mt-2" type="submit">Sign in</button>
+            </div>
+        </div>
+        <div><?php if (!empty($user) && $user == false && !is_null($email)) { ?>
+                <hr>
+                <p role="alert">
+                    <b>Incorrect Credentials</b><br>
+                    Verify your email address and password and try again.
+                </p>
+            <?php } ?>
+        </div>
+    </form>
+</div>

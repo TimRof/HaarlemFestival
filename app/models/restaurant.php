@@ -1,5 +1,6 @@
 <?php
-class Show
+
+class Restaurant
 {
     public function __construct($data = [])
     {

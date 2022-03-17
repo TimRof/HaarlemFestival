@@ -1,5 +1,6 @@
 <?php
-class Show
+
+class Venue
 {
     public function __construct($data = [])
     {

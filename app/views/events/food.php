@@ -24,7 +24,6 @@
                 id: 1
             }
         }).done(function(res) {
-            console.log(res);
             fillPage(res);
         })
     }

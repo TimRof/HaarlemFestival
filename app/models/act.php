@@ -1,5 +1,6 @@
 <?php
-class Show
+
+class Act
 {
     public function __construct($data = [])
     {

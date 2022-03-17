@@ -1,5 +1,6 @@
 <?php
-class Show
+
+class Act_Member
 {
     public function __construct($data = [])
     {
