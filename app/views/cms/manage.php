@@ -202,36 +202,4 @@ include_once __DIR__ . '/../cmsnav.php';
             alert(res);
         });
     });
-    // function updateContent() {
-    //     // if (document.getElementById('fileUpload').files[0]) {
-    //     //     console.log("yes");
-    //     // } else {
-    //     //     console.log("no");
-    //     // }
-    //     description = quill.root.innerHTML;
-    //     id = document.getElementById('event_types').value;
-    //     title = document.getElementById('titleInput').value;
-    //     image = "document.getElementById('imageInput').value";
-
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/events/updateContent',
-    //         data: {
-    //             id: id,
-    //             title: title,
-    //             description: description,
-    //             image: image
-    //         },
-    //         contentType: "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2),
-    //     }).done(function(res) {
-    //         if (!res) {
-    //             alert("Content changed!");
-    //             editorDirty = 0;
-    //             titleDirty = false;
-    //             imageDirty = false;
-    //         } else {
-    //             alert(res);
-    //         }
-    //     })
-    // }
 </script>
