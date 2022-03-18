@@ -28,11 +28,8 @@ include_once __DIR__ . '/../cmsnav.php';
         <li><a href="/cms/users">Users</a></li>
         <li><a href="/cms/users">Account info</a></li>
     </ul>
-
-    <!-- <?php if (isset($_SESSION['user_id'])) {
-                echo "Logged in: " . htmlspecialchars($_SESSION['loggedin']);
-                echo "<br>UserID: " . htmlspecialchars($_SESSION['user_id']);
-                echo "<br>PermissionsID: " . htmlspecialchars($_SESSION['permission']);
-            }
-            ?> -->
+    <h4>Page management</h4>
+    <ul>
+        <li><a href="/cms/manage">Overview pages</a></li>
+    </ul>
 </div>

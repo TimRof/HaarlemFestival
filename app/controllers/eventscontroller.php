@@ -228,11 +228,34 @@ class EventsController extends Controller
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id']) && isset($_SESSION['loggedin'])) {
                 if ($this->checkAdmin()) {
-                    $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $_POST['image']);
+                    if (isset($_POST['oldFileName'])) {
+                        $image = $_POST['oldFileName'];
+                    } else {
+                        $image = '#';
+                    }
+
+                    if (!isset($_POST['fileUpload'])) {
+                        $upload = $this->checkImage();
+                        if (!$upload) {
+                            echo $upload;
+                            return;
+                        } else {
+                            if (isset($_POST['oldFileName'])) {
+                                $oldFile = substr($_POST['oldFileName'], 1);
+                                if (file_exists($oldFile)) {
+                                    unlink($oldFile);
+                                }
+                            }
+                            $image = '/assets/img/' . basename($_FILES["fileUpload"]["name"]);
+                        }
+                    }
+                    $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $image);
                     $eventOverview = new Event_Overview($content);
 
                     $eventService = new EventService();
-                    if (!$eventService->updateEventOverview($eventOverview)) {
+                    if ($eventService->updateEventOverview($eventOverview)) {
+                        echo "Content updated!";
+                    } else {
                         echo "Something went wrong, content not updated!";
                     }
                 } else {
@@ -243,6 +266,44 @@ class EventsController extends Controller
             }
         } catch (\Throwable $th) {
             echo "Something went wrong, content not updated!";
+        }
+    }
+    private function checkImage()
+    {
+        try {
+            $check = getimagesize($_FILES["fileUpload"]["tmp_name"]);
+            if ($check !== false) {
+                $target_dir = "assets/img/";
+                $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                    echo "File already exists, please check image or rename.";
+                    return;
+                }
+                // Check file size
+                if ($_FILES["fileUpload"]["size"] > 500000) {
+                    echo "Upload image is too large (500KB limit).";
+                    return;
+                }
+                // Allow certain file formats
+                if (
+                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif"
+                ) {
+                    echo "Only JPG, JPEG, PNG & GIF files are allowed.";
+                    return;
+                }
+                if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
+                    return true;
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            } else {
+                echo "File is not an image.";
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
         }
     }
 

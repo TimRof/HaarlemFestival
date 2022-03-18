@@ -291,4 +291,8 @@ class CmsController extends Controller
             echo "Something went wrong!!";
         }
     }
+    public function test()
+    {
+        require __DIR__ . '/../views/cms/test.php';
+    }
 }
