@@ -16,7 +16,7 @@ include_once __DIR__ . '/../cmsnav.php';
         <input class="form-control" type="password" name="check_password" id="check_password" placeholder="Password">
         <div><b class="error" id="checkError"></b></div>
         <div style="text-align: center;">
-            <a class="btn btn-danger mt-2" href="/cms/personal">Back</a>
+            <a class="btn btn-danger mt-2" href="/cms/accountinfo">Back</a>
             <button class="btn btn-primary mt-2" onclick="submit()">Change password</button>
         </div>
     </div>
