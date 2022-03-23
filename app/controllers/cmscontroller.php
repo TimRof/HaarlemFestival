@@ -133,7 +133,7 @@ class CmsController extends Controller
                 $_SESSION['permission'] = $user->role_id;
                 $this->redirect('/cms/success');
             } else {
-                $_SESSION['email'] = $this->clean($_POST['email']);
+                $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $this->redirect('/cms');
             }
         } else {

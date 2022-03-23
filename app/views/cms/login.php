@@ -1,4 +1,8 @@
 <?php
+if (!empty($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    unset($_SESSION['email']);
+}
 $pageTitle = "CMS - Sign in";
 include_once __DIR__ . '/../cmsnav.php';
 ?>
@@ -10,11 +14,11 @@ include_once __DIR__ . '/../cmsnav.php';
             <label class="inputlabel" for="inputEmail">Email</label>
             <input class="form-control" type="email" id="inputEmail" name="email" placeholder="Email address" value="<?php if (!empty($email)) {
                                                                                                                             echo $email;
-                                                                                                                        } ?>admin@admin.admin" <?php if (empty($email)) { ?> autofocus <?php } ?>>
+                                                                                                                        } ?>" <?php if (empty($email)) { ?> autofocus <?php } ?>>
         </div>
         <div>
             <label class="inputlabel" for="inputPassword">Password</label>
-            <input class="form-control" type="password" id="inputPassword" name="password" placeholder="Password" <?php if (!empty($email)) { ?> autofocus <?php } ?> value="secret123">
+            <input class="form-control" type="password" id="inputPassword" name="password" placeholder="Password" <?php if (!empty($email)) { ?> autofocus <?php } ?>>
         </div>
 
         <div>
@@ -22,9 +26,9 @@ include_once __DIR__ . '/../cmsnav.php';
                 <button class="btn btn-primary mt-2" type="submit">Sign in</button>
             </div>
         </div>
-        <div><?php if (!empty($user) && $user == false && !is_null($email)) { ?>
+        <div><?php if (!empty($email)) { ?>
                 <hr>
-                <p role="alert">
+                <p class="text-danger">
                     <b>Incorrect Credentials</b><br>
                     Verify your email address and password and try again.
                 </p>
