@@ -45,8 +45,7 @@ class EventsController extends Controller
             if ($_SESSION['permission'] > 1) {
                 $eventService = new eventService();
                 $restaurant = $eventService->getRestaurantById($_GET['id']);
-                header("Content-type:application/json");
-                echo json_encode(($restaurant), JSON_PRETTY_PRINT);
+                $this->printJSON($restaurant);
             }
         } else {
             $this->notFound();
@@ -58,8 +57,7 @@ class EventsController extends Controller
             if ($_SESSION['permission'] > 1) {
                 $eventService = new eventService();
                 $venue = $eventService->getVenueById($_GET['id']);
-                header("Content-type:application/json");
-                echo json_encode(($venue), JSON_PRETTY_PRINT);
+                $this->printJSON($venue);
             }
         } else {
             $this->notFound();
@@ -71,8 +69,7 @@ class EventsController extends Controller
             if ($_SESSION['permission'] > 1) {
                 $eventService = new eventService();
                 $location = $eventService->getTourLocationById($_GET['id']);
-                header("Content-type:application/json");
-                echo json_encode(($location), JSON_PRETTY_PRINT);
+                $this->printJSON($location);
             }
         } else {
             $this->notFound();
@@ -85,8 +82,7 @@ class EventsController extends Controller
 
             $eventService = new EventService();
             $eventOverview = $eventService->getEventOverview($id);
-            header("Content-type:application/json");
-            echo json_encode(($eventOverview), JSON_PRETTY_PRINT);
+            $this->printJSON($eventOverview);
         }
     }
     public function getAllEvents()
@@ -239,11 +235,34 @@ class EventsController extends Controller
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && is_numeric($_POST['id']) && isset($_SESSION['loggedin'])) {
                 if ($this->checkAdmin()) {
-                    $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $_POST['image']);
+                    if (isset($_POST['oldFileName'])) {
+                        $image = $_POST['oldFileName'];
+                    } else {
+                        $image = '#';
+                    }
+
+                    if (!isset($_POST['fileUpload'])) {
+                        $upload = $this->checkImage();
+                        if (!$upload) {
+                            echo $upload;
+                            return;
+                        } else {
+                            if (isset($_POST['oldFileName'])) {
+                                $oldFile = substr($_POST['oldFileName'], 1);
+                                if (file_exists($oldFile)) {
+                                    unlink($oldFile);
+                                }
+                            }
+                            $image = '/assets/img/' . basename($_FILES["fileUpload"]["name"]);
+                        }
+                    }
+                    $content = array("id" => $_POST['id'], "title" => $this->clean($_POST['title']), "description" => $_POST['description'], "image" => $image);
                     $eventOverview = new Event_Overview($content);
 
                     $eventService = new EventService();
-                    if (!$eventService->updateEventOverview($eventOverview)) {
+                    if ($eventService->updateEventOverview($eventOverview)) {
+                        echo "Content updated!";
+                    } else {
                         echo "Something went wrong, content not updated!";
                     }
                 } else {
@@ -256,28 +275,63 @@ class EventsController extends Controller
             echo "Something went wrong, content not updated!";
         }
     }
+    private function checkImage()
+    {
+        try {
+            $check = getimagesize($_FILES["fileUpload"]["tmp_name"]);
+            if ($check !== false) {
+                $target_dir = "assets/img/";
+                $target_file = $target_dir . basename($_FILES["fileUpload"]["name"]);
+                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                // Check if file already exists
+                if (file_exists($target_file)) {
+                    echo "File already exists, please check image or rename.";
+                    return;
+                }
+                // Check file size
+                if ($_FILES["fileUpload"]["size"] > 500000) {
+                    echo "Upload image is too large (500KB limit).";
+                    return;
+                }
+                // Allow certain file formats
+                if (
+                    $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                    && $imageFileType != "gif"
+                ) {
+                    echo "Only JPG, JPEG, PNG & GIF files are allowed.";
+                    return;
+                }
+                if (move_uploaded_file($_FILES["fileUpload"]["tmp_name"], $target_file)) {
+                    return true;
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            } else {
+                echo "File is not an image.";
+            }
+        } catch (\Throwable $th) {
+            echo "Something went wrong!!";
+        }
+    }
 
     public function getEventTypes()
     {
         $eventService = new EventService();
         $eventTypes = $eventService->getEventTypes();
-        header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+        $this->printJSON($eventTypes);
     }
 
     public function getStops()
     {
         $eventService = new EventService();
         $stops = $eventService->getStops();
-        header("Content-type:application/json");
-        echo json_encode(($stops), JSON_PRETTY_PRINT);
+        $this->printJSON($stops);
     }
     public function getRestaurants()
     {
         $eventService = new EventService();
         $restaurants = $eventService->getRestaurants();
-        header("Content-type:application/json");
-        echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+        $this->printJSON($restaurants);
     }
     public function getLimitedRestaurants()
     {
@@ -285,8 +339,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $restaurants = $eventService->getLimitedRestaurants($_GET['limit']);
-                header("Content-type:application/json");
-                echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+                $this->printJSON($restaurants);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -298,8 +351,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $restaurants = $eventService->searchRestaurants($_GET['limit'], '%' . $_GET['query'] . '%');
-                header("Content-type:application/json");
-                echo json_encode(($restaurants), JSON_PRETTY_PRINT);
+                $this->printJSON($restaurants);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -311,8 +363,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $venue = $eventService->searchVenues($_GET['limit'], '%' . $_GET['query'] . '%');
-                header("Content-type:application/json");
-                echo json_encode(($venue), JSON_PRETTY_PRINT);
+                $this->printJSON($venue);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -324,8 +375,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $locations = $eventService->searchTourLocations($_GET['limit'], '%' . $_GET['query'] . '%');
-                header("Content-type:application/json");
-                echo json_encode(($locations), JSON_PRETTY_PRINT);
+                $this->printJSON($locations);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -337,8 +387,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $stops = $eventService->getLimitedStops($_GET['limit']);
-                header("Content-type:application/json");
-                echo json_encode(($stops), JSON_PRETTY_PRINT);
+                $this->printJSON($stops);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -350,8 +399,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $tours = $eventService->getLimitedTours($_GET['limit']);
-                header("Content-type:application/json");
-                echo json_encode(($tours), JSON_PRETTY_PRINT);
+                $this->printJSON($tours);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -363,8 +411,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $acts = $eventService->getLimitedActs($_GET['limit']);
-                header("Content-type:application/json");
-                echo json_encode(($acts), JSON_PRETTY_PRINT);
+                $this->printJSON($acts);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -376,8 +423,7 @@ class EventsController extends Controller
             if (is_numeric($_GET['limit'])) {
                 $eventService = new EventService();
                 $venues = $eventService->getLimitedVenues($_GET['limit']);
-                header("Content-type:application/json");
-                echo json_encode(($venues), JSON_PRETTY_PRINT);
+                $this->printJSON($venues);
             }
         } catch (\Throwable $th) {
             echo $th;
@@ -387,22 +433,19 @@ class EventsController extends Controller
     {
         $eventService = new EventService();
         $venues = $eventService->getVenues();
-        header("Content-type:application/json");
-        echo json_encode(($venues), JSON_PRETTY_PRINT);
+        $this->printJSON($venues);
     }
     public function getTours()
     {
         $eventService = new EventService();
         $tours = $eventService->getTours();
-        header("Content-type:application/json");
-        echo json_encode(($tours), JSON_PRETTY_PRINT);
+        $this->printJSON($tours);
     }
     public function getActs()
     {
         $eventService = new EventService();
         $acts = $eventService->getActs();
-        header("Content-type:application/json");
-        echo json_encode(($acts), JSON_PRETTY_PRINT);
+        $this->printJSON($acts);
     }
 
     public function makeRestaurant()

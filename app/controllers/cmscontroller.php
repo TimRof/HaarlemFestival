@@ -25,6 +25,22 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
+    public function jazzacts()
+    {
+        try {
+            require __DIR__ . '/../views/cms/jazzacts.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
+    public function tours()
+    {
+        try {
+            require __DIR__ . '/../views/cms/tours.php';
+        } catch (\Throwable $th) {
+            $this->notFound();
+        }
+    }
     public function users()
     {
         try {
@@ -49,10 +65,10 @@ class CmsController extends Controller
             $this->notFound();
         }
     }
-    public function addevent()
+    public function addactivities()
     {
         try {
-            require __DIR__ . '/../views/cms/addevent.php';
+            require __DIR__ . '/../views/cms/addactivities.php';
         } catch (\Throwable $th) {
             $this->notFound();
         }
@@ -93,10 +109,9 @@ class CmsController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userService = new UserService();
-            if ($userService->resetPassword($_POST['old'], $_POST['new'])){
+            if ($userService->resetPassword($_POST['old'], $_POST['new'])) {
                 echo true;
-            }
-            else{
+            } else {
                 echo false;
             }
             return;
@@ -118,7 +133,7 @@ class CmsController extends Controller
                 $_SESSION['permission'] = $user->role_id;
                 $this->redirect('/cms/success');
             } else {
-                $_SESSION['email'] = $this->clean($_POST['email']);
+                $_SESSION['email'] = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
                 $this->redirect('/cms');
             }
         } else {
@@ -186,15 +201,13 @@ class CmsController extends Controller
     {
         $userService = new UserService();
         $users = $userService->getUsers();
-        header("Content-type:application/json");
-        echo json_encode(($users), JSON_PRETTY_PRINT);
+        $this->printJSON($users);
     }
     public function getOwnInfo()
     {
         $userService = new UserService();
         $user = $userService->getOwnInfo();
-        header("Content-type:application/json");
-        echo json_encode(($user), JSON_PRETTY_PRINT);
+        $this->printJSON($user);
     }
     public function findById()
     {
@@ -202,8 +215,7 @@ class CmsController extends Controller
             if ($_SESSION['permission'] > 1) {
                 $userService = new UserService();
                 $user = $userService->findById($_GET['id']);
-                header("Content-type:application/json");
-                echo json_encode(($user), JSON_PRETTY_PRINT);
+                $this->printJSON($user);
             }
         } else {
             $this->notFound();
@@ -213,9 +225,8 @@ class CmsController extends Controller
     public function getRoleTypes()
     {
         $userService = new UserService();
-        $eventTypes = $userService->getRoleTypes();
-        header("Content-type:application/json");
-        echo json_encode(($eventTypes), JSON_PRETTY_PRINT);
+        $roleTypes = $userService->getRoleTypes();
+        $this->printJSON($roleTypes);
     }
 
     public function updateUser()
@@ -279,5 +290,9 @@ class CmsController extends Controller
         } catch (\Throwable $th) {
             echo "Something went wrong!!";
         }
+    }
+    public function test()
+    {
+        require __DIR__ . '/../views/cms/test.php';
     }
 }

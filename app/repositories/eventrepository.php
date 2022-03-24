@@ -284,7 +284,7 @@ class EventRepository extends Repository
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'act');
-
+        
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -307,7 +307,7 @@ class EventRepository extends Repository
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'event_overview');
-
+        
         $stmt->execute();
 
         return $stmt->fetch();

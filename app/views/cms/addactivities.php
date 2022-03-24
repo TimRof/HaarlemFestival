@@ -44,7 +44,7 @@ include_once __DIR__ . '/../cmsnav.php';
         shown = "";
         main.innerHTML = "";
         title.innerHTML = "Pick an event"
-        history.pushState(null, null, '/cms/addevent');
+        history.pushState(null, null, '/cms/addactivities');
 
         let foodB = document.createElement('button');
         foodB.innerHTML = "Food";
@@ -161,7 +161,7 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function jazzEvent() {
-        history.pushState(null, null, '/cms/addevent?type=jazz');
+        history.pushState(null, null, '/cms/addactivities?type=jazz');
         title.innerHTML = "Jazz event";
         jazzOverview();
         addJazzButtons();
@@ -202,7 +202,7 @@ include_once __DIR__ . '/../cmsnav.php';
                 delete element[key];
             });
             makeTable(res, "Acts");
-            viewMoreButton("/cms/acts");
+            viewMoreButton("/cms/jazzacts");
         })
     }
 
@@ -506,7 +506,7 @@ include_once __DIR__ . '/../cmsnav.php';
     }
 
     function historyEvent() {
-        history.pushState(null, null, '/cms/addevent?type=history');
+        history.pushState(null, null, '/cms/addactivities?type=history');
         title.innerHTML = "History event";
         historyOverview();
         addHisButtons();
@@ -857,7 +857,7 @@ include_once __DIR__ . '/../cmsnav.php';
 
     function foodEvent() {
         title.innerHTML = "Food event";
-        history.pushState(null, null, '/cms/addevent?type=food');
+        history.pushState(null, null, '/cms/addactivities?type=food');
         foodOverview();
         addResButtons();
     }
