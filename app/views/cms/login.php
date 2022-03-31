@@ -1,4 +1,8 @@
 <?php
+if (!empty($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    unset($_SESSION['email']);
+}
 $pageTitle = "CMS - Sign in";
 include_once __DIR__ . '/../cmsnav.php';
 ?>
