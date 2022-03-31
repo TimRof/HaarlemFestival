@@ -8,10 +8,6 @@ class CmsController extends Controller
     public function index()
     {
         try {
-            if (isset($_SESSION['email'])) {
-                $email = $_SESSION['email'];
-                unset($_SESSION['email']);
-            }
             require __DIR__ . '/../views/cms/index.php';
         } catch (\Throwable $th) {
             $this->notFound();
@@ -124,6 +120,11 @@ class CmsController extends Controller
     }
     public function login()
     {
+        // value for email input if bad credentials
+        if (isset($_SESSION['email'])) {
+            $email = $_SESSION['email'];
+            unset($_SESSION['email']);
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userService = new UserService();
             $user = $userService->login($this->clean($_POST['email']), $_POST['password']);
