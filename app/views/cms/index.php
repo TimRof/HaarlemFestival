@@ -23,13 +23,17 @@ include_once __DIR__ . '/../cmsnav.php';
             <li><a href="/cms/jazzacts">Acts</a></li>
         </ul>
     </ul>
-    <h4>User management</h4>
-    <ul>
-        <li><a href="/cms/users">Users</a></li>
-        <li><a href="/cms/users">Account info</a></li>
-    </ul>
-    <h4>Page management</h4>
-    <ul>
-        <li><a href="/cms/manage">Overview pages</a></li>
-    </ul>
+    <?php if ($_SESSION['permission'] > 2) : ?>
+        <h4>User management</h4>
+        <ul>
+            <li><a href="/cms/users">Users</a></li>
+            <li><a href="/cms/users">Account info</a></li>
+        </ul>
+    <?php endif; ?>
+    <?php if ($_SESSION['permission'] > 1) : ?>
+        <h4>Page management</h4>
+        <ul>
+            <li><a href="/cms/manage">Overview pages</a></li>
+        </ul>
+    <?php endif; ?>
 </div>

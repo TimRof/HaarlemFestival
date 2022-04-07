@@ -27,12 +27,16 @@
         <li><a href="/cms">Dashboard</a>
         </li>
         <?php if (isset($_SESSION['loggedin'])) : ?>
-            <li><a href="/cms/manage">Manage pages</a>
-            </li>
             <li><a href="/cms/events">Events</a>
             </li>
-            <li><a href="/cms/users">Users</a>
-            </li>
+            <?php if ($_SESSION['permission'] > 1) : ?>
+                <li><a href="/cms/manage">Manage pages</a>
+                </li>
+                <?php if ($_SESSION['permission'] > 2) : ?>
+                    <li><a href="/cms/users">Users</a>
+                    </li>
+                <?php endif; ?>
+            <?php endif; ?>
             <li><a href="/cms/accountinfo">Account info</a>
             </li>
         <?php endif; ?>

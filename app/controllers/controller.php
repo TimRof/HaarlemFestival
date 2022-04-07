@@ -19,6 +19,11 @@ abstract class Controller
         require "../views/error/index.php";
         die();
     }
+    public function noPermissions()
+    {
+        require "../views/error/403.php";
+        die();
+    }
     // sanitize form data
     function clean($data)
     {

@@ -1,6 +1,5 @@
 var selected = null;
 document.onload = getUsers();
-document.onload = getEventTypes();
 
 function getUsers() {
   $.ajax({
@@ -9,31 +8,6 @@ function getUsers() {
   }).done(function (res) {
     makeTable(res);
   });
-}
-
-function getEventTypes() {
-  $.ajax({
-    type: "GET",
-    url: "/cms/getRoleTypes",
-  }).done(function (res) {
-    makeRoleTypes(res);
-  });
-}
-
-function makeRoleTypes(res) {
-  document.getElementById("role_types").innerHTML = "";
-  var select = document.getElementById("role_types");
-
-  for (const type of res) {
-    var option = document.createElement("option");
-    option.value = type.id;
-
-    var description = document.createTextNode(type.name);
-    option.appendChild(description);
-
-    select.appendChild(option);
-  }
-  clearInfo();
 }
 
 function makeTable(res) {
@@ -137,6 +111,7 @@ function fillInfo(res) {
   document.getElementById("first_name").value = res.first_name;
   document.getElementById("last_name").value = res.last_name;
   document.getElementById("email").value = res.email;
+  console.log(res.role_id);
   document.getElementById("role_types").value = res.role_id;
   updateTitle.innerHTML = "Updating user";
 }

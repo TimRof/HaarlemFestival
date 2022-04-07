@@ -15,6 +15,10 @@ class CmsController extends Controller
     }
     public function manage()
     {
+        if (!$this->checkAdmin()) {
+            $this->noPermissions();
+            return;
+        }
         try {
             require __DIR__ . '/../views/cms/manage.php';
         } catch (\Throwable $th) {
@@ -39,6 +43,10 @@ class CmsController extends Controller
     }
     public function users()
     {
+        if (!$this->checkSuperAdmin()) {
+            $this->noPermissions();
+            return;
+        }
         try {
             require __DIR__ . '/../views/cms/users.php';
         } catch (\Throwable $th) {
@@ -47,6 +55,10 @@ class CmsController extends Controller
     }
     public function adduser()
     {
+        if (!$this->checkAdmin()) {
+            $this->noPermissions();
+            return;
+        }
         try {
             require __DIR__ . '/../views/cms/adduser.php';
         } catch (\Throwable $th) {
@@ -195,6 +207,10 @@ class CmsController extends Controller
 
     public function getUsers()
     {
+        if (!$this->checkAdmin()) {
+            $this->noPermissions();
+            return;
+        }
         $userService = new UserService();
         $users = $userService->getUsers();
         $this->printJSON($users);
@@ -208,7 +224,7 @@ class CmsController extends Controller
     public function findById()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
-            if ($_SESSION['permission'] > 1) {
+            if ($this->checkAdmin()) {
                 $userService = new UserService();
                 $user = $userService->findById($_GET['id']);
                 $this->printJSON($user);
@@ -216,13 +232,6 @@ class CmsController extends Controller
         } else {
             $this->notFound();
         }
-    }
-
-    public function getRoleTypes()
-    {
-        $userService = new UserService();
-        $roleTypes = $userService->getRoleTypes();
-        $this->printJSON($roleTypes);
     }
 
     public function updateUser()

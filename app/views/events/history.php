@@ -9,6 +9,10 @@
               box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;">
 <div id="description"></div>
 
+<a href="/purchase?filter=history">
+    <h2>GET YOUR TICKETS NOW</h2>
+</a>
+
 <!-- foreach with tickets -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

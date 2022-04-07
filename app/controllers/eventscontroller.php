@@ -42,7 +42,7 @@ class EventsController extends Controller
     public function getRestaurant()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
-            if ($_SESSION['permission'] > 1) {
+            if ($this->checkAdmin()) {
                 $eventService = new eventService();
                 $restaurant = $eventService->getRestaurantById($_GET['id']);
                 $this->printJSON($restaurant);
@@ -54,7 +54,7 @@ class EventsController extends Controller
     public function getVenue()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
-            if ($_SESSION['permission'] > 1) {
+            if ($this->checkAdmin()) {
                 $eventService = new eventService();
                 $venue = $eventService->getVenueById($_GET['id']);
                 $this->printJSON($venue);
@@ -66,7 +66,7 @@ class EventsController extends Controller
     public function getTourLocation()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && is_numeric($_GET['id']) && isset($_SESSION['loggedin'])) {
-            if ($_SESSION['permission'] > 1) {
+            if ($this->checkAdmin()) {
                 $eventService = new eventService();
                 $location = $eventService->getTourLocationById($_GET['id']);
                 $this->printJSON($location);
