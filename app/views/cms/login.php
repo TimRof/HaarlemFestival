@@ -1,5 +1,5 @@
 <?php
-// value for email input if bad credentialscms
+// value for email input if bad credentials cms
 if (!empty($_SESSION['email'])) {
     $email = $_SESSION['email'];
     unset($_SESSION['email']);

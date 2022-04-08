@@ -97,8 +97,9 @@ if ($type == "mysql") {
     try {
         echo "Inserting into Table: User...<br><br>";
         $sql = "INSERT INTO `user` (`id`, `first_name`, `last_name`, `email`, `password_hash`, `role_id`, `created_at`, `updated_at`) VALUES
-        (1, 'test', 'test', 'test@test.test', '$2y$10\$EkJS8EPjdNCYEbWWP6qgF.iC0eGZpoaVfSMErucqR2UOsJIC2Epx2', 1, '2022-03-03 08:37:39', '0000-00-00 00:00:00'),
-        (2, 'admin', 'admin', 'admin@admin.admin', '$2y$10\$UWRMysUltXaa3iXDxTAlOuA6RBSMoEMdQI/6cPW2LX55i0CTWQsAe', 3, '2022-03-03 08:38:01', '0000-00-00 00:00:00');";
+        (1, 'test', 'test', 'test@test.test', '$2y$10$wFTeI0X0akfH7pajIC5Wfe6T4nevYxG7x35Rp3J9.Qeayma0BxoqC', 1, '2022-03-03 08:37:39', '2022-04-07 19:24:42'),
+        (2, 'admin', 'admin', 'admin@admin.admin', '$2y$10$75wpiGOBOFEAnjiC1syvAu./kGkCI9Htl53KP.IJITPOF4UbhXGHu', 3, '2022-03-03 08:38:01', '2022-03-31 20:02:17'),
+        (4, 'Normal', 'Admin', 'normal@admin.com', '$2y$10$ywabXMKJ1fQZUHl..lH6ZuyiNmLZqLqA7aus9zlsU8JN0A0b6V.Ru', 2, '2022-04-07 19:32:22', '2022-04-08 13:11:48');";
         // set the PDO error mode to exception
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $connection->exec($sql);

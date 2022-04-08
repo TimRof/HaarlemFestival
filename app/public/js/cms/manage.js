@@ -106,7 +106,6 @@ document.getElementById("fileUpload").onchange = function () {
       alert("File is too large!");
       this.value = "";
     } else {
-      console.log("dirt");
       editorDirty++;
       const [file] = document.getElementById("fileUpload").files;
       if (file) {
